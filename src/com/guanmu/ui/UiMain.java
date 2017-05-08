@@ -5,8 +5,9 @@ import java.awt.HeadlessException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
 
 /**
  * <p>
@@ -25,55 +26,79 @@ public class UiMain extends JFrame {
 	 */
 	private static final long serialVersionUID = 755498983129736454L;
 	
-	private JLabel jLabel;
-	 private JTextField jTextField;
-	 private JButton jButton;
+	/** 主界面*/
+	private JPanel mainPanel;
+	
+	/** 数据面板*/
+	private JPanel valuePanel;
+	private JTextField precisionText;
+	private JTextField xText;
+	private JTextField yText;
+	private JButton addValueBtn;
+	
+	/** 拟合法曲线面板*/
+	private JPanel fitCurvesPanel;
+	
+	/** 逼近法曲线面板*/
+	private JPanel tryCurvesPanel;
+
 
 	/**
 	 * @throws HeadlessException
 	 */
 	public UiMain() throws HeadlessException {
 		super();
-		this.setSize(300, 200);
+		this.setSize(900, 780);
+		this.setTitle("电压互感器空载特性分析");
 		this.getContentPane().setLayout(null);
-		this.add(getJLabel(), null);
-		this.add(getJTextField(), null);
-		this.add(getJButton(), null);
-		this.setTitle("HelloWorld");
+		
+		createMainPanel();
 
+		createValuePanel();
+		
+		createFitCurvesPanel();
+		
+		createTryCurvesPanel();
+		
+		this.add(mainPanel, null);
+		
+		
 	}
 
-	private javax.swing.JLabel getJLabel() {
-		if (jLabel == null) {
-			jLabel = new javax.swing.JLabel();
-			jLabel.setBounds(34, 49, 53, 18);
-			jLabel.setText("Name:");
-		}
-		return jLabel;
+
+	private void createTryCurvesPanel() {
+		// TODO Auto-generated method stub
+		
 	}
 
-	private javax.swing.JTextField getJTextField() {
-		if (jTextField == null) {
-			jTextField = new javax.swing.JTextField();
-			jTextField.setBounds(96, 49, 160, 20);
-		}
-		return jTextField;
+
+	private void createFitCurvesPanel() {
+		// TODO Auto-generated method stub
+		
 	}
 
-	private javax.swing.JButton getJButton() {
-		if (jButton == null) {
-			jButton = new javax.swing.JButton();
-			jButton.setBounds(103, 110, 71, 27);
-			jButton.setText("OK");
-		}
-		return jButton;
+
+	private void createValuePanel() {
+		// TODO Auto-generated method stub
+		valuePanel = new JPanel();
+		valuePanel.setBorder(new CompoundBorder());
+		
+		mainPanel.add(valuePanel);
 	}
+
+
+	private void createMainPanel() {
+		mainPanel = new JPanel();
+		
+		// TODO 
+	}
+
 
 	public static void main(String[] args) {
 		UiMain uiMain = new UiMain();
 		uiMain.setVisible(true);
 		
-		System.out.println("Home Test");
+
 	}
 
 }

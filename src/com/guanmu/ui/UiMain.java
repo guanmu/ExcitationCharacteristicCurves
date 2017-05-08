@@ -72,6 +72,8 @@ public class UiMain extends JFrame {
 	public static void main(String[] args) {
 		UiMain uiMain = new UiMain();
 		uiMain.setVisible(true);
+		
+		
 	}
 
 }

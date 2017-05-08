@@ -10,10 +10,10 @@ import javax.swing.JTextField;
 
 /**
  * <p>
- * ÀàÃèÊö:
+ * ç±»æè¿°:
  * <p>
  * 
- * ËùÊô²å¼ş:com.guanmu
+ * æ‰€å±æ’ä»¶:com.guanmu
  * 
  * @author wangquan 2017-4-28
  * 
@@ -73,7 +73,7 @@ public class UiMain extends JFrame {
 		UiMain uiMain = new UiMain();
 		uiMain.setVisible(true);
 		
-		System.out.println("²âÊÔ2");
+		System.out.println("æµ‹è¯•2");
 	}
 
 }

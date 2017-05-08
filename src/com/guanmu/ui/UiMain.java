@@ -73,7 +73,7 @@ public class UiMain extends JFrame {
 		UiMain uiMain = new UiMain();
 		uiMain.setVisible(true);
 		
-		System.out.println("测试2");
+		System.out.println("Home Test");
 	}
 
 }

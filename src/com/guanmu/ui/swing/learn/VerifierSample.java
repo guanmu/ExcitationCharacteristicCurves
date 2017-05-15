@@ -6,7 +6,9 @@ import java.awt.EventQueue;
 
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**

@@ -1,5 +1,5 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
-package com.guanmu.ui.swing.learn;
+package com.guanmu.utils;
 
 import java.awt.Color;
 import java.awt.Component;

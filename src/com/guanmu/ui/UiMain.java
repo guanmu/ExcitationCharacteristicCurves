@@ -1,15 +1,17 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
 package com.guanmu.ui;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
+
+import com.guanmu.utils.GridBagLayoutUtils;
 
 /**
  * <p>
@@ -49,12 +51,11 @@ public class UiMain extends JFrame {
 		super();
 		this.setSize(900, 780);
 		this.setTitle("电压互感器空载特性分析");
-		this.getContentPane().setLayout(null);
 		
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new BorderLayout());
-		this.setVisible(true);
 		this.add(mainPanel);
+		this.setVisible(true);
+		mainPanel.setLayout(new GridBagLayout());
 		
 		createValuePanel();
 		
@@ -67,26 +68,31 @@ public class UiMain extends JFrame {
 
 	private void createTryCurvesPanel() {
 		tryCurvesPanel = new TryCurvesPanel();
+		tryCurvesPanel.setBackground(Color.BLUE);
 		tryCurvesPanel.setVisible(true);
 		
-		mainPanel.add(tryCurvesPanel, BorderLayout.EAST);
+		GridBagLayoutUtils.addComponent(mainPanel,tryCurvesPanel,3,0,2,1,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 	}
 
 
 	private void createFitCurvesPanel() {
 		fitCurvesPanel = new FitCurvesPanel();
+		fitCurvesPanel.setBackground(Color.GREEN);
 		fitCurvesPanel.setVisible(true);
 		
-		mainPanel.add(fitCurvesPanel,BorderLayout.CENTER);
+		GridBagLayoutUtils.addComponent(mainPanel,fitCurvesPanel,1,0,2,1,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 		
 	}
 	
 	private void createValuePanel() {
 		valuePanel = new ValuePanel();
-		valuePanel.setBorder(new CompoundBorder());
+		valuePanel.setBackground(Color.RED);
 		valuePanel.setVisible(true);
 		
-		mainPanel.add(valuePanel,BorderLayout.WEST);
+		GridBagLayoutUtils.addComponent(mainPanel,valuePanel,0,0,1,1,
+				GridBagConstraints.WEST,GridBagConstraints.BOTH);
 	}
 
 

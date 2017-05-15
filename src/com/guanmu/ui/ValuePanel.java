@@ -64,6 +64,8 @@ public class ValuePanel extends JPanel {
 		deleteValueBtn = new JButton("删除数据");
 		buttonPanel.add(deleteValueBtn);
 		
+		this.add(buttonPanel,BorderLayout.SOUTH);
+		
 	}
 	
 	

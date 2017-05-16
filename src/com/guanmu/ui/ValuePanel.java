@@ -4,7 +4,9 @@ package com.guanmu.ui;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,28 +46,8 @@ public class ValuePanel extends JPanel {
 	public ValuePanel() {
 		this.setLayout(new BorderLayout());
 		
-		paramPanel = new JPanel();
-		
-		paramPanel.setLayout(new GridBagLayout());
-		
-		JLabel precisionLabel = new JLabel("精度：");
-		paramPanel.add(precisionLabel);
-		GridBagLayoutUtils.addComponent(paramPanel, precisionLabel, 0, 0, 1, 1, GridBagConstraints.WEST,GridBagConstraints.NONE);
-		precisionText = new JTextField();
-		GridBagLayoutUtils.addComponent(paramPanel, precisionText, 1, 0, 3, 1, GridBagConstraints.WEST,GridBagConstraints.BOTH);
-		
-		JLabel xLabel = new JLabel("x:");
-		GridBagLayoutUtils.addComponent(paramPanel, xLabel, 0, 1, 1, 1, GridBagConstraints.WEST,GridBagConstraints.NONE);
-		xText = new JTextField();
-		GridBagLayoutUtils.addComponent(paramPanel, xText, 1, 1, 3, 1, GridBagConstraints.WEST,GridBagConstraints.BOTH);
-		
-		JLabel yLabel = new JLabel("y:");
-		GridBagLayoutUtils.addComponent(paramPanel, yLabel, 0, 2, 1, 1, GridBagConstraints.WEST,GridBagConstraints.NONE);
-		yText = new JTextField();
-		GridBagLayoutUtils.addComponent(paramPanel, yText, 1, 2, 3, 1, GridBagConstraints.WEST,GridBagConstraints.BOTH);
-		
-		this.add(paramPanel,BorderLayout.NORTH);
-		
+		createParamPanel();
+
 		dataTable = new JTable();
 		this.add(dataTable,BorderLayout.CENTER);
 		
@@ -79,6 +61,49 @@ public class ValuePanel extends JPanel {
 		
 		this.add(buttonPanel,BorderLayout.SOUTH);
 		
+	}
+
+	/**
+	 * 
+	 */
+	private void createParamPanel() {
+		
+		paramPanel = new JPanel();
+		
+		paramPanel.setLayout(new GridLayout(0,1));
+		
+		JPanel boxPanel1 = new JPanel();
+		BoxLayout boxLayout1 = new BoxLayout(boxPanel1, BoxLayout.X_AXIS);
+		boxPanel1.setLayout(boxLayout1);
+		
+		JLabel precisionLabel = new JLabel("精度：");
+		boxPanel1.add(precisionLabel);
+		precisionText = new JTextField();
+		boxPanel1.add(precisionText);
+		
+		JPanel boxPanel2 = new JPanel();
+		BoxLayout boxLayout2 = new BoxLayout(boxPanel2, BoxLayout.X_AXIS);
+		boxPanel2.setLayout(boxLayout2);	
+		
+		JLabel xLabel = new JLabel("x:");
+		boxPanel2.add(xLabel);
+		xText = new JTextField();
+		boxPanel2.add(xText);
+		
+		JPanel boxPanel3 = new JPanel();
+		BoxLayout boxLayout3 = new BoxLayout(boxPanel3, BoxLayout.X_AXIS);
+		boxPanel3.setLayout(boxLayout3);
+		
+		JLabel yLabel = new JLabel("y:");
+		boxPanel3.add(yLabel);
+		yText = new JTextField();
+		boxPanel3.add(yText);
+		
+		paramPanel.add(boxPanel1);
+		paramPanel.add(boxPanel2);
+		paramPanel.add(boxPanel3);
+		
+		this.add(paramPanel,BorderLayout.NORTH);
 	}
 	
 	

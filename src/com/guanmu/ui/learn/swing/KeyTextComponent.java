@@ -1,6 +1,7 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
-package com.guanmu.ui.swing.learn;
+package com.guanmu.ui.learn.swing;
 
+import java.awt.AWTEvent;
 import java.awt.AWTEventMulticaster;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -11,10 +12,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.EventListener;
 
 import javax.swing.JComponent;
-import javax.swing.event.EventListenerList;
+
+import com.sun.java.accessibility.util.AWTEventMonitor;
 
 /**
  * <p>
@@ -25,14 +26,11 @@ import javax.swing.event.EventListenerList;
  * @author wangquan 2017-5-10
  * 
  */
-public class KeyTextComponent2 extends JComponent {
-
-	private EventListenerList actionListenerList = new EventListenerList();
+public class KeyTextComponent extends JComponent {
 	
-	/**
-	 * 
-	 */
-	public KeyTextComponent2() {
+	private ActionListener actionListenerList = null;
+	
+	public KeyTextComponent() {
 		setBackground(Color.CYAN);
 		
 		KeyListener internalKeyListener = new KeyAdapter() {
@@ -50,51 +48,32 @@ public class KeyTextComponent2 extends JComponent {
 							ActionEvent.ACTION_PERFORMED,
 							keyText);
 					
-					fireActionPerformed(actionEvent);
+					actionListenerList.actionPerformed(actionEvent);
 				}
 			}
-		};		
-		
+		};
 		
 		MouseListener internalMouseListener = new MouseAdapter() {
-			/* (non-Javadoc)
-			 * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
-			 */
-			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent mouseEvent) {
 				requestFocusInWindow();
-			}
+			};
 		};
+		
 		
 		addKeyListener(internalKeyListener);
 		addMouseListener(internalMouseListener);
 	}
 	
-	
 	public void addActionListener(ActionListener actionListener) {
-		actionListenerList.add(ActionListener.class, actionListener);
+		actionListenerList = AWTEventMulticaster.add(actionListenerList, actionListener);
 	}
 	
 	public void removeActionListener(ActionListener actionListener) {
-		actionListenerList.remove(ActionListener.class, actionListener);
-	}	
-	
-	
-	/**
-	 * @param actionEvent
-	 */
-	private void fireActionPerformed(ActionEvent actionEvent) {
-		EventListener listenerList[] = actionListenerList.getListeners(ActionListener.class);
-		
-		for(int i = 0, n = listenerList.length;i < n;i++) {
-			((ActionListener)listenerList[i]).actionPerformed(actionEvent);
-		}
+		actionListenerList = AWTEventMulticaster.remove(actionListenerList, actionListener);
 	}
 	
 	public boolean isFocusable() {
 		return true;
 	}
-	
-	
 	
 }

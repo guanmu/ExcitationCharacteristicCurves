@@ -1,5 +1,5 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
-package com.guanmu.ui.swing.learn;
+package com.guanmu.ui.learn.swing;
 
 import java.awt.Component;
 import java.awt.EventQueue;

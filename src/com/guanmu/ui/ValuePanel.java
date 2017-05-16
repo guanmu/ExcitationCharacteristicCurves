@@ -2,18 +2,22 @@
 package com.guanmu.ui;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 
-import com.guanmu.utils.GridBagLayoutUtils;
+import com.guanmu.model.PointTableModel;
 
 /**
  * <p>
@@ -27,7 +31,9 @@ import com.guanmu.utils.GridBagLayoutUtils;
 public class ValuePanel extends JPanel {
 
 	private static final long serialVersionUID = -6995856246269794959L;
-
+	
+	public static int INPUT_TEXT_LENGTH = 40;
+	
 	private JPanel paramPanel;
 	
 	private JTextField precisionText;
@@ -37,8 +43,12 @@ public class ValuePanel extends JPanel {
 	private JTable dataTable;
 	
 	private JPanel buttonPanel;
+	private JLabel valueNumberLabel;
+	private JLabel valueNumberInfo;
 	private JButton addValueBtn;
 	private JButton deleteValueBtn;
+	
+	private PointTableModel tableModel;
 	
 	/**
 	 * 
@@ -47,11 +57,89 @@ public class ValuePanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		createParamPanel();
-
-		dataTable = new JTable();
-		this.add(dataTable,BorderLayout.CENTER);
 		
+		createTablePanel();
+
+		createButtonPanel();
+		
+		addListeners();
+		
+	}
+
+	/**
+	 * 
+	 */
+	private void addListeners() {
+		addValueBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				double x = getXValue();
+				if (x <= 0) {
+					// TODO 
+					System.out.println("x < 0");
+					return;
+				}
+				
+				double y = getYValue();
+				if (y <= 0) {
+					// TODO 
+					
+					System.out.println("y < 0");
+					return;
+				}
+				
+				if (tableModel.containsX(x)) {
+					// TODO
+					
+					return;
+				}
+				
+				tableModel.addNewValue(x,y);
+				
+				xText.setText("");
+				yText.setText("");
+			}
+		});
+		
+		tableModel.addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				int pointNumber = tableModel.getRowCount();
+				valueNumberInfo.setText("" + pointNumber);
+			}
+		});
+		
+		deleteValueBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowIndex = dataTable.getSelectedRow();
+				if (rowIndex < 0) {
+					// TODO
+					
+					return;
+				}
+				
+				tableModel.deleteValue(rowIndex);
+			}
+		});
+		
+		
+	}
+
+	/**
+	 * 
+	 */
+	private void createButtonPanel() {
 		buttonPanel = new JPanel();
+		
+		valueNumberLabel = new JLabel("当前数据个数：");
+		buttonPanel.add(valueNumberLabel);
+		
+		valueNumberInfo = new JLabel("0");
+		buttonPanel.add(valueNumberInfo);
 		
 		addValueBtn = new JButton("添加数据");
 		buttonPanel.add(addValueBtn);
@@ -60,7 +148,18 @@ public class ValuePanel extends JPanel {
 		buttonPanel.add(deleteValueBtn);
 		
 		this.add(buttonPanel,BorderLayout.SOUTH);
+	}
+
+	/**
+	 * 
+	 */
+	private void createTablePanel() {
+
+		tableModel = new PointTableModel();
+		dataTable = new JTable(tableModel);
+		JScrollPane scrollPane = new JScrollPane(dataTable);
 		
+		this.add(scrollPane,BorderLayout.CENTER);
 	}
 
 	/**
@@ -70,42 +169,66 @@ public class ValuePanel extends JPanel {
 		
 		paramPanel = new JPanel();
 		
-		paramPanel.setLayout(new GridLayout(0,1));
+		BoxLayout yaxisLayout = new BoxLayout(paramPanel, BoxLayout.Y_AXIS);
+		paramPanel.setLayout(yaxisLayout);
 		
-		JPanel boxPanel1 = new JPanel();
-		BoxLayout boxLayout1 = new BoxLayout(boxPanel1, BoxLayout.X_AXIS);
-		boxPanel1.setLayout(boxLayout1);
+		JPanel rowPanel1 = new JPanel();
+		rowPanel1.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
 		JLabel precisionLabel = new JLabel("精度：");
-		boxPanel1.add(precisionLabel);
+		rowPanel1.add(precisionLabel);
 		precisionText = new JTextField();
-		boxPanel1.add(precisionText);
+		precisionText.setColumns(INPUT_TEXT_LENGTH);
+		rowPanel1.add(precisionText);
 		
-		JPanel boxPanel2 = new JPanel();
-		BoxLayout boxLayout2 = new BoxLayout(boxPanel2, BoxLayout.X_AXIS);
-		boxPanel2.setLayout(boxLayout2);	
+		JPanel rowPanel2 = new JPanel();
+		rowPanel2.setLayout(new FlowLayout(FlowLayout.RIGHT));	
 		
 		JLabel xLabel = new JLabel("x:");
-		boxPanel2.add(xLabel);
+		rowPanel2.add(xLabel);
 		xText = new JTextField();
-		boxPanel2.add(xText);
+		xText.setColumns(INPUT_TEXT_LENGTH);
+		rowPanel2.add(xText);
 		
-		JPanel boxPanel3 = new JPanel();
-		BoxLayout boxLayout3 = new BoxLayout(boxPanel3, BoxLayout.X_AXIS);
-		boxPanel3.setLayout(boxLayout3);
+		JPanel rowPanel3 = new JPanel();
+		rowPanel3.setLayout(new FlowLayout(FlowLayout.RIGHT));	
 		
 		JLabel yLabel = new JLabel("y:");
-		boxPanel3.add(yLabel);
+		rowPanel3.add(yLabel);
 		yText = new JTextField();
-		boxPanel3.add(yText);
+		yText.setColumns(INPUT_TEXT_LENGTH);
+		rowPanel3.add(yText);
 		
-		paramPanel.add(boxPanel1);
-		paramPanel.add(boxPanel2);
-		paramPanel.add(boxPanel3);
+		paramPanel.add(rowPanel1);
+		paramPanel.add(rowPanel2);
+		paramPanel.add(rowPanel3);
 		
 		this.add(paramPanel,BorderLayout.NORTH);
 	}
 	
+	public double getXValue() {
+		String valueStr = xText.getText();
+		
+		try {
+			double value = Double.parseDouble(valueStr);	
+			return value;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+
+	}
 	
-	
+	public double getYValue() {
+		String valueStr = yText.getText();
+		
+		try {
+			double value = Double.parseDouble(valueStr);	
+			return value;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+
+	}	
 }

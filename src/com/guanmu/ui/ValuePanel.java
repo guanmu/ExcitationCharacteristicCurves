@@ -15,9 +15,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
+
+import org.slf4j.Logger;
 
 import com.guanmu.model.PointTableModel;
+import com.guanmu.utils.RootLogger;
 
 /**
  * <p>
@@ -31,6 +33,8 @@ import com.guanmu.model.PointTableModel;
 public class ValuePanel extends JPanel {
 
 	private static final long serialVersionUID = -6995856246269794959L;
+	
+	private static Logger logger = RootLogger.getLog(ValuePanel.class.getName());
 	
 	public static int INPUT_TEXT_LENGTH = 40;
 	
@@ -77,7 +81,6 @@ public class ValuePanel extends JPanel {
 				double x = getXValue();
 				if (x <= 0) {
 					// TODO 
-					System.out.println("x < 0");
 					return;
 				}
 				
@@ -213,7 +216,7 @@ public class ValuePanel extends JPanel {
 			double value = Double.parseDouble(valueStr);	
 			return value;
 		} catch(Exception e) {
-			e.printStackTrace();
+			logger.error("parseDouble exception.",e);
 			return -1;
 		}
 
@@ -226,7 +229,7 @@ public class ValuePanel extends JPanel {
 			double value = Double.parseDouble(valueStr);	
 			return value;
 		} catch(Exception e) {
-			e.printStackTrace();
+			logger.error("parseDouble exception.",e);
 			return -1;
 		}
 

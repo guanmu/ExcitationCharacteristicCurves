@@ -11,5 +11,11 @@
 	<classpathentry kind="lib" path="lib/junit.jar"/>
 	<classpathentry kind="lib" path="lib/servlet.jar"/>
 	<classpathentry kind="lib" path="lib/swtgraphics2d.jar"/>
+	<classpathentry kind="lib" path="lib/logback-access-0.9.24.jar"/>
+	<classpathentry kind="lib" path="lib/logback-classic-0.9.24.jar"/>
+	<classpathentry kind="lib" path="lib/logback-core-0.9.24.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.6.0-alpha2.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.6.0-RC0.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

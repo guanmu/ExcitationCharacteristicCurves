@@ -17,7 +17,7 @@ import java.awt.Insets;
  */
 public class GridBagLayoutUtils {
 	
-	private static final Insets insets = new Insets(10,0,0,0);
+	private static final Insets insets = new Insets(0,0,0,0);
 	
 	public static void addComponent(Container container,Component component,
 			int gridx, int gridy, int gridWidth, int gridHeight, int anchor,

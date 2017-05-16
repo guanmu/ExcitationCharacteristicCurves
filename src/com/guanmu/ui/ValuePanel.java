@@ -2,11 +2,16 @@
 package com.guanmu.ui;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
+import com.guanmu.utils.GridBagLayoutUtils;
 
 /**
  * <p>
@@ -41,15 +46,23 @@ public class ValuePanel extends JPanel {
 		
 		paramPanel = new JPanel();
 		
+		paramPanel.setLayout(new GridBagLayout());
+		
+		JLabel precisionLabel = new JLabel("精度：");
+		paramPanel.add(precisionLabel);
+		GridBagLayoutUtils.addComponent(paramPanel, precisionLabel, 0, 0, 1, 1, GridBagConstraints.WEST,GridBagConstraints.NONE);
 		precisionText = new JTextField();
-		precisionText.setText("精度：");
-		paramPanel.add(precisionText);
+		GridBagLayoutUtils.addComponent(paramPanel, precisionText, 1, 0, 3, 1, GridBagConstraints.WEST,GridBagConstraints.BOTH);
 		
-		xText = new JTextField("x:");
-		paramPanel.add(xText);
+		JLabel xLabel = new JLabel("x:");
+		GridBagLayoutUtils.addComponent(paramPanel, xLabel, 0, 1, 1, 1, GridBagConstraints.WEST,GridBagConstraints.NONE);
+		xText = new JTextField();
+		GridBagLayoutUtils.addComponent(paramPanel, xText, 1, 1, 3, 1, GridBagConstraints.WEST,GridBagConstraints.BOTH);
 		
-		yText = new JTextField("y:");
-		paramPanel.add(yText);
+		JLabel yLabel = new JLabel("y:");
+		GridBagLayoutUtils.addComponent(paramPanel, yLabel, 0, 2, 1, 1, GridBagConstraints.WEST,GridBagConstraints.NONE);
+		yText = new JTextField();
+		GridBagLayoutUtils.addComponent(paramPanel, yText, 1, 2, 3, 1, GridBagConstraints.WEST,GridBagConstraints.BOTH);
 		
 		this.add(paramPanel,BorderLayout.NORTH);
 		

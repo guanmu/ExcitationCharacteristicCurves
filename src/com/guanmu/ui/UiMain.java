@@ -70,7 +70,7 @@ public class UiMain extends JFrame {
 		tryCurvesPanel = new TryCurvesPanel();
 		tryCurvesPanel.setVisible(true);
 		
-		GridBagLayoutUtils.addComponent(mainPanel,tryCurvesPanel,3,0,0,1,
+		GridBagLayoutUtils.addComponent(mainPanel,tryCurvesPanel,2,0,1,1,
 				1.0,1.0,
 				GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 	}
@@ -80,7 +80,7 @@ public class UiMain extends JFrame {
 		fitCurvesPanel = new FitCurvesPanel();
 		fitCurvesPanel.setVisible(true);
 		
-		GridBagLayoutUtils.addComponent(mainPanel,fitCurvesPanel,1,0,2,1,
+		GridBagLayoutUtils.addComponent(mainPanel,fitCurvesPanel,1,0,1,1,
 				1.0,1.0,
 				GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 		

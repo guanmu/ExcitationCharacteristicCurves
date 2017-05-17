@@ -15,33 +15,19 @@ import javax.swing.JPanel;
  * @author wangquan 2017-5-15
  * 
  */
-public class FitCurvesPanel extends JPanel {
+public class FitCurvesPanel extends CurvesPanel {
 
+	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 2141822560252516326L;
-	
-	private JLabel nameLabel;
-	
-	private JPanel dataPanel;
-	
-	private JPanel resultPanel;
-	
+
 	/**
 	 * 
 	 */
 	public FitCurvesPanel() {
 		
-		this.setLayout(new BorderLayout());
-
-		nameLabel = new JLabel("拟合法");
-		
-		dataPanel = new JPanel();
-		
-		resultPanel = new JPanel();
-		
-		
-		this.add(nameLabel,BorderLayout.NORTH);
-		this.add(dataPanel,BorderLayout.CENTER);
-		this.add(resultPanel,BorderLayout.SOUTH);
 	}
 	
 	

@@ -176,7 +176,7 @@ public class ValuePanel extends JPanel {
 		paramPanel.setLayout(yaxisLayout);
 		
 		JPanel rowPanel1 = new JPanel();
-		rowPanel1.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		rowPanel1.setLayout(new BoxLayout(rowPanel1, BoxLayout.X_AXIS));
 		
 		JLabel precisionLabel = new JLabel("精度：");
 		rowPanel1.add(precisionLabel);
@@ -185,7 +185,7 @@ public class ValuePanel extends JPanel {
 		rowPanel1.add(precisionText);
 		
 		JPanel rowPanel2 = new JPanel();
-		rowPanel2.setLayout(new FlowLayout(FlowLayout.RIGHT));	
+		rowPanel2.setLayout(new BoxLayout(rowPanel2, BoxLayout.X_AXIS));	
 		
 		JLabel xLabel = new JLabel("x:");
 		rowPanel2.add(xLabel);
@@ -194,7 +194,7 @@ public class ValuePanel extends JPanel {
 		rowPanel2.add(xText);
 		
 		JPanel rowPanel3 = new JPanel();
-		rowPanel3.setLayout(new FlowLayout(FlowLayout.RIGHT));	
+		rowPanel3.setLayout(new BoxLayout(rowPanel3, BoxLayout.X_AXIS));	
 		
 		JLabel yLabel = new JLabel("y:");
 		rowPanel3.add(yLabel);

@@ -49,8 +49,8 @@ public class UiMain extends JFrame {
 	 */
 	public UiMain() throws HeadlessException {
 		super();
-		this.setSize(900, 780);
 		this.setTitle("电压互感器空载特性分析");
+		this.setBounds(200, 200, 1400, 680);
 		
 		mainPanel = new JPanel();
 		this.add(mainPanel);
@@ -68,30 +68,30 @@ public class UiMain extends JFrame {
 
 	private void createTryCurvesPanel() {
 		tryCurvesPanel = new TryCurvesPanel();
-		tryCurvesPanel.setBackground(Color.BLUE);
 		tryCurvesPanel.setVisible(true);
 		
-		GridBagLayoutUtils.addComponent(mainPanel,tryCurvesPanel,3,0,2,1,
+		GridBagLayoutUtils.addComponent(mainPanel,tryCurvesPanel,3,0,0,1,
+				1.0,1.0,
 				GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 	}
 
 
 	private void createFitCurvesPanel() {
 		fitCurvesPanel = new FitCurvesPanel();
-		fitCurvesPanel.setBackground(Color.GREEN);
 		fitCurvesPanel.setVisible(true);
 		
 		GridBagLayoutUtils.addComponent(mainPanel,fitCurvesPanel,1,0,2,1,
+				1.0,1.0,
 				GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 		
 	}
 	
 	private void createValuePanel() {
 		valuePanel = new ValuePanel();
-		valuePanel.setBackground(Color.RED);
 		valuePanel.setVisible(true);
 		
 		GridBagLayoutUtils.addComponent(mainPanel,valuePanel,0,0,1,1,
+				0,1.0,
 				GridBagConstraints.WEST,GridBagConstraints.BOTH);
 	}
 

@@ -2,6 +2,7 @@
 package com.guanmu.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JLabel;
@@ -86,7 +87,7 @@ public class TryCurvesPanel extends CurvesPanel {
 	 */
 	private void createTitle() {
 		nameLabel = new JLabel("逼近法");
-		
+		nameLabel.setBackground(Color.RED);
 	}
 	
 	

@@ -20,9 +20,10 @@ public class GridBagLayoutUtils {
 	private static final Insets insets = new Insets(0,0,0,0);
 	
 	public static void addComponent(Container container,Component component,
-			int gridx, int gridy, int gridWidth, int gridHeight, int anchor,
-			int fill) {
-		GridBagConstraints gbc = new GridBagConstraints(gridx, gridy, gridWidth, gridHeight, 1.0, 1.0, anchor, fill,
+			int gridx, int gridy, int gridWidth, int gridHeight, 
+			double weightx, double weigthy,
+			int anchor,	int fill) {
+		GridBagConstraints gbc = new GridBagConstraints(gridx, gridy, gridWidth, gridHeight, weightx, weightx, anchor, fill,
 				insets, 0, 0);
 		container.add(component,gbc);
 	}

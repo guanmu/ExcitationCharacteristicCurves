@@ -41,15 +41,7 @@ public class TryCurvesPanel extends CurvesPanel {
 		
 		createDataPanel();
 		
-		createResultPanle();
-	}
-
-	/**
-	 * 
-	 */
-	private void createResultPanle() {
-		resultPanel = new JPanel();
-		
+		createFunctionResultPanle();
 	}
 
 	/**

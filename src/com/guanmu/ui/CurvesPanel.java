@@ -31,7 +31,8 @@ public class CurvesPanel extends JPanel {
 	
 	protected JPanel dataPanel;
 	
-	protected JPanel resultPanel;
+	protected JPanel functionResultPanel;
+//	protected 
 	
 	/**
 	 * 
@@ -46,13 +47,20 @@ public class CurvesPanel extends JPanel {
 	protected void createPanels() {
 		
 		dataPanel = new JPanel();
-		
-		resultPanel = new JPanel();
+
 	}
+	
+	/**
+	 * 
+	 */
+	protected void createFunctionResultPanle() {
+		functionResultPanel = new JPanel();
+		
+	}	
 	
 	protected void addPanels() {
 		this.add(dataPanel,BorderLayout.CENTER);
-		this.add(resultPanel,BorderLayout.SOUTH);
+		this.add(functionResultPanel,BorderLayout.SOUTH);
 	}
 	
 	protected JFreeChart createChart(XYDataset paramXYDataset) {

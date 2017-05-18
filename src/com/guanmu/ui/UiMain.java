@@ -44,7 +44,9 @@ public class UiMain extends JFrame {
 	
 	/** 逼近法曲线面板*/
 	private JPanel tryCurvesPanel;
-
+	
+	/** 结果面板*/
+	private JPanel resultPanel;
 
 	/**
 	 * @throws HeadlessException
@@ -65,6 +67,17 @@ public class UiMain extends JFrame {
 		
 		createTryCurvesPanel();
 		
+		createResultPanel();
+	}
+
+
+	private void createResultPanel() {
+		resultPanel = new ResultPanel();
+		resultPanel.setVisible(true);
+		
+		GridBagLayoutUtils.addComponent(mainPanel,resultPanel,1,1,2,1,
+				0,0,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);		
 	}
 
 
@@ -92,7 +105,7 @@ public class UiMain extends JFrame {
 		valuePanel = new ValuePanel();
 		valuePanel.setVisible(true);
 		
-		GridBagLayoutUtils.addComponent(mainPanel,valuePanel,0,0,1,1,
+		GridBagLayoutUtils.addComponent(mainPanel,valuePanel,0,0,1,2,
 				0,1.0,
 				GridBagConstraints.WEST,GridBagConstraints.BOTH);
 	}

@@ -32,7 +32,7 @@ public class FitCurvesPanel extends CurvesPanel {
 	 * 
 	 */
 	public FitCurvesPanel() {
-		title = "拟合法";
+		title = "插值法";
 		
 		createPanels();
 		
@@ -44,15 +44,7 @@ public class FitCurvesPanel extends CurvesPanel {
 		
 		createDataPanel();
 		
-		createResultPanle();
-	}
-
-	/**
-	 * 
-	 */
-	private void createResultPanle() {
-		resultPanel = new JPanel();
-		
+		createFunctionResultPanle();
 	}
 
 	/**

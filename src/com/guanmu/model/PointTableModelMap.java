@@ -27,12 +27,6 @@ public class PointTableModelMap extends AbstractTableModel implements TableModel
 
 	public final static String[] TABLE_COLUMNS = {"x(mA)","y(V)"}; 
 	
-	
-	public Object[][] rowValues = new Object[][] {
-			new Object[]{"1","1"},
-			new Object[]{"3","4"}
-			};	
-	
 	/* (non-Javadoc)
 	 * @see javax.swing.event.TableModelListener#tableChanged(javax.swing.event.TableModelEvent)
 	 */

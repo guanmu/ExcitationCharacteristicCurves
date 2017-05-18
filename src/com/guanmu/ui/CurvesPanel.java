@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
@@ -140,17 +142,19 @@ public class CurvesPanel extends JPanel {
 		localXYPlot.setDomainZeroBaselineVisible(true);
 		localXYPlot.setRangeZeroBaselineVisible(true);
 		localXYPlot.getDomainAxis().setLowerMargin(0D);
-		localXYPlot.getDomainAxis().setUpperMargin(1D);
+		localXYPlot.getDomainAxis().setUpperMargin(0D);
 		
 		localXYPlot.getDomainAxis().setLowerBound(0);
 		
 		localXYPlot.getRangeAxis().setLowerBound(0);
 		localXYPlot.setDomainPannable(true);
-		localXYPlot.setRangePannable(true);
+		localXYPlot.setRangePannable(true);		
 		
 		// 设置legen中的曲线提示图形：小矩形
 		XYLineAndShapeRenderer localXYLineAndShapeRenderer = (XYLineAndShapeRenderer) localXYPlot.getRenderer();
 		localXYLineAndShapeRenderer.setLegendLine(new Rectangle2D.Double(-4.0D, -3.0D, 8.0D, 6.0D));
+	
+	    
 		return localJFreeChart;
 	}	
 	

@@ -1,10 +1,16 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
 package com.guanmu.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYDataset;
 
-import com.guanmu.ui.learn.jfreechart.SampleXYDataset;
+import com.guanmu.model.CurvesXYDataset;
+import com.guanmu.model.ExcitationFunction;
+import com.guanmu.model.PointValue;
 
 /**
  * <p>
@@ -43,7 +49,14 @@ public class TryCurvesPanel extends CurvesPanel {
 	 * 
 	 */
 	private void createDataPanel() {		
-	    JFreeChart localJFreeChart = createChart(new SampleXYDataset());
+		ExcitationFunction exFunction = new ExcitationFunction(0.1, 0.1, 0.1, 0.5);
+		List<PointValue> rows = new ArrayList<>();
+		rows.add(new PointValue(1, 1));
+		rows.add(new PointValue(2, 3));
+		rows.add(new PointValue(10, 10));
+		
+		XYDataset xyDataset = new CurvesXYDataset(exFunction,rows,0,15,20);
+	    JFreeChart localJFreeChart = createChart(xyDataset);
 	    ChartPanel localChartPanel = new ChartPanel(localJFreeChart);
 	    localChartPanel.setMouseWheelEnabled(true);
 		

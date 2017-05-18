@@ -2,9 +2,15 @@
 package com.guanmu.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -12,6 +18,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
+
+import com.guanmu.utils.GridBagLayoutUtils;
 
 /**
  * <p>
@@ -31,13 +39,27 @@ public class CurvesPanel extends JPanel {
 	protected JPanel dataPanel;
 	
 	protected JPanel functionResultPanel;
-//	protected 
+	
+	protected JLabel functionLabel;
+	
+	protected JLabel aLabel;
+	protected JTextField aValue;
+	
+	protected JLabel bLabel;
+	protected JTextField bValue;
+	protected JLabel cLabel;
+	protected JTextField cValue;
+	protected JLabel dLabel;
+	protected JTextField dValue;
 	
 	/**
 	 * 
 	 */
 	public CurvesPanel() {
 		this.setLayout(new BorderLayout());
+		
+		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
 	}
 
 	/**
@@ -54,7 +76,56 @@ public class CurvesPanel extends JPanel {
 	 */
 	protected void createFunctionResultPanle() {
 		functionResultPanel = new JPanel();
+		functionResultPanel.setLayout(new GridBagLayout());
 		
+		functionLabel = new JLabel();
+		functionLabel.setText("y1=a*e^(b*x) + c*e^(d*x)");
+		
+		GridBagLayoutUtils.addComponent(functionResultPanel,functionLabel,0,0,4,1,
+				0,0,
+				GridBagConstraints.CENTER,GridBagConstraints.NONE);		
+		
+		aLabel = new JLabel("a=");
+		GridBagLayoutUtils.addComponent(functionResultPanel,aLabel,0,1,1,1,
+				0,0,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);	
+		
+		aValue = new JTextField();
+		GridBagLayoutUtils.addComponent(functionResultPanel,aValue,1,1,1,1,
+				1.0,1.0,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);	
+		
+		bLabel = new JLabel("b=");
+		GridBagLayoutUtils.addComponent(functionResultPanel,bLabel,2,1,1,1,
+				0,1.0,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);	
+		
+		bValue = new JTextField();
+		GridBagLayoutUtils.addComponent(functionResultPanel,bValue,3,1,1,1,
+				1.0,1.0,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);	
+		
+		cLabel = new JLabel("c=");
+		GridBagLayoutUtils.addComponent(functionResultPanel,cLabel,0,2,1,1,
+				0,1.0,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);	
+		
+		cValue = new JTextField();
+		GridBagLayoutUtils.addComponent(functionResultPanel,cValue,1,2,1,1,
+				1.0,1.0,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);	
+		
+		dLabel = new JLabel("d=");
+		GridBagLayoutUtils.addComponent(functionResultPanel,dLabel,2,2,1,1,
+				0,1.0,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);	
+		
+		dValue = new JTextField();
+		GridBagLayoutUtils.addComponent(functionResultPanel,dValue,3,2,1,1,
+				1.0,1.0,
+				GridBagConstraints.CENTER,GridBagConstraints.BOTH);	
+		
+		functionResultPanel.setVisible(true);
 	}	
 	
 	protected void addPanels() {

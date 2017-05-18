@@ -9,6 +9,7 @@ import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.StandardChartTheme;
@@ -65,6 +66,11 @@ public class UiMain extends JFrame {
 		
 		createFitCurvesPanel();
 		
+		JSeparator separator = new JSeparator(JSeparator.VERTICAL);
+		GridBagLayoutUtils.addComponent(mainPanel,separator,2,0,1,1,
+				0.05,0,
+				GridBagConstraints.CENTER,GridBagConstraints.NONE);		
+		
 		createTryCurvesPanel();
 		
 		createResultPanel();
@@ -75,7 +81,7 @@ public class UiMain extends JFrame {
 		resultPanel = new ResultPanel();
 		resultPanel.setVisible(true);
 		
-		GridBagLayoutUtils.addComponent(mainPanel,resultPanel,1,1,2,1,
+		GridBagLayoutUtils.addComponent(mainPanel,resultPanel,1,1,3,1,
 				0,0,
 				GridBagConstraints.CENTER,GridBagConstraints.BOTH);		
 	}
@@ -85,7 +91,7 @@ public class UiMain extends JFrame {
 		tryCurvesPanel = new TryCurvesPanel();
 		tryCurvesPanel.setVisible(true);
 		
-		GridBagLayoutUtils.addComponent(mainPanel,tryCurvesPanel,2,0,1,1,
+		GridBagLayoutUtils.addComponent(mainPanel,tryCurvesPanel,3,0,1,1,
 				1.0,1.0,
 				GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 	}

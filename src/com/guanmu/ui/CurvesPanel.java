@@ -4,7 +4,6 @@ package com.guanmu.ui;
 import java.awt.BorderLayout;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;

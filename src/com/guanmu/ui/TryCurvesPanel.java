@@ -1,11 +1,6 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
 package com.guanmu.ui;
 
-import java.awt.Color;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 

@@ -50,6 +50,8 @@ public class ValuePanel extends JPanel {
 	private JLabel valueNumberInfo;
 	private JButton addValueBtn;
 	private JButton deleteValueBtn;
+	private JButton computeBtn;
+	
 	
 	private PointTableModel tableModel;
 	
@@ -128,7 +130,15 @@ public class ValuePanel extends JPanel {
 			}
 		});
 		
-		
+		computeBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				
+			}
+		});
 	}
 
 	/**
@@ -148,6 +158,9 @@ public class ValuePanel extends JPanel {
 		
 		deleteValueBtn = new JButton("删除数据");
 		buttonPanel.add(deleteValueBtn);
+		
+		computeBtn = new JButton("求解");
+		buttonPanel.add(computeBtn);
 		
 		this.add(buttonPanel,BorderLayout.SOUTH);
 	}

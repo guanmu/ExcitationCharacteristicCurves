@@ -134,15 +134,21 @@ public class CurvesPanel extends JPanel {
 	}
 	
 	protected JFreeChart createChart(XYDataset paramXYDataset) {
-		JFreeChart localJFreeChart = ChartFactory.createXYLineChart(title, "X", "Y", paramXYDataset,
+		JFreeChart localJFreeChart = ChartFactory.createXYLineChart(title, "X(mA)", "Y(V)", paramXYDataset,
 				PlotOrientation.VERTICAL, true, true, false);
 		XYPlot localXYPlot = (XYPlot) localJFreeChart.getPlot();
 		localXYPlot.setDomainZeroBaselineVisible(true);
 		localXYPlot.setRangeZeroBaselineVisible(true);
-		localXYPlot.getDomainAxis().setLowerMargin(0.0D);
-		localXYPlot.getDomainAxis().setUpperMargin(0.0D);
+		localXYPlot.getDomainAxis().setLowerMargin(0D);
+		localXYPlot.getDomainAxis().setUpperMargin(1D);
+		
+		localXYPlot.getDomainAxis().setLowerBound(0);
+		
+		localXYPlot.getRangeAxis().setLowerBound(0);
 		localXYPlot.setDomainPannable(true);
 		localXYPlot.setRangePannable(true);
+		
+		// 设置legen中的曲线提示图形：小矩形
 		XYLineAndShapeRenderer localXYLineAndShapeRenderer = (XYLineAndShapeRenderer) localXYPlot.getRenderer();
 		localXYLineAndShapeRenderer.setLegendLine(new Rectangle2D.Double(-4.0D, -3.0D, 8.0D, 6.0D));
 		return localJFreeChart;

@@ -1,20 +1,13 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
 package com.guanmu.ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.xy.XYDataset;
 
 import com.guanmu.ui.learn.jfreechart.SampleXYDataset;
 
@@ -36,12 +29,15 @@ public class TryCurvesPanel extends CurvesPanel {
 	 * 
 	 */
 	public TryCurvesPanel() {
+		title = "逼近法";
 		
+		createPanels();
+		
+		addPanels();		
 	}
 
 	@Override
 	protected void createPanels() {
-		createTitle();
 		
 		createDataPanel();
 		
@@ -67,28 +63,6 @@ public class TryCurvesPanel extends CurvesPanel {
 	    dataPanel = localChartPanel;
 	}
 
-	private static JFreeChart createChart(XYDataset paramXYDataset) {
-		JFreeChart localJFreeChart = ChartFactory.createXYLineChart("Line Chart Demo 4", "X", "Y", paramXYDataset,
-				PlotOrientation.VERTICAL, true, true, false);
-		XYPlot localXYPlot = (XYPlot) localJFreeChart.getPlot();
-		localXYPlot.setDomainZeroBaselineVisible(true);
-		localXYPlot.setRangeZeroBaselineVisible(true);
-		localXYPlot.getDomainAxis().setLowerMargin(0.0D);
-		localXYPlot.getDomainAxis().setUpperMargin(0.0D);
-		localXYPlot.setDomainPannable(true);
-		localXYPlot.setRangePannable(true);
-		XYLineAndShapeRenderer localXYLineAndShapeRenderer = (XYLineAndShapeRenderer) localXYPlot.getRenderer();
-		localXYLineAndShapeRenderer.setLegendLine(new Rectangle2D.Double(-4.0D, -3.0D, 8.0D, 6.0D));
-		return localJFreeChart;
-	}
-	
-	/**
-	 * 
-	 */
-	private void createTitle() {
-		nameLabel = new JLabel("逼近法");
-		nameLabel.setBackground(Color.RED);
-	}
 	
 	
 }

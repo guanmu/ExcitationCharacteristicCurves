@@ -1,15 +1,17 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
 package com.guanmu.ui;
 
-import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.CompoundBorder;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.StandardChartTheme;
 
 import com.guanmu.utils.GridBagLayoutUtils;
 
@@ -98,6 +100,8 @@ public class UiMain extends JFrame {
 
 	public static void main(String[] args) {
 		
+		initConfigs();
+		
 		Runnable runner = new Runnable() {
 			
 			@Override
@@ -110,6 +114,20 @@ public class UiMain extends JFrame {
 		
 		EventQueue.invokeLater(runner);
 
+	}
+
+
+	private static void initConfigs() {
+		// 创建主题样式
+		StandardChartTheme standardChartTheme = new StandardChartTheme("CN");
+		// 设置标题字体
+		standardChartTheme.setExtraLargeFont(new Font("隶书", Font.BOLD, 20));
+		// 设置图例的字体
+		standardChartTheme.setRegularFont(new Font("宋书", Font.PLAIN, 15));
+		// 设置轴向的字体
+		standardChartTheme.setLargeFont(new Font("宋书", Font.PLAIN, 15));
+		// 应用主题样式
+		ChartFactory.setChartTheme(standardChartTheme);
 	}
 
 }

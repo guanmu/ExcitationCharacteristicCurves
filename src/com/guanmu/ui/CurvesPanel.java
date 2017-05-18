@@ -151,9 +151,14 @@ public class CurvesPanel extends JPanel {
 		localXYPlot.setRangePannable(true);		
 		
 		// 设置legen中的曲线提示图形：小矩形
-		XYLineAndShapeRenderer localXYLineAndShapeRenderer = (XYLineAndShapeRenderer) localXYPlot.getRenderer();
+		XYLineAndShapeRenderer localXYLineAndShapeRenderer = new XYLineAndShapeRenderer();
 		localXYLineAndShapeRenderer.setLegendLine(new Rectangle2D.Double(-4.0D, -3.0D, 8.0D, 6.0D));
-	
+		localXYLineAndShapeRenderer.setSeriesLinesVisible(0, false);
+	    localXYLineAndShapeRenderer.setSeriesShapesVisible(1, false);
+	    localXYLineAndShapeRenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+	    localXYPlot.setRenderer(localXYLineAndShapeRenderer);
+	    NumberAxis localNumberAxis = (NumberAxis)localXYPlot.getRangeAxis();
+	    localNumberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());	
 	    
 		return localJFreeChart;
 	}	

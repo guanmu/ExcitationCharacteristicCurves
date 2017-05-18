@@ -58,7 +58,7 @@ public class FitCurvesPanel extends CurvesPanel {
 		rows.add(new PointValue(2, 30d));
 		rows.add(new PointValue(10, 10));
 		
-		XYDataset xyDataset = new CurvesXYDataset(exFunction,rows,0,15,20);
+		XYDataset xyDataset = new CurvesXYDataset();
 		
 	    JFreeChart localJFreeChart = createChart(xyDataset);
 	    ChartPanel localChartPanel = new ChartPanel(localJFreeChart);

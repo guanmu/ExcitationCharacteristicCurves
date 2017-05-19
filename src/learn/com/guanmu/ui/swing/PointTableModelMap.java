@@ -1,5 +1,5 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
-package com.guanmu.model;
+package learn.com.guanmu.ui.swing;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;

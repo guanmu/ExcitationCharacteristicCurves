@@ -1,4 +1,4 @@
-package com.guanmu.ui.learn.jfreechart;
+package learn.com.guanmu.ui.jfreechart;
 
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;

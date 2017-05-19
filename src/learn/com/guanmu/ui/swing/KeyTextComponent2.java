@@ -1,5 +1,5 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
-package com.guanmu.ui.learn.swing;
+package learn.com.guanmu.ui.swing;
 
 import java.awt.AWTEventMulticaster;
 import java.awt.Color;

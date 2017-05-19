@@ -1,11 +1,12 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
-package com.guanmu.model;
+package learn.com.guanmu.ui.swing;
 
 import java.util.Vector;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+
 
 /**
  * <p>

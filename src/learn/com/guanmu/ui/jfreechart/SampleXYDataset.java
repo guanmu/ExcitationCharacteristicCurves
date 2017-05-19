@@ -1,4 +1,4 @@
-package com.guanmu.ui.learn.jfreechart;
+package learn.com.guanmu.ui.jfreechart;
 
 import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.xy.AbstractXYDataset;

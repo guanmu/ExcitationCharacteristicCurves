@@ -1,4 +1,4 @@
-package com.guanmu.ui.learn.jfreechart;
+package learn.com.guanmu.ui.jfreechart;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -108,7 +108,7 @@ public class UiMain extends JFrame {
 	}
 	
 	private void createValuePanel() {
-		valuePanel = new ValuePanel();
+		valuePanel = new ValuePanel(this);
 		valuePanel.setVisible(true);
 		
 		GridBagLayoutUtils.addComponent(mainPanel,valuePanel,0,0,1,2,

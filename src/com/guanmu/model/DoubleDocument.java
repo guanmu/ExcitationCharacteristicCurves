@@ -10,6 +10,8 @@ public class DoubleDocument extends PlainDocument {
 
 	private static final long serialVersionUID = 1893457792930897005L;
 	
+	private static final String MARK_REGEX = "^[-+]?";
+	
 	private static final String POINT_REGEX = "^[-+]?\\d+\\.$";
 	
 	private static final String DOUBLE_REGEX = "^[-+]?\\d+(\\.\\d+)?$";
@@ -59,6 +61,9 @@ public class DoubleDocument extends PlainDocument {
         throws BadLocationException {
       if (proposedValue.length() > 0) {
 			
+    	  	if (proposedValue.matches(MARK_REGEX)) {
+    	  		return proposedValue;
+    	  	}
 			
 			if (proposedValue.matches(POINT_REGEX)) {
 				return proposedValue;

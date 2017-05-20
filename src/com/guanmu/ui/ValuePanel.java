@@ -4,14 +4,13 @@ package com.guanmu.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.BoxLayout;
-import javax.swing.InputVerifier;
 import javax.swing.JButton;
-import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,6 +22,7 @@ import org.slf4j.Logger;
 
 import com.guanmu.model.DoubleDocument;
 import com.guanmu.model.PointTableModel;
+import com.guanmu.utils.OptionPaneUtils;
 import com.guanmu.utils.RootLogger;
 
 /**
@@ -60,11 +60,14 @@ public class ValuePanel extends JPanel {
 	
 	private PointTableModel tableModel;
 	
+	private JFrame parentFrame;
 	/**
 	 * 
 	 */
-	public ValuePanel() {
+	public ValuePanel(JFrame frame) {
 		this.setLayout(new BorderLayout());
+		
+		parentFrame = frame;
 		
 		createParamPanel();
 		
@@ -85,23 +88,33 @@ public class ValuePanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				String xValueStr = xText.getText();
+				if (xValueStr.isEmpty()) {
+					OptionPaneUtils.openMessageDialog(parentFrame,"x不能为空。");
+					return;
+				}
+
+				String yValueStr = yText.getText();
+				if (yValueStr.isEmpty()) {
+					OptionPaneUtils.openMessageDialog(parentFrame,"y不能为空。");
+					return;
+				}				
+				
 				double x = getXValue();
 				if (x <= 0) {
-					// TODO 
+					OptionPaneUtils.openMessageDialog(parentFrame,"x不能为负数。");
 					return;
 				}
 				
 				double y = getYValue();
 				if (y <= 0) {
-					// TODO 
-					
-					System.out.println("y < 0");
+					OptionPaneUtils.openMessageDialog(parentFrame,"y不能为负数。");
 					return;
 				}
 				
 				if (tableModel.containsX(x)) {
-					// TODO
-					
+					OptionPaneUtils.openMessageDialog(parentFrame,"表格中已存在该x对应的y值。");
 					return;
 				}
 				
@@ -127,8 +140,7 @@ public class ValuePanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int rowIndex = dataTable.getSelectedRow();
 				if (rowIndex < 0) {
-					// TODO
-					
+					OptionPaneUtils.openMessageDialog(parentFrame,"请选择需要删除的数据。");
 					return;
 				}
 				

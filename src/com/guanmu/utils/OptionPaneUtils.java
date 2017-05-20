@@ -1,11 +1,13 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
 package com.guanmu.utils;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -90,4 +92,13 @@ public class OptionPaneUtils {
 		return button;
 	}
 	
+	public static JDialog openMessageDialog(Component parent,String message) {
+		JOptionPane optionPane = OptionPaneUtils.getNarrowOptionPane(30);
+		optionPane.setMessage(message);
+		optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+		JDialog dialog = optionPane.createDialog(parent, "提示");
+		dialog.setVisible(true);	
+		
+		return dialog;
+	}
 }

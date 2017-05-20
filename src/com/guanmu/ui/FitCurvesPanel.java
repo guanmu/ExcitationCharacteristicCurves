@@ -38,6 +38,7 @@ public class FitCurvesPanel extends CurvesPanel {
 		createPanels();
 		
 		addPanels();
+
 	}
 	
 	@Override

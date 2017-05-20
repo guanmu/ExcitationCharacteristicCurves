@@ -24,7 +24,16 @@ public class ResultPanel extends JPanel {
 		createRelatePanel();
 		
 		createChangePointPanel();
+		
+		initStatus();
 
+	}
+
+	private void initStatus() {
+		relateValue.setEditable(false);
+		
+		changePointValue.setEditable(false);
+		
 	}
 
 	private void createChangePointPanel() {

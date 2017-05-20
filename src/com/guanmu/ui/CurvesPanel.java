@@ -73,6 +73,14 @@ public class CurvesPanel extends JPanel {
 
 	}
 	
+	protected void initStatus() {
+		
+		aValue.setEditable(false);
+		bValue.setEditable(false);
+		cValue.setEditable(false);
+		dValue.setEditable(false);
+	}
+	
 	/**
 	 * 
 	 */
@@ -133,6 +141,8 @@ public class CurvesPanel extends JPanel {
 	protected void addPanels() {
 		this.add(dataPanel,BorderLayout.CENTER);
 		this.add(functionResultPanel,BorderLayout.SOUTH);
+		
+		initStatus();
 	}
 	
 	protected JFreeChart createChart(XYDataset paramXYDataset) {

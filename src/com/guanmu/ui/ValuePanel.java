@@ -4,9 +4,13 @@ package com.guanmu.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.InputVerifier;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,6 +21,7 @@ import javax.swing.event.TableModelListener;
 
 import org.slf4j.Logger;
 
+import com.guanmu.model.DoubleDocument;
 import com.guanmu.model.PointTableModel;
 import com.guanmu.utils.RootLogger;
 
@@ -74,7 +79,8 @@ public class ValuePanel extends JPanel {
 	/**
 	 * 
 	 */
-	private void addListeners() {
+	private void addListeners() {		
+		
 		addValueBtn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -194,6 +200,9 @@ public class ValuePanel extends JPanel {
 		rowPanel1.add(precisionLabel);
 		precisionText = new JTextField();
 		precisionText.setColumns(INPUT_TEXT_LENGTH);
+		
+		precisionText.setDocument(new DoubleDocument());
+		
 		rowPanel1.add(precisionText);
 		
 		JPanel rowPanel2 = new JPanel();
@@ -203,6 +212,7 @@ public class ValuePanel extends JPanel {
 		rowPanel2.add(xLabel);
 		xText = new JTextField();
 		xText.setColumns(INPUT_TEXT_LENGTH);
+		xText.setDocument(new DoubleDocument());
 		rowPanel2.add(xText);
 		
 		JPanel rowPanel3 = new JPanel();
@@ -212,6 +222,7 @@ public class ValuePanel extends JPanel {
 		rowPanel3.add(yLabel);
 		yText = new JTextField();
 		yText.setColumns(INPUT_TEXT_LENGTH);
+		yText.setDocument(new DoubleDocument());
 		rowPanel3.add(yText);
 		
 		paramPanel.add(rowPanel1);

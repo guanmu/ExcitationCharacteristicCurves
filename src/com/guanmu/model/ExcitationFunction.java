@@ -1,6 +1,15 @@
 package com.guanmu.model;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+
+import com.guanmu.thread.TryCallbleThread;
+import com.guanmu.utils.RootLogger;
+
 public class ExcitationFunction {
+	
+	private static final Logger logger = RootLogger.getLog(ExcitationFunction.class.getName());	
 	
 	private double a;
 	private double b;
@@ -23,6 +32,38 @@ public class ExcitationFunction {
 
 	public String getFunctionStr() {
 		return "y=" + a + "*e^(" + b + "*x) + " + c + "*e^(" + d + "*x)" ;
+	}
+
+	public boolean checkFitPointValues(List<PointValue> pointValues,
+			double precision) {
+		if (pointValues == null) {
+			logger.error("pointValues is null.");
+			return false;
+		}
+		
+		if (pointValues.isEmpty()) {
+			logger.error("pointValues is empty.");
+			return false;
+		}
+		
+		double absPrecision = Math.abs(precision);
+		
+		for(int i = 0; i < pointValues.size();i++) {
+			PointValue pointValue = pointValues.get(i);
+			
+			
+			double x = pointValue.getX();
+			double y = pointValue.getY();
+			
+			double functionY = getYValue(x);
+			
+			if (Math.abs(functionY - y) > absPrecision) {
+				return false;
+			}
+			
+		}
+		
+		return true;
 	}
 	
 }

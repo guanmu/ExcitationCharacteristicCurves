@@ -4,13 +4,12 @@ package com.guanmu.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,6 +21,8 @@ import org.slf4j.Logger;
 
 import com.guanmu.model.DoubleDocument;
 import com.guanmu.model.PointTableModel;
+import com.guanmu.model.PointValue;
+import com.guanmu.thread.ComputeController;
 import com.guanmu.utils.OptionPaneUtils;
 import com.guanmu.utils.RootLogger;
 
@@ -61,6 +62,10 @@ public class ValuePanel extends JPanel {
 	private PointTableModel tableModel;
 	
 	private JFrame parentFrame;
+	
+	private CurvesProgressMonitor monitor;
+	
+	
 	/**
 	 * 
 	 */
@@ -151,12 +156,36 @@ public class ValuePanel extends JPanel {
 		computeBtn.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent event) {
+				
+				List<PointValue> pointValues = tableModel.getRowValues();
+				if (pointValues.isEmpty()) {
+					OptionPaneUtils.openMessageDialog(parentFrame,"请输入数据。");
+					return;
+				}
+				
+				double precision = 0;
+				String precisionValueStr = precisionText.getText();
+				
+				if (!precisionValueStr.isEmpty()) {
+					try {
+						precision = Double.parseDouble(precisionValueStr);
+					} catch (Exception e) {
+						OptionPaneUtils.openMessageDialog(parentFrame,"精度输入不正确。");
+						return;
+					}					
+				}
+
+				monitor = new CurvesProgressMonitor(parentFrame, "进度","正在计算……", 0, 150);
+				monitor.setProgress(0);
+				monitor.setNote("test");
 				
 				
+				new ComputeController(monitor,pointValues,precision).start();
+
 			}
 		});
+
 	}
 
 	/**

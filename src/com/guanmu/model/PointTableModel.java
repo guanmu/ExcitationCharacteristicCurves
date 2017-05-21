@@ -95,5 +95,7 @@ public class PointTableModel extends AbstractTableModel {
 	}
 
 	
-	
+	public List<PointValue> getRowValues() {
+		return new ArrayList<PointValue>(rowValues);
+	}
 }

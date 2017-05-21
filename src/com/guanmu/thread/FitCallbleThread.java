@@ -27,15 +27,17 @@ public class FitCallbleThread implements Callable<ExcitationFunction> {
 	public ExcitationFunction call() throws Exception {
 		Thread.currentThread().setName("FitCallbleThread");
 		
-		monitor.addProgress(1);
+		Thread.sleep(500);
 		
-		Thread.sleep(20*1000);
+		monitor.addProgress(10);
+		
+		Thread.sleep(5*1000);
 		
 		
 		ExcitationFunction fitResult = computeFunctionByFit();
 		
 		
-		monitor.addProgress(49);
+		monitor.addProgress(40);
 		
 		return fitResult;
 	}

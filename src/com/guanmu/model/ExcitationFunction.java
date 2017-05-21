@@ -65,5 +65,12 @@ public class ExcitationFunction {
 		
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "ExcitationFunction [a=" + a + ", b=" + b + ", c=" + c + ", d="
+				+ d + "]";
+	}
+	
 	
 }

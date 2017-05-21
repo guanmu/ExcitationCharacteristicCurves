@@ -158,7 +158,7 @@ public class ValuePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				
-				List<PointValue> pointValues = tableModel.getRowValues();
+				final List<PointValue> pointValues = tableModel.getRowValues();
 				if (pointValues.isEmpty()) {
 					OptionPaneUtils.openMessageDialog(parentFrame,"请输入数据。");
 					return;
@@ -180,8 +180,20 @@ public class ValuePanel extends JPanel {
 				monitor.setProgress(0);
 				monitor.setNote("test");
 				
+				final double finalPrecision = precision;
+				new Thread() {
+					
+					@Override
+					public void run() {
+						try {
+							new ComputeController(monitor,pointValues,finalPrecision).start();
+						} catch (Exception e) {
+							logger.error("ComputeController start exception.",e);
+						}
+					};
+					
+				}.start();
 				
-				new ComputeController(monitor,pointValues,precision).start();
 
 			}
 		});

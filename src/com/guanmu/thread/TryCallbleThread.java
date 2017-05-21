@@ -42,11 +42,13 @@ public class TryCallbleThread implements Callable<ExcitationFunction> {
 		
 		Thread.currentThread().setName("TryCallbleThread[" + min +"-" + max + "]");
 		
-		monitor.addProgress(1);
+		Thread.sleep(500);
+		
+		monitor.addProgress(2);
 		
 		ExcitationFunction tryFunction = computeFunctionByTry();
 		
-		monitor.addProgress(10);
+		monitor.addProgress(8);
 		
 		return tryFunction;
 	}
@@ -54,24 +56,31 @@ public class TryCallbleThread implements Callable<ExcitationFunction> {
 
 	private ExcitationFunction computeFunctionByTry() {
 		
-		for(double a = min;a < max;a = a + ExcitationConfig.STEP_A) {
-			
-			for(double b = ExcitationConfig.MIN_B;b < ExcitationConfig.MAX_B;b = b + ExcitationConfig.STEP_B) {
-				
-				for(double c = ExcitationConfig.MIN_C;c < ExcitationConfig.MAX_C;c = c + ExcitationConfig.STEP_C) {
-					
-					for(double d = ExcitationConfig.MIN_D;d < ExcitationConfig.MAX_D;d = d + ExcitationConfig.STEP_D) {
-						ExcitationFunction function = new ExcitationFunction(a, b, c, d);
-						
-						boolean isFit = function.checkFitPointValues(pointValues,precision);
-						if (isFit) {
-							return function;
-						}
-					}
-				}
-				
-			}
-			
+//		for(double a = min;a < max;a = a + ExcitationConfig.STEP_A) {
+//			
+//			for(double b = ExcitationConfig.MIN_B;b < ExcitationConfig.MAX_B;b = b + ExcitationConfig.STEP_B) {
+//				
+//				for(double c = ExcitationConfig.MIN_C;c < ExcitationConfig.MAX_C;c = c + ExcitationConfig.STEP_C) {
+//					
+//					for(double d = ExcitationConfig.MIN_D;d < ExcitationConfig.MAX_D;d = d + ExcitationConfig.STEP_D) {
+//						ExcitationFunction function = new ExcitationFunction(a, b, c, d);
+//						
+//						boolean isFit = function.checkFitPointValues(pointValues,precision);
+//						if (isFit) {
+//							return function;
+//						}
+//					}
+//				}
+//				
+//			}
+//			
+//		}
+		
+		try {
+			Thread.sleep(10*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		logger.debug("a in [" + min + "," + max + ") not result." );

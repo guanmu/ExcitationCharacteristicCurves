@@ -2,6 +2,8 @@ package com.guanmu.utils;
 
 public class ExcitationConfig {
 	
+	public static final boolean DEBUG = true;
+	
 	/** 包括*/
 	public static final double MIN_A = 0;
 	/** 不包括*/

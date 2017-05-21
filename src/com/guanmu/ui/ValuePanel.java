@@ -23,6 +23,7 @@ import com.guanmu.model.DoubleDocument;
 import com.guanmu.model.PointTableModel;
 import com.guanmu.model.PointValue;
 import com.guanmu.thread.ComputeController;
+import com.guanmu.utils.ExcitationConfig;
 import com.guanmu.utils.OptionPaneUtils;
 import com.guanmu.utils.RootLogger;
 
@@ -81,6 +82,13 @@ public class ValuePanel extends JPanel {
 		createButtonPanel();
 		
 		addListeners();
+		
+		if (ExcitationConfig.DEBUG) {
+//			debugData1();
+//			debugData2();
+			debugData3();
+				
+		}
 		
 	}
 
@@ -310,4 +318,52 @@ public class ValuePanel extends JPanel {
 		}
 
 	}	
+	
+	private void debugData1() {
+		tableModel.addNewValue(31.5,11.54);
+		tableModel.addNewValue(68.5,28.86);
+		tableModel.addNewValue(139.2,46.2);
+		tableModel.addNewValue(206,57.7);
+		tableModel.addNewValue(280,69.3);
+		tableModel.addNewValue(450,86.6);
+		tableModel.addNewValue(700,103.9);
+		tableModel.addNewValue(813,109.7);
+		tableModel.addNewValue(935,115.5);
+		tableModel.addNewValue(1069,121.2);
+		tableModel.addNewValue(1590,131.6);
+		tableModel.addNewValue(2220,138.5);
+		tableModel.addNewValue(4150,144.3);
+		tableModel.addNewValue(7020,150);
+	}
+	
+	private void debugData2() {
+		tableModel.addNewValue(32.5,11.54);
+		tableModel.addNewValue(65.5,28.86);
+		tableModel.addNewValue(121,46.2);
+		tableModel.addNewValue(162,57.7);
+		tableModel.addNewValue(203,69.3);
+		tableModel.addNewValue(274,86.6);
+		tableModel.addNewValue(350,103.9);
+		tableModel.addNewValue(420,109.7);
+		tableModel.addNewValue(495,115.5);
+		tableModel.addNewValue(602,121.2);
+		tableModel.addNewValue(830,131.6);
+		tableModel.addNewValue(1370,138.5);
+		tableModel.addNewValue(2780,144.3);
+		tableModel.addNewValue(6350,150);
+	}
+	
+	private void debugData3() {
+		tableModel.addNewValue(129.5, 11.54);
+		tableModel.addNewValue(258.4, 28.86);
+		tableModel.addNewValue(441, 46.2);
+		tableModel.addNewValue(656, 57.7);
+		tableModel.addNewValue(1042, 69.3);
+		tableModel.addNewValue(2400, 86.6);
+		tableModel.addNewValue(5150, 103.9);
+		tableModel.addNewValue(6500, 109.7);
+		tableModel.addNewValue(8100, 115.5);
+	}	
+	
+	
 }

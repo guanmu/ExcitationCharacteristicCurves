@@ -40,20 +40,9 @@ public class ComputeController {
 		logger.info("FitCallbleThread submit before");
 		Future<ExcitationFunction> fitResult = exec.submit(new FitCallbleThread(monitor,pointValues,precision));
 		logger.info("FitCallbleThread submit after");
-		
-		List<Future<ExcitationFunction>> tryResults = new ArrayList<>();
-		double min = 0;
-		for (double max = 10;max <= ExcitationConfig.MAX_A;max = max + 10) {
-			
-			logger.info("TryCallbleThread submit before.[{},{}]",min,max);
-			Future<ExcitationFunction> tryResult = exec.submit(new TryCallbleThread(monitor,pointValues,precision,min,max));
-			logger.info("TryCallbleThread submit after.[{},{}]",min,max);
-			
-			tryResults.add(tryResult);
-			
-			min = max;
-		}
-		
+
+		Future<List<ExcitationFunction>> tryResult = exec.submit(new TryTotalCallbleThread(monitor, pointValues, precision));
+
 		
 		exec.shutdown();
 		
@@ -62,12 +51,13 @@ public class ComputeController {
 			ExcitationFunction fitFunction = fitResult.get();
 			logger.info("###fit result:" + fitFunction);
 			
-			if (tryResults.isEmpty()) {
-				logger.info("tryResults is empty.");
+			if (tryResult == null) {
+				logger.info("tryResult is null.");
 			} else {
-				for(int i = 0;i < tryResults.size();i++) {
-					Future<ExcitationFunction> tryResult = tryResults.get(i); 
-					ExcitationFunction function = tryResult.get();
+				
+				List<ExcitationFunction> functions = tryResult.get();
+				for(int i = 0;i < functions.size();i++) {
+					ExcitationFunction function = functions.get(i);
 					
 					logger.info("###try result{}:{}",i,function);
 				}

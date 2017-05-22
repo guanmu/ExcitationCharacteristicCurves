@@ -55,16 +55,16 @@ public class TryTotalCallbleThread  implements Callable<List<ExcitationFunction>
 	public List<ExcitationFunction> call() throws Exception {
 		logger.info("###start try total function");
 		
-		ExecutorService tryExec = Executors.newCachedThreadPool();
+		ExecutorService nearTryExec = Executors.newCachedThreadPool();
 		
 		List<Future<ExcitationFunction>> tryResults = new ArrayList<>();
 		
 		double min = 0;
 		for (double max = 10;max <= ExcitationConfig.MAX_A;max = max + 10) {
 			
-			logger.info("TryCallbleThread submit before.[{},{}]",min,max);
-			Future<ExcitationFunction> tryResult = tryExec.submit(new TryCallbleThread(monitor,pointValues,precision,min,max));
-			logger.info("TryCallbleThread submit after.[{},{}]",min,max);
+			logger.info("NearTryCallbleThread submit before.[{},{}]",min,max);
+			Future<ExcitationFunction> tryResult = nearTryExec.submit(new NearTryCallbleThread(monitor,pointValues,precision,min,max));
+			logger.info("NearTryCallbleThread submit after.[{},{}]",min,max);
 			
 			tryResults.add(tryResult);
 			
@@ -72,10 +72,10 @@ public class TryTotalCallbleThread  implements Callable<List<ExcitationFunction>
 		}
 		
 		
-		tryExec.shutdown();
+		nearTryExec.shutdown();
 		
 		List<ExcitationFunction> functionResult = new ArrayList<>();
-		if (tryExec.awaitTermination(30, TimeUnit.MINUTES)) {
+		if (nearTryExec.awaitTermination(10, TimeUnit.MINUTES)) {
 			
 			if (tryResults.isEmpty()) {
 				logger.info("tryResults is empty.");

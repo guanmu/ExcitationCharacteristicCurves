@@ -320,49 +320,49 @@ public class ValuePanel extends JPanel {
 	}	
 	
 	private void debugData1() {
-		tableModel.addNewValue(31.5,11.54);
-		tableModel.addNewValue(68.5,28.86);
-		tableModel.addNewValue(139.2,46.2);
-		tableModel.addNewValue(206,57.7);
-		tableModel.addNewValue(280,69.3);
-		tableModel.addNewValue(450,86.6);
-		tableModel.addNewValue(700,103.9);
-		tableModel.addNewValue(813,109.7);
-		tableModel.addNewValue(935,115.5);
-		tableModel.addNewValue(1069,121.2);
-		tableModel.addNewValue(1590,131.6);
-		tableModel.addNewValue(2220,138.5);
-		tableModel.addNewValue(4150,144.3);
-		tableModel.addNewValue(7020,150);
+		tableModel.addNewValue(11.54,31.5);
+		tableModel.addNewValue(28.86,68.5);
+		tableModel.addNewValue(46.2,139.2);
+		tableModel.addNewValue(57.7,206);
+		tableModel.addNewValue(69.3,280);
+		tableModel.addNewValue(86.6,450);
+		tableModel.addNewValue(103.9,700);
+		tableModel.addNewValue(109.7,813);
+		tableModel.addNewValue(115.5,935);
+		tableModel.addNewValue(121.2,1069);
+		tableModel.addNewValue(131.6,1590);
+		tableModel.addNewValue(138.5,2220);
+		tableModel.addNewValue(144.3,4150);
+		tableModel.addNewValue(150,7020);
 	}
 	
 	private void debugData2() {
-		tableModel.addNewValue(32.5,11.54);
-		tableModel.addNewValue(65.5,28.86);
-		tableModel.addNewValue(121,46.2);
-		tableModel.addNewValue(162,57.7);
-		tableModel.addNewValue(203,69.3);
-		tableModel.addNewValue(274,86.6);
-		tableModel.addNewValue(350,103.9);
-		tableModel.addNewValue(420,109.7);
-		tableModel.addNewValue(495,115.5);
-		tableModel.addNewValue(602,121.2);
-		tableModel.addNewValue(830,131.6);
-		tableModel.addNewValue(1370,138.5);
-		tableModel.addNewValue(2780,144.3);
-		tableModel.addNewValue(6350,150);
+		tableModel.addNewValue(11.54,32.5);
+		tableModel.addNewValue(28.86,65.5);
+		tableModel.addNewValue(46.2,121);
+		tableModel.addNewValue(57.7,162);
+		tableModel.addNewValue(69.3,203);
+		tableModel.addNewValue(86.6,274);
+		tableModel.addNewValue(103.9,350);
+		tableModel.addNewValue(109.7,420);
+		tableModel.addNewValue(115.5,495);
+		tableModel.addNewValue(121.2,602);
+		tableModel.addNewValue(131.6,830);
+		tableModel.addNewValue(138.5,1370);
+		tableModel.addNewValue(144.3,2780);
+		tableModel.addNewValue(150,6350);
 	}
 	
 	private void debugData3() {
-		tableModel.addNewValue(129.5, 11.54);
-		tableModel.addNewValue(258.4, 28.86);
-		tableModel.addNewValue(441, 46.2);
-		tableModel.addNewValue(656, 57.7);
-		tableModel.addNewValue(1042, 69.3);
-		tableModel.addNewValue(2400, 86.6);
-		tableModel.addNewValue(5150, 103.9);
-		tableModel.addNewValue(6500, 109.7);
-		tableModel.addNewValue(8100, 115.5);
+		tableModel.addNewValue(11.54, 129.5);
+		tableModel.addNewValue(28.86, 258.4);
+		tableModel.addNewValue(46.2, 441);
+		tableModel.addNewValue(57.7, 656);
+		tableModel.addNewValue(69.3, 1042);
+		tableModel.addNewValue(86.6, 2400);
+		tableModel.addNewValue(103.9, 5150);
+		tableModel.addNewValue(109.7, 6500);
+		tableModel.addNewValue(115.5, 8100);
 	}	
 	
 	

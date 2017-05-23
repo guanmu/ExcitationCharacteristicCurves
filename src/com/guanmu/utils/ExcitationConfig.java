@@ -7,6 +7,10 @@ public class ExcitationConfig {
 	
 	public static final boolean DEBUG = true;
 	
+	public static final double E_POW_MAX = Math.log(Double.MAX_VALUE);
+	
+	public static final double MAX_PECISION = 1;
+	
 	/** 包括*/
 	public static final double MIN_A = 0;
 	/** 不包括*/

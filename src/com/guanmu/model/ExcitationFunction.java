@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
+import com.guanmu.exception.EpowByondException;
 import com.guanmu.utils.ExcitationConfig;
 import com.guanmu.utils.RootLogger;
 
@@ -56,14 +57,32 @@ public class ExcitationFunction {
 		bigC = new BigDecimal(c);
 		bigD = new BigDecimal(d);
 		
-		avgError = computeAverageError(points);
+		try {
+			avgError = computeAverageError(points);			
+		} catch (EpowByondException pe) {
+			avgError = ExcitationConfig.MAX_PECISION;
+		}
 	}
 
 
-	public double getYValue(double x) {
+	public double getYValue(double x) throws EpowByondException {
 		
-		// TODO 无法精确计算
-		double value = a * Math.pow(Math.E, b * x) + c * Math.pow(Math.E, d * x);
+		double x1 = b * x;
+		double x2 = d * x;
+		
+		if (x1 > ExcitationConfig.E_POW_MAX || x2 > ExcitationConfig.E_POW_MAX) {
+			throw new EpowByondException(x1,x2);
+		}
+		
+		double value = a * Math.exp(x1) + c * Math.exp(x2);
+		
+		if (Double.isInfinite(value)) {
+			System.out.println(x);
+		}
+		
+		if (Double.isNaN(value)) {
+			System.out.println(x);
+		}
 		
 		return value;
 	}
@@ -77,7 +96,7 @@ public class ExcitationFunction {
 	}
 
 	public boolean checkFitPointValues(List<PointValue> pointValues,
-			double precision) {
+			double precision) throws EpowByondException {
 		if (pointValues == null) {
 			logger.error("pointValues is null.");
 			return false;
@@ -108,10 +127,10 @@ public class ExcitationFunction {
 		return true;
 	}
 
-	public double computeAverageError(List<PointValue> pointValues) {
+	public double computeAverageError(List<PointValue> pointValues) throws EpowByondException {
 		
 		if (pointValues == null || pointValues.isEmpty()) {
-			return 1;
+			return ExcitationConfig.MAX_PECISION;
 		}
 		
 		double errorSum = 0;
@@ -124,9 +143,6 @@ public class ExcitationFunction {
 			
 			double error = Math.abs((y - functionY)) / y;
 			
-			if (Double.isInfinite(error)) {
-				System.out.println(error);
-			}
 			error = ExcitationConfig.formatDouble(error);
 			
 			errorSum += error;

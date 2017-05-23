@@ -5,10 +5,16 @@ import java.util.List;
 
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.slf4j.Logger;
+
+import com.guanmu.exception.EpowByondException;
+import com.guanmu.utils.RootLogger;
 
 public class CurvesXYDataset extends XYSeriesCollection {
 
 	private static final long serialVersionUID = -2154940116654217208L;
+	
+	private static final Logger logger = RootLogger.getLog(CurvesXYDataset.class.getName());
 	
 	private ExcitationFunction exFunction;
 	
@@ -48,13 +54,17 @@ public class CurvesXYDataset extends XYSeriesCollection {
 
 		if (exFunction != null) {
 			XYSeries functionSeries = new XYSeries(exFunction.getFunctionStr());
-		    double step = (end - start) / (samples - 1);
-		    for (int i = 0; i < samples; i++) {
-		      double x = start + step * i;
-		      functionSeries.add(x, exFunction.getYValue(x));
-		    }
-			
-		    this.addSeries(functionSeries);			
+			double step = (end - start) / (samples - 1);
+			for (int i = 0; i < samples; i++) {
+				double x = start + step * i;
+				try {
+					functionSeries.add(x, exFunction.getYValue(x));
+				} catch (EpowByondException pe) {
+					logger.error("getYValue exception",pe);
+				}
+			}
+
+			this.addSeries(functionSeries);
 		}
 
 	}

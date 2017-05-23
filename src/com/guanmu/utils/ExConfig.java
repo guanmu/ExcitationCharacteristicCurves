@@ -11,11 +11,13 @@ public class ExConfig {
 	
 	public static final double MAX_PECISION = 1;
 	
+	public static final double MIN_DETERMINATION_COEFFICIENT = 0;
+	
 	/** 包括*/
 	public static final double MIN_A = 0;
 	/** 不包括*/
 	public static final double MAX_A = 100;
-	public static final double NEAR_STEP_A = 1;
+	public static final double NEAR_STEP_A = 0.1;
 	public static final double STEP_A = 0.01;	
 	
 	public static final double MIN_B = 0;
@@ -37,7 +39,7 @@ public class ExConfig {
 	public static final DecimalFormat THREE_POINT_DF = new DecimalFormat("#.000");
 	
 	/**
-	 * 保留小数点后三位小数
+	 * 保留小数点后五位小数
 	 * @param d
 	 * @return
 	 */
@@ -54,4 +56,21 @@ public class ExConfig {
 		
 	}
 	
+	/**
+	 * 保留小数点后三位小数
+	 * @param d
+	 * @return
+	 */
+	public static double treePointDouble(double d) {
+		BigDecimal tmp = null;
+		try {
+			tmp = new BigDecimal(d);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return d;
+		}
+		
+		return tmp.setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue();  
+		
+	}	
 }

@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 
 import com.guanmu.model.ExFunction;
+import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
 import com.guanmu.utils.ExConfig;
@@ -17,18 +18,18 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 	
 	private CurvesProgressMonitor monitor;
 	
-	private List<PointValue> pointValues;
+	private PointData pointData;
 	
 	private double min;
 	
 	private double max;
 	
 	public NearTryCallbleThread(CurvesProgressMonitor monitor,
-			List<PointValue> pointValues, double precision, double min,
+			PointData pointData, double precision, double min,
 			double max) {
 		super();
 		this.monitor = monitor;
-		this.pointValues = pointValues;
+		this.pointData = pointData;
 		this.min = min;
 		this.max = max;
 	}
@@ -56,16 +57,16 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 				for(double c = ExConfig.MIN_C;c < ExConfig.MAX_C;c = c + ExConfig.NEAR_STEP_C) {
 					
 					for(double d = ExConfig.MIN_D;d < ExConfig.MAX_D;d = d + ExConfig.NEAR_STEP_D) {
-						ExFunction function = new ExFunction(a, b, c, d, pointValues);
+						ExFunction function = new ExFunction(a, b, c, d, pointData);
 						
 						
 						if (nearFunction == null) {
 							nearFunction = function;
 						} else {
-							double nearError = nearFunction.getAvgError();
-							double nowError = function.getAvgError();
+							double nearDeterCoeff = nearFunction.getDeterCoeff();
+							double nowDeterCoeff = function.getDeterCoeff();
 							
-							if (nearError > nowError) {
+							if (nowDeterCoeff > nearDeterCoeff) {
 								nearFunction = function;
 								logger.debug("-----" + function);
 							}

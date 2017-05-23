@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 
 import com.guanmu.model.ExFunction;
+import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
 import com.guanmu.utils.ExConfig;
@@ -21,13 +22,13 @@ public class ComputeController {
 	
 	private CurvesProgressMonitor monitor;
 	
-	private List<PointValue> pointValues;
+	private PointData pointData;
 	
 	private double precision;
 	
-	public ComputeController(CurvesProgressMonitor monitor, List<PointValue> pointValues, double precision) {
+	public ComputeController(CurvesProgressMonitor monitor, PointData pointData, double precision) {
 		this.monitor = monitor;
-		this.pointValues = pointValues;
+		this.pointData = pointData;
 		this.precision = precision;
 	}
 
@@ -40,10 +41,10 @@ public class ComputeController {
 		ExecutorService exec = Executors.newCachedThreadPool();
 		
 		logger.info("FitCallbleThread submit before");
-		Future<ExFunction> fitResult = exec.submit(new FitCallbleThread(monitor,pointValues,precision));
+		Future<ExFunction> fitResult = exec.submit(new FitCallbleThread(monitor,pointData,precision));
 		logger.info("FitCallbleThread submit after");
 
-		Future<List<ExFunction>> tryResult = exec.submit(new TryTotalCallbleThread(monitor, pointValues, precision));
+		Future<List<ExFunction>> tryResult = exec.submit(new TryTotalCallbleThread(monitor, pointData, precision));
 
 		
 		exec.shutdown();

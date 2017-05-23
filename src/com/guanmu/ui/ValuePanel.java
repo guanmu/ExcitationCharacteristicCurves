@@ -20,6 +20,7 @@ import javax.swing.event.TableModelListener;
 import org.slf4j.Logger;
 
 import com.guanmu.model.DoubleDocument;
+import com.guanmu.model.PointData;
 import com.guanmu.model.PointTableModel;
 import com.guanmu.model.PointValue;
 import com.guanmu.thread.ComputeController;
@@ -84,9 +85,9 @@ public class ValuePanel extends JPanel {
 		addListeners();
 		
 		if (ExConfig.DEBUG) {
-//			debugData1();
+			debugData1();
 //			debugData2();
-			debugData3();
+//			debugData3();
 				
 		}
 		
@@ -188,13 +189,14 @@ public class ValuePanel extends JPanel {
 				monitor.setProgress(0);
 				monitor.setNote("test");
 				
+				final PointData pointData = new PointData(pointValues);
 				final double finalPrecision = precision;
 				new Thread() {
 					
 					@Override
 					public void run() {
 						try {
-							new ComputeController(monitor,pointValues,finalPrecision).start();
+							new ComputeController(monitor,pointData,finalPrecision).start();
 						} catch (Exception e) {
 							logger.error("ComputeController start exception.",e);
 						}

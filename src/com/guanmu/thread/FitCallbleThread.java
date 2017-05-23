@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import com.guanmu.model.ExFunction;
+import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
 
@@ -11,15 +12,15 @@ public class FitCallbleThread implements Callable<ExFunction> {
 	
 	private CurvesProgressMonitor monitor;
 	
-	private List<PointValue> pointValues;
+	private PointData pointData;
 	
 	private double precision;
 
-	public FitCallbleThread(CurvesProgressMonitor monitor, List<PointValue> pointValues,
+	public FitCallbleThread(CurvesProgressMonitor monitor, PointData pointData,
 			double precision) {
 		super();
 		this.monitor = monitor;
-		this.pointValues = pointValues;
+		this.pointData = pointData;
 		this.precision = precision;
 	}
 

@@ -84,13 +84,19 @@ public class ValuePanel extends JPanel {
 		
 		addListeners();
 		
-		if (ExConfig.DEBUG) {
-			debugData1();
-//			debugData2();
-//			debugData3();
-				
-		}
+		initTableValues();
+
 		
+	}
+
+	private void initTableValues() {
+		
+		List<PointValue> initValues = ExConfig.getInitTableValues();
+		
+		for(PointValue point : initValues) {
+			tableModel.addNewValue(point.getX(),point.getY());
+		}
+
 	}
 
 	/**
@@ -320,52 +326,7 @@ public class ValuePanel extends JPanel {
 		}
 
 	}	
-	
-	private void debugData1() {
-		tableModel.addNewValue(11.54,31.5);
-		tableModel.addNewValue(28.86,68.5);
-		tableModel.addNewValue(46.2,139.2);
-		tableModel.addNewValue(57.7,206);
-		tableModel.addNewValue(69.3,280);
-		tableModel.addNewValue(86.6,450);
-		tableModel.addNewValue(103.9,700);
-		tableModel.addNewValue(109.7,813);
-		tableModel.addNewValue(115.5,935);
-		tableModel.addNewValue(121.2,1069);
-		tableModel.addNewValue(131.6,1590);
-		tableModel.addNewValue(138.5,2220);
-		tableModel.addNewValue(144.3,4150);
-		tableModel.addNewValue(150,7020);
-	}
-	
-	private void debugData2() {
-		tableModel.addNewValue(11.54,32.5);
-		tableModel.addNewValue(28.86,65.5);
-		tableModel.addNewValue(46.2,121);
-		tableModel.addNewValue(57.7,162);
-		tableModel.addNewValue(69.3,203);
-		tableModel.addNewValue(86.6,274);
-		tableModel.addNewValue(103.9,350);
-		tableModel.addNewValue(109.7,420);
-		tableModel.addNewValue(115.5,495);
-		tableModel.addNewValue(121.2,602);
-		tableModel.addNewValue(131.6,830);
-		tableModel.addNewValue(138.5,1370);
-		tableModel.addNewValue(144.3,2780);
-		tableModel.addNewValue(150,6350);
-	}
-	
-	private void debugData3() {
-		tableModel.addNewValue(11.54, 129.5);
-		tableModel.addNewValue(28.86, 258.4);
-		tableModel.addNewValue(46.2, 441);
-		tableModel.addNewValue(57.7, 656);
-		tableModel.addNewValue(69.3, 1042);
-		tableModel.addNewValue(86.6, 2400);
-		tableModel.addNewValue(103.9, 5150);
-		tableModel.addNewValue(109.7, 6500);
-		tableModel.addNewValue(115.5, 8100);
-	}	
+
 	
 	
 }

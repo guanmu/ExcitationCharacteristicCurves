@@ -50,7 +50,7 @@ public class ExConfig {
 			return d;
 		}
 		
-		return tmp.setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue();  
+		return tmp.setScale(5,BigDecimal.ROUND_HALF_UP).doubleValue();  
 		
 	}
 	

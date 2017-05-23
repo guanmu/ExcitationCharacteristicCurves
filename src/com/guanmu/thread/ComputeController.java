@@ -33,6 +33,8 @@ public class ComputeController {
 
 	public void start() throws Exception {
 		
+		Thread.currentThread().setName("ComputeController Thread");
+		
 		logger.info("###start compute function");
 		
 		ExecutorService exec = Executors.newCachedThreadPool();
@@ -59,7 +61,7 @@ public class ComputeController {
 				for(int i = 0;i < functions.size();i++) {
 					ExFunction function = functions.get(i);
 					
-					logger.info("###try result{}:{}",i,function);
+					logger.info("###try result[{}]:{}",i,function);
 				}
 			}
 			

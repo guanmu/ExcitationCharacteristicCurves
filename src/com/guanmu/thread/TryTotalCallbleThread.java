@@ -53,6 +53,7 @@ public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
 
 	@Override
 	public List<ExFunction> call() throws Exception {
+		Thread.currentThread().setName("TryTotalCallbleThread");
 		logger.info("###start try total function");
 		
 		ExecutorService nearTryExec = Executors.newCachedThreadPool();
@@ -84,7 +85,7 @@ public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
 					Future<ExFunction> tryResult = tryResults.get(i); 
 					ExFunction function = tryResult.get();
 					
-					logger.info("###try result{}:{}",i,function);
+					logger.info("###try result[{}]:{}",i,function);
 					
 					if (function != null) {
 						functionResult.add(function);						

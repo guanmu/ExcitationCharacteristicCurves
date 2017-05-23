@@ -76,14 +76,6 @@ public class ExFunction {
 		
 		double value = a * Math.exp(x1) + c * Math.exp(x2);
 		
-		if (Double.isInfinite(value)) {
-			System.out.println(x);
-		}
-		
-		if (Double.isNaN(value)) {
-			System.out.println(x);
-		}
-		
 		return value;
 	}
 

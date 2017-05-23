@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
-import com.guanmu.exception.EpowByondException;
-import com.guanmu.utils.ExcitationConfig;
+import com.guanmu.exception.PowerEByondException;
+import com.guanmu.utils.ExConfig;
 import com.guanmu.utils.RootLogger;
 
-public class ExcitationFunction {
+public class ExFunction {
 	
-	private static final Logger logger = RootLogger.getLog(ExcitationFunction.class.getName());	
+	private static final Logger logger = RootLogger.getLog(ExFunction.class.getName());	
 	
 	private static final BigDecimal BIG_E = new BigDecimal(Math.E);
 	
@@ -30,7 +30,7 @@ public class ExcitationFunction {
 	
 	private double avgError = 0;
 	
-	public ExcitationFunction(double a, double b, double c, double d) {
+	public ExFunction(double a, double b, double c, double d) {
 		super();
 		this.a = a;
 		this.b = b;
@@ -43,7 +43,7 @@ public class ExcitationFunction {
 		bigD = new BigDecimal(d);
 	}
 
-	public ExcitationFunction(double a, double b, double c, double d,
+	public ExFunction(double a, double b, double c, double d,
 			List<PointValue> points) {
 		super();
 		this.a = a;
@@ -59,19 +59,19 @@ public class ExcitationFunction {
 		
 		try {
 			avgError = computeAverageError(points);			
-		} catch (EpowByondException pe) {
-			avgError = ExcitationConfig.MAX_PECISION;
+		} catch (PowerEByondException pe) {
+			avgError = ExConfig.MAX_PECISION;
 		}
 	}
 
 
-	public double getYValue(double x) throws EpowByondException {
+	public double getYValue(double x) throws PowerEByondException {
 		
 		double x1 = b * x;
 		double x2 = d * x;
 		
-		if (x1 > ExcitationConfig.E_POW_MAX || x2 > ExcitationConfig.E_POW_MAX) {
-			throw new EpowByondException(x1,x2);
+		if (x1 > ExConfig.E_POW_MAX || x2 > ExConfig.E_POW_MAX) {
+			throw new PowerEByondException(x1,x2);
 		}
 		
 		double value = a * Math.exp(x1) + c * Math.exp(x2);
@@ -96,7 +96,7 @@ public class ExcitationFunction {
 	}
 
 	public boolean checkFitPointValues(List<PointValue> pointValues,
-			double precision) throws EpowByondException {
+			double precision) throws PowerEByondException {
 		if (pointValues == null) {
 			logger.error("pointValues is null.");
 			return false;
@@ -127,10 +127,10 @@ public class ExcitationFunction {
 		return true;
 	}
 
-	public double computeAverageError(List<PointValue> pointValues) throws EpowByondException {
+	public double computeAverageError(List<PointValue> pointValues) throws PowerEByondException {
 		
 		if (pointValues == null || pointValues.isEmpty()) {
-			return ExcitationConfig.MAX_PECISION;
+			return ExConfig.MAX_PECISION;
 		}
 		
 		double errorSum = 0;
@@ -143,13 +143,13 @@ public class ExcitationFunction {
 			
 			double error = Math.abs((y - functionY)) / y;
 			
-			error = ExcitationConfig.formatDouble(error);
+			error = ExConfig.formatDouble(error);
 			
 			errorSum += error;
 		}
 		
 		double averageError = errorSum / pointNum;
-		averageError = ExcitationConfig.formatDouble(averageError);
+		averageError = ExConfig.formatDouble(averageError);
 		
 		return averageError;
 	}

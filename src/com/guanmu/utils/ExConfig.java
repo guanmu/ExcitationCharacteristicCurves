@@ -3,7 +3,7 @@ package com.guanmu.utils;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-public class ExcitationConfig {
+public class ExConfig {
 	
 	public static final boolean DEBUG = true;
 	

@@ -11,10 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 
-import com.guanmu.model.ExcitationFunction;
+import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
-import com.guanmu.utils.ExcitationConfig;
+import com.guanmu.utils.ExConfig;
 import com.guanmu.utils.RootLogger;
 
 /**
@@ -26,7 +26,7 @@ import com.guanmu.utils.RootLogger;
  * @author wangquan 2017-5-22
  * 
  */
-public class TryTotalCallbleThread  implements Callable<List<ExcitationFunction>> {
+public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
 
 	private static final Logger logger = RootLogger.getLog(TryTotalCallbleThread.class.getName());	
 
@@ -52,18 +52,18 @@ public class TryTotalCallbleThread  implements Callable<List<ExcitationFunction>
 
 
 	@Override
-	public List<ExcitationFunction> call() throws Exception {
+	public List<ExFunction> call() throws Exception {
 		logger.info("###start try total function");
 		
 		ExecutorService nearTryExec = Executors.newCachedThreadPool();
 		
-		List<Future<ExcitationFunction>> tryResults = new ArrayList<>();
+		List<Future<ExFunction>> tryResults = new ArrayList<>();
 		
 		double min = 0;
-		for (double max = 10;max <= ExcitationConfig.MAX_A;max = max + 10) {
+		for (double max = 10;max <= ExConfig.MAX_A;max = max + 10) {
 			
 			logger.info("NearTryCallbleThread submit before.[{},{}]",min,max);
-			Future<ExcitationFunction> tryResult = nearTryExec.submit(new NearTryCallbleThread(monitor,pointValues,precision,min,max));
+			Future<ExFunction> tryResult = nearTryExec.submit(new NearTryCallbleThread(monitor,pointValues,precision,min,max));
 			logger.info("NearTryCallbleThread submit after.[{},{}]",min,max);
 			
 			tryResults.add(tryResult);
@@ -74,15 +74,15 @@ public class TryTotalCallbleThread  implements Callable<List<ExcitationFunction>
 		
 		nearTryExec.shutdown();
 		
-		List<ExcitationFunction> functionResult = new ArrayList<>();
+		List<ExFunction> functionResult = new ArrayList<>();
 		if (nearTryExec.awaitTermination(10, TimeUnit.MINUTES)) {
 			
 			if (tryResults.isEmpty()) {
 				logger.info("tryResults is empty.");
 			} else {
 				for(int i = 0;i < tryResults.size();i++) {
-					Future<ExcitationFunction> tryResult = tryResults.get(i); 
-					ExcitationFunction function = tryResult.get();
+					Future<ExFunction> tryResult = tryResults.get(i); 
+					ExFunction function = tryResult.get();
 					
 					logger.info("###try result{}:{}",i,function);
 					

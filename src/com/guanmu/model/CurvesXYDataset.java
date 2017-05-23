@@ -7,7 +7,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.slf4j.Logger;
 
-import com.guanmu.exception.EpowByondException;
+import com.guanmu.exception.PowerEByondException;
 import com.guanmu.utils.RootLogger;
 
 public class CurvesXYDataset extends XYSeriesCollection {
@@ -16,7 +16,7 @@ public class CurvesXYDataset extends XYSeriesCollection {
 	
 	private static final Logger logger = RootLogger.getLog(CurvesXYDataset.class.getName());
 	
-	private ExcitationFunction exFunction;
+	private ExFunction exFunction;
 	
 	private List<PointValue> rowValues = new ArrayList<PointValue>();
 	
@@ -28,7 +28,7 @@ public class CurvesXYDataset extends XYSeriesCollection {
 		super();
 	}
 
-	public CurvesXYDataset(ExcitationFunction exFunction,
+	public CurvesXYDataset(ExFunction exFunction,
 			List<PointValue> rowValues,double start,double end,int samples) {
 		this.exFunction = exFunction;
 		this.rowValues = rowValues;
@@ -59,7 +59,7 @@ public class CurvesXYDataset extends XYSeriesCollection {
 				double x = start + step * i;
 				try {
 					functionSeries.add(x, exFunction.getYValue(x));
-				} catch (EpowByondException pe) {
+				} catch (PowerEByondException pe) {
 					logger.error("getYValue exception",pe);
 				}
 			}

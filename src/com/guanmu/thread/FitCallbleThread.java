@@ -3,11 +3,11 @@ package com.guanmu.thread;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import com.guanmu.model.ExcitationFunction;
+import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
 
-public class FitCallbleThread implements Callable<ExcitationFunction> {
+public class FitCallbleThread implements Callable<ExFunction> {
 	
 	private CurvesProgressMonitor monitor;
 	
@@ -24,7 +24,7 @@ public class FitCallbleThread implements Callable<ExcitationFunction> {
 	}
 
 	@Override
-	public ExcitationFunction call() throws Exception {
+	public ExFunction call() throws Exception {
 		Thread.currentThread().setName("FitCallbleThread");
 		
 		Thread.sleep(500);
@@ -34,7 +34,7 @@ public class FitCallbleThread implements Callable<ExcitationFunction> {
 		Thread.sleep(5*1000);
 		
 		
-		ExcitationFunction fitResult = computeFunctionByFit();
+		ExFunction fitResult = computeFunctionByFit();
 		
 		
 		monitor.addProgress(40);
@@ -42,11 +42,11 @@ public class FitCallbleThread implements Callable<ExcitationFunction> {
 		return fitResult;
 	}
 
-	private ExcitationFunction computeFunctionByFit() {
+	private ExFunction computeFunctionByFit() {
 		
 		// TODO
 		
-		return new ExcitationFunction(1, 0.1, 0.01, 0.02);
+		return new ExFunction(1, 0.1, 0.01, 0.02);
 	}
 
 }

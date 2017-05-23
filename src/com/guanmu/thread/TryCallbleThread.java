@@ -5,13 +5,13 @@ import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 
-import com.guanmu.model.ExcitationFunction;
+import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
-import com.guanmu.utils.ExcitationConfig;
+import com.guanmu.utils.ExConfig;
 import com.guanmu.utils.RootLogger;
 
-public class TryCallbleThread implements Callable<ExcitationFunction> {
+public class TryCallbleThread implements Callable<ExFunction> {
 
 	private static final Logger logger = RootLogger.getLog(TryCallbleThread.class.getName());
 	
@@ -38,7 +38,7 @@ public class TryCallbleThread implements Callable<ExcitationFunction> {
 
 
 	@Override
-	public ExcitationFunction call() throws Exception {
+	public ExFunction call() throws Exception {
 		
 		Thread.currentThread().setName("TryCallbleThread[" + min +"-" + max + "]");
 		
@@ -46,7 +46,7 @@ public class TryCallbleThread implements Callable<ExcitationFunction> {
 		
 		monitor.addProgress(2);
 		
-		ExcitationFunction tryFunction = computeFunctionByTry();
+		ExFunction tryFunction = computeFunctionByTry();
 		
 		monitor.addProgress(8);
 		
@@ -54,7 +54,7 @@ public class TryCallbleThread implements Callable<ExcitationFunction> {
 	}
 
 
-	private ExcitationFunction computeFunctionByTry() {
+	private ExFunction computeFunctionByTry() {
 		
 //		for(double a = min;a < max;a = a + ExcitationConfig.STEP_A) {
 //			

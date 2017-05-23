@@ -9,7 +9,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataset;
 
 import com.guanmu.model.CurvesXYDataset;
-import com.guanmu.model.ExcitationFunction;
+import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointValue;
 
 /**
@@ -49,7 +49,7 @@ public class TryCurvesPanel extends CurvesPanel {
 	 * 
 	 */
 	private void createDataPanel() {		
-		ExcitationFunction exFunction = new ExcitationFunction(0.1, 0.1, 0.1, 0.5);
+		ExFunction exFunction = new ExFunction(0.1, 0.1, 0.1, 0.5);
 		List<PointValue> rows = new ArrayList<>();
 		rows.add(new PointValue(1, 1));
 		rows.add(new PointValue(2, 3));

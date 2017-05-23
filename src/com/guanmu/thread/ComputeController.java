@@ -9,10 +9,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 
-import com.guanmu.model.ExcitationFunction;
+import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
-import com.guanmu.utils.ExcitationConfig;
+import com.guanmu.utils.ExConfig;
 import com.guanmu.utils.RootLogger;
 
 public class ComputeController {
@@ -38,26 +38,26 @@ public class ComputeController {
 		ExecutorService exec = Executors.newCachedThreadPool();
 		
 		logger.info("FitCallbleThread submit before");
-		Future<ExcitationFunction> fitResult = exec.submit(new FitCallbleThread(monitor,pointValues,precision));
+		Future<ExFunction> fitResult = exec.submit(new FitCallbleThread(monitor,pointValues,precision));
 		logger.info("FitCallbleThread submit after");
 
-		Future<List<ExcitationFunction>> tryResult = exec.submit(new TryTotalCallbleThread(monitor, pointValues, precision));
+		Future<List<ExFunction>> tryResult = exec.submit(new TryTotalCallbleThread(monitor, pointValues, precision));
 
 		
 		exec.shutdown();
 		
 		if (exec.awaitTermination(30, TimeUnit.MINUTES)) {
 			
-			ExcitationFunction fitFunction = fitResult.get();
+			ExFunction fitFunction = fitResult.get();
 			logger.info("###fit result:" + fitFunction);
 			
 			if (tryResult == null) {
 				logger.info("tryResult is null.");
 			} else {
 				
-				List<ExcitationFunction> functions = tryResult.get();
+				List<ExFunction> functions = tryResult.get();
 				for(int i = 0;i < functions.size();i++) {
-					ExcitationFunction function = functions.get(i);
+					ExFunction function = functions.get(i);
 					
 					logger.info("###try result{}:{}",i,function);
 				}

@@ -10,7 +10,7 @@ package com.guanmu.exception;
  * @author wangquan 2017-5-23
  * 
  */
-public class EpowByondException extends Exception{
+public class PowerEByondException extends Exception{
 	
 	private static final long serialVersionUID = -3275996084948152130L;
 	
@@ -21,7 +21,7 @@ public class EpowByondException extends Exception{
 	 * @param x1
 	 * @param x2
 	 */
-	public EpowByondException(double x1, double x2) {
+	public PowerEByondException(double x1, double x2) {
 		this.x1 = x1;
 		this.x2 = x2;
 	}	

@@ -23,7 +23,7 @@ import com.guanmu.model.DoubleDocument;
 import com.guanmu.model.PointTableModel;
 import com.guanmu.model.PointValue;
 import com.guanmu.thread.ComputeController;
-import com.guanmu.utils.ExcitationConfig;
+import com.guanmu.utils.ExConfig;
 import com.guanmu.utils.OptionPaneUtils;
 import com.guanmu.utils.RootLogger;
 
@@ -83,7 +83,7 @@ public class ValuePanel extends JPanel {
 		
 		addListeners();
 		
-		if (ExcitationConfig.DEBUG) {
+		if (ExConfig.DEBUG) {
 //			debugData1();
 //			debugData2();
 			debugData3();

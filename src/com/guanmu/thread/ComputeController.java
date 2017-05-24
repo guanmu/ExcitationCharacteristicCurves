@@ -62,7 +62,7 @@ public class ComputeController {
 				for(int i = 0;i < functions.size();i++) {
 					ExFunction function = functions.get(i);
 					
-					logger.info("###try result[{}]:{}",i,function);
+//					logger.info("###try result[{}]:{}",i,function);
 				}
 			}
 			

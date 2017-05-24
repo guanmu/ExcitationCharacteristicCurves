@@ -87,7 +87,7 @@ public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
 		ExFunction function3 = null;
 		
 		List<ExFunction> functionResult = new ArrayList<>();
-		if (nearTryExec.awaitTermination(10, TimeUnit.MINUTES)) {
+		if (nearTryExec.awaitTermination(2, TimeUnit.HOURS)) {
 			
 			long endTime = new Date().getTime();
 			
@@ -100,38 +100,39 @@ public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
 					Future<ExFunction> tryResult = tryResults.get(i); 
 					ExFunction function = tryResult.get();
 					
-					logger.info("###try result[{}]:{}",i,function);
+//					logger.info("###try result[{}]:{}",i,function);
 					
 					if (function != null) {
 						functionResult.add(function);		
 						
 						if (function1 == null) {
 							function1 = function;
+							continue;
 						} else {
 							if (function.getDeterCoeff() > function1.getDeterCoeff()) {
 								function3 = function2;
 								function2 = function1;
 								
 								function1 = function;
+								continue;
 							}
 						}
 						
 						if (function2 == null) {
-							if (function != function1) {
-								function2 = function;
-							}
+							function2 = function;
+							continue;
 						} else {
 							if (function.getDeterCoeff() > function2.getDeterCoeff()) {
 								function3 = function2;
 								
 								function2 = function;
+								continue;
 							}
 						}
 						
 						if (function3 == null) {
-							if (function != function1 && function != function2) {
-								function3 = function;
-							}
+							function3 = function;
+							continue;
 						} else {
 							if (function.getDeterCoeff() > function3.getDeterCoeff()) {
 								function3 = function;

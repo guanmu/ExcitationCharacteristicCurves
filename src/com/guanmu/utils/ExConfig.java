@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.guanmu.model.ExFunction;
+import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 
 public class ExConfig {
@@ -21,22 +23,22 @@ public class ExConfig {
 	public static final double MIN_A = 0;
 	/** 不包括 */
 	public static final double MAX_A = 100;
-	public static final double NEAR_STEP_A = 0.02;
+	public static final double NEAR_STEP_A = 0.01;
 	public static final double STEP_A = 0.01;
 
 	public static final double MIN_B = 0;
 	public static final double MAX_B = 0.1;
-	public static final double NEAR_STEP_B = 0.00005;
+	public static final double NEAR_STEP_B = 0.001;
 	public static final double STEP_B = 0.00001;
 
 	public static final double MIN_C = 0;
-	public static final double MAX_C = 0.00001;
-	public static final double NEAR_STEP_C = 0.0000000001;
+	public static final double MAX_C = 0.000001;
+	public static final double NEAR_STEP_C = 0.00000002;
 	public static final double STEP_C = 0.0000000001;
 
 	public static final double MIN_D = 0;
 	public static final double MAX_D = 1;
-	public static final double NEAR_STEP_D = 0.0001;
+	public static final double NEAR_STEP_D = 0.01;
 	public static final double STEP_D = 0.0001;
 
 	public static final DecimalFormat TWO_POINT_DF = new DecimalFormat("#.00");
@@ -149,4 +151,15 @@ public class ExConfig {
 
 		return initValues;
 	}	
+	
+	public static void main(String[] args) {
+		
+		List<PointValue> pointValues = getInitTableValues();
+		
+		PointData pd = new PointData(pointValues);
+		ExFunction function = new ExFunction(62.41, 0.04231, 0, 0, pd);
+		
+		System.out.println(function.getDeterCoeff());
+		
+	}
 }

@@ -1,6 +1,8 @@
 package com.guanmu.model;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,13 +70,14 @@ public class ExFunction {
 		try {
 			avgError = computeAverageError(points);			
 		} catch (PowerEByondException pe) {
+			logger.error("computeAverageError exception.",pe);
 			avgError = ExConfig.MAX_PECISION;
 		}
 		
 		try {
 			deterCoeff = computeDeterminationCoefficient(pointData);
 		} catch (Exception e) {
-
+			logger.error("computeDeterminationCoefficient exception.",e);
 		}
 		
 	}	
@@ -90,8 +93,8 @@ public class ExFunction {
 		
 		double value = a * Math.exp(x1) + c * Math.exp(x2);
 		
-		double treePointValue = ExConfig.treePointDouble(value);
-		return treePointValue;
+//		double treePointValue = ExConfig.treePointDouble(value);
+		return value;
 	}
 
 	public String getFunctionStr() {
@@ -170,37 +173,47 @@ public class ExFunction {
 		}
 				
 		double yAvg = pointData.getyAvg();
+		BigDecimal bigAvg = new BigDecimal(yAvg);
 		
-		double sySquareSum = 0;
-		double oySquareSum = 0;
+		BigDecimal sySquareSum = new BigDecimal(0);
+		BigDecimal oySquareSum = new BigDecimal(0);
 		for(PointValue point : pointValues) {
 			double x = point.getX();
 			double y = point.getY();
+			BigDecimal bigY = new BigDecimal(y);
 			
 			double functionY = getYValue(x);
+			BigDecimal bigFunctionY = new BigDecimal(functionY);
 			
-			sySquareSum += Math.pow(functionY - y,2);
+			BigDecimal pointSySquare = bigFunctionY.subtract(bigY).pow(2);
+			sySquareSum = sySquareSum.add(pointSySquare);
 			
-			oySquareSum += Math.pow(functionY - yAvg,2);
+			
+			BigDecimal pointOySquare = bigFunctionY.subtract(bigAvg).pow(2);
+			oySquareSum = oySquareSum.add(pointOySquare);
 		}
 		
-		if (oySquareSum == 0) {
-			logger.error("the oySquareSum is 0.");
+		double sySum = sySquareSum.doubleValue();
+		double oySum = oySquareSum.doubleValue();
+		if (oySum == Double.MIN_VALUE) {
+			logger.error("the oySquareSum is min value.");
 		}
-		
-		if (Double.isInfinite(sySquareSum) || Double.isNaN(sySquareSum)) {
-			throw new NotDoubleValueException(sySquareSum);
+
+		if (Double.isInfinite(sySum) || Double.isNaN(sySum)) {
+	        throw new NotDoubleValueException(sySum);
 		}
+
+		if (Double.isInfinite(oySum) || Double.isNaN(oySum)) {
+			throw new NotDoubleValueException(oySum);
+		}	
 		
-		if (Double.isInfinite(oySquareSum) || Double.isNaN(oySquareSum)) {
-			throw new NotDoubleValueException(oySquareSum);
-		}		
-		
-		if (sySquareSum >= oySquareSum) {
+		if (sySum >= oySum) {
 			return ExConfig.MIN_DETERMINATION_COEFFICIENT;
 		}
 		
-		double determinationCoefficient = 1 - (sySquareSum / oySquareSum);
+		MathContext mc = new MathContext(10, RoundingMode.HALF_DOWN);
+		BigDecimal divResult = sySquareSum.divide(oySquareSum,mc);
+		double determinationCoefficient = new BigDecimal(1).subtract(divResult).doubleValue();
 		
 		return determinationCoefficient;
 	}

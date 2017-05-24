@@ -16,7 +16,7 @@ public class LogPath extends PropertyDefinerBase {
 	public static final String OS_NAME = System.getProperty("os.name").toLowerCase();	
 	
 	public static final String WINDOWS_SUFFIX = "C:/";
-	public static final String LINUX_SUFFIX = "/ecc/";	
+	public static final String LINUX_SUFFIX = "/";	
 	
 	private static final String SUB_LOG_PATH = "ecc/logs";
 	

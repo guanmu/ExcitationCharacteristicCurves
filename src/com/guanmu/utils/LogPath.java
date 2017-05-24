@@ -15,10 +15,10 @@ public class LogPath extends PropertyDefinerBase {
 	
 	public static final String OS_NAME = System.getProperty("os.name").toLowerCase();	
 	
-	public static final String WINDOWS_SUFFIX = "C:/";
-	public static final String LINUX_SUFFIX = "/";	
+	public static final String WINDOWS_SUFFIX = System.getProperty("user.home");
+	public static final String LINUX_SUFFIX = System.getProperty("user.home");	
 	
-	private static final String SUB_LOG_PATH = "ecc/logs";
+	private static final String SUB_LOG_PATH = "/ecc/logs";
 	
 	@Override
 	public String getPropertyValue() {
@@ -50,4 +50,7 @@ public class LogPath extends PropertyDefinerBase {
 		return OS_NAME.indexOf("windows") >= 0;
 	}
 	
+	public static void main(String[] args) {
+		System.out.println(LINUX_SUFFIX);
+	}
 }

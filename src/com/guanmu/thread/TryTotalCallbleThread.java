@@ -63,7 +63,7 @@ public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
 		
 		long startTime = new Date().getTime();
 		
-		ExecutorService nearTryExec = Executors.newCachedThreadPool();
+		ExecutorService nearTryExec = ExThreadPool.getInstance().getNearTyExec();
 		
 		List<Future<ExFunction>> tryResults = new ArrayList<>();
 		

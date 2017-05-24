@@ -38,7 +38,7 @@ public class ComputeController {
 		
 		logger.info("###start compute function");
 		
-		ExecutorService exec = Executors.newCachedThreadPool();
+		ExecutorService exec = ExThreadPool.getInstance().getControllerExec();
 		
 		logger.info("FitCallbleThread submit before");
 		Future<ExFunction> fitResult = exec.submit(new FitCallbleThread(monitor,pointData,precision));

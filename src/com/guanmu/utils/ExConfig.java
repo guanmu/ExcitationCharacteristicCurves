@@ -21,12 +21,12 @@ public class ExConfig {
 	public static final double MIN_A = 0;
 	/** 不包括 */
 	public static final double MAX_A = 100;
-	public static final double NEAR_STEP_A = 0.01;
+	public static final double NEAR_STEP_A = 0.02;
 	public static final double STEP_A = 0.01;
 
 	public static final double MIN_B = 0;
 	public static final double MAX_B = 0.1;
-	public static final double NEAR_STEP_B = 0.00001;
+	public static final double NEAR_STEP_B = 0.00005;
 	public static final double STEP_B = 0.00001;
 
 	public static final double MIN_C = 0;

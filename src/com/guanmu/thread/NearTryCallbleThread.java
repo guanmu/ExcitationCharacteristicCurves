@@ -42,11 +42,13 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 
 		ExFunction tryFunction = computeFunctionByNearTry();
 		
+		monitor.addProgress(1);
+		
 		return tryFunction;
 	}
 
 
-	private ExFunction computeFunctionByNearTry() {
+	private ExFunction computeFunctionByNearTry() throws InterruptedException {
 		
 		ExFunction nearFunction = null;
 		
@@ -70,6 +72,7 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 						
 			}
 			
+			Thread.sleep(1);
 		}
 		
 

@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,6 +16,7 @@ import javax.swing.JSeparator;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.StandardChartTheme;
 
+import com.guanmu.thread.ExThreadPool;
 import com.guanmu.utils.GridBagLayoutUtils;
 
 /**
@@ -74,7 +77,17 @@ public class UiMain extends JFrame {
 		createTryCurvesPanel();
 		
 		createResultPanel();
+		
+		addListener();
 	}
+
+	/**
+	 * 
+	 */
+	private void addListener() {
+
+	}
+
 
 
 	private void createResultPanel() {
@@ -126,6 +139,7 @@ public class UiMain extends JFrame {
 			@Override
 			public void run() {
 				UiMain uiMain = new UiMain();
+				uiMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				uiMain.setVisible(true);
 				
 			}

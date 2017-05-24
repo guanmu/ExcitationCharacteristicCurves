@@ -196,6 +196,10 @@ public class ExFunction {
 			throw new NotDoubleValueException(oySquareSum);
 		}		
 		
+		if (sySquareSum >= oySquareSum) {
+			return ExConfig.MIN_DETERMINATION_COEFFICIENT;
+		}
+		
 		double determinationCoefficient = 1 - (sySquareSum / oySquareSum);
 		
 		return determinationCoefficient;
@@ -208,7 +212,13 @@ public class ExFunction {
 	}
 	
 
-	
+	public static void main(String[] args) {
+		List<PointValue> pointValues = ExConfig.getInitTableValues();
+		PointData pd = new PointData(pointValues);
+		ExFunction test = new ExFunction(22.0, 0.032319999999999224, 0, 0,pd);
+		
+		System.out.println(test);
+	}
 
 	
 }

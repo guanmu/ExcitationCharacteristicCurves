@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,6 +19,7 @@ import org.jfree.chart.StandardChartTheme;
 
 import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointData;
+import com.guanmu.model.PointValue;
 import com.guanmu.thread.ExThreadPool;
 import com.guanmu.utils.GridBagLayoutUtils;
 
@@ -48,7 +50,7 @@ public class UiMain extends JFrame {
 
 	
 	/** 拟合法曲线面板*/
-	private JPanel fitCurvesPanel;
+	private FitCurvesPanel fitCurvesPanel;
 	
 	/** 逼近法曲线面板*/
 	private TryCurvesPanel tryCurvesPanel;
@@ -135,9 +137,13 @@ public class UiMain extends JFrame {
 
 	/**
 	 * @param pointData 
+	 * @param fitResults 
 	 * @param function
 	 */
-	public void drawResults(PointData pointData, ExFunction function) {
+	public void drawResults(PointData pointData, List<PointValue> fitResults, ExFunction function) {
+		
+		fitCurvesPanel.drawCurves(pointData,fitResults);
+		
 		tryCurvesPanel.drawCurves(pointData,function);
 		
 		resultPanel.addInfo(pointData,function);

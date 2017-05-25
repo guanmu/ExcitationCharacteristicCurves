@@ -1,14 +1,17 @@
 package com.guanmu.thread;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import com.guanmu.exception.PowerEByondException;
 import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
+import com.guanmu.utils.ExConfig;
 
-public class FitCallbleThread implements Callable<ExFunction> {
+public class FitCallbleThread implements Callable<List<PointValue>> {
 	
 	private CurvesProgressMonitor monitor;
 	
@@ -25,17 +28,14 @@ public class FitCallbleThread implements Callable<ExFunction> {
 	}
 
 	@Override
-	public ExFunction call() throws Exception {
+	public List<PointValue> call() throws Exception {
 		Thread.currentThread().setName("FitCallbleThread");
 		
 		Thread.sleep(500);
 		
 		monitor.addProgress(10);
 		
-		Thread.sleep(5*1000);
-		
-		
-		ExFunction fitResult = computeFunctionByFit();
+		List<PointValue> fitResult = computeFunctionByFit();
 		
 		
 		monitor.addProgress(20);
@@ -43,11 +43,24 @@ public class FitCallbleThread implements Callable<ExFunction> {
 		return fitResult;
 	}
 
-	private ExFunction computeFunctionByFit() {
+	private List<PointValue> computeFunctionByFit() {
 		
-		// TODO
+		List<PointValue> points = pointData.getPointValues();
+		List<PointValue> results = new ArrayList<>();
 		
-		return new ExFunction(1, 0.1, 0.01, 0.02);
+		double end = ExConfig.computePointsXAxis(points);
+		
+		double step = (end - ExConfig.X_START) / (ExConfig.POINT_NUMBER - 1);
+		for (int i = 0; i < ExConfig.POINT_NUMBER ; i++) {
+			double x = ExConfig.X_START + step * i;
+			
+			double y = ExConfig.lagrange(points, x);
+			
+			results.add(new PointValue(x,y));
+		}
+		
+		
+		return results;
 	}
 
 }

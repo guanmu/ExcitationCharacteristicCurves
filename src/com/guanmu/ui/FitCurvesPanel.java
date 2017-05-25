@@ -10,6 +10,7 @@ import org.jfree.data.xy.XYDataset;
 
 import com.guanmu.model.CurvesXYDataset;
 import com.guanmu.model.ExFunction;
+import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 
 /**
@@ -47,6 +48,14 @@ public class FitCurvesPanel extends CurvesPanel {
 		createDataPanel();
 		
 		createFunctionResultPanle();
+	}
+
+	/**
+	 * @param pointData
+	 * @param fitResults
+	 */
+	public void drawCurves(PointData pointData, List<PointValue> fitResults) {
+		xyDataset.changeValue(pointData,fitResults);
 	}
 
 	

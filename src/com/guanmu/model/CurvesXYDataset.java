@@ -8,13 +8,14 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.slf4j.Logger;
 
 import com.guanmu.exception.PowerEByondException;
+import com.guanmu.utils.ExConfig;
 import com.guanmu.utils.RootLogger;
 
 public class CurvesXYDataset extends XYSeriesCollection {
 
 	private static final long serialVersionUID = -2154940116654217208L;
 	
-	public static final int X_START = 0;
+
 	
 	public static final int DEFAULT_X_END = 100;
 	
@@ -38,29 +39,18 @@ public class CurvesXYDataset extends XYSeriesCollection {
 		this.exFunction = exFunction;
 		this.rowValues = rowValues;
 		
-		autoAddSeries();
+		addSeriesByFunction(exFunction);
 	}
 	
-	private void autoAddSeries() {
-		if (rowValues != null) {
-			XYSeries pointSeries = new XYSeries("points");
-			for(int i = 0;i < rowValues.size();i++) {
-				PointValue point = rowValues.get(i);
-				
-				pointSeries.add(point.getX(),point.getY());
-			}		
-			
-			 this.addSeries(pointSeries);
-		}
-		
+	private void addSeriesByFunction(ExFunction function) {
 
-		if (exFunction != null) {
-			XYSeries functionSeries = new XYSeries(exFunction.getFunctionStr());
-			double step = (end - X_START) / (samples - 1);
+		if (function != null) {
+			XYSeries functionSeries = new XYSeries(function.getFunctionStr());
+			double step = (end - ExConfig.X_START) / (samples - 1);
 			for (int i = 0; i < samples; i++) {
-				double x = X_START + step * i;
+				double x = ExConfig.X_START + step * i;
 				try {
-					functionSeries.add(x, exFunction.getYValue(x));
+					functionSeries.add(x, function.getYValue(x));
 				} catch (PowerEByondException pe) {
 					logger.error("getYValue exception",pe);
 				}
@@ -100,9 +90,63 @@ public class CurvesXYDataset extends XYSeriesCollection {
 		rowValues = pointData.getPointValues();
 		exFunction = function;
 		
-		autoAddSeries();
+		autoComputeParams();
+		
+		addPoints();
+		
+		addSeriesByFunction(function);
 		
 		fireDatasetChanged();
+	}
+
+	/**
+	 * @param pointData
+	 * @param fitResults
+	 */
+	public void changeValue(PointData pointData, List<PointValue> fitResults) {
+		this.removeAllSeries();
+		
+		rowValues = pointData.getPointValues();
+		
+		addPoints();
+		
+		addFitSeries(fitResults);
+		
+		fireDatasetChanged();
+	}
+
+	/**
+	 * 
+	 */
+	private void addPoints() {
+		if (rowValues != null) {
+			XYSeries pointSeries = new XYSeries("points");
+			for(int i = 0;i < rowValues.size();i++) {
+				PointValue point = rowValues.get(i);
+				
+				pointSeries.add(point.getX(),point.getY());
+			}		
+			
+			 this.addSeries(pointSeries);
+		}
+	}
+
+	/**
+	 * @param fitResults
+	 */
+	private void addFitSeries(List<PointValue> fitResults) {
+		
+		if (fitResults != null) {
+			XYSeries pointSeries = new XYSeries("fit");
+			for(int i = 0;i < fitResults.size();i++) {
+				PointValue point = fitResults.get(i);
+				
+				pointSeries.add(point.getX(),point.getY());
+			}		
+			
+			 this.addSeries(pointSeries);
+		}	
+		
 	}
 	
 }

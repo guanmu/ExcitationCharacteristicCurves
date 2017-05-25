@@ -5,12 +5,17 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+
+import com.guanmu.model.CurvesXYDataset;
 import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 
 public class ExConfig {
 
+	private static final Logger logger = RootLogger.getLog(ExConfig.class.getName());
+	
 	public static final boolean DEBUG = true;
 
 	public static final double E_POW_MAX = Math.log(Double.MAX_VALUE);
@@ -45,6 +50,10 @@ public class ExConfig {
 	public static final DecimalFormat THREE_POINT_DF = new DecimalFormat(
 			"#.000");
 
+	public static final double X_START = 0d;
+	public static final int POINT_NUMBER = 200;
+	
+	
 	/**
 	 * 保留小数点后五位小数
 	 * 
@@ -91,7 +100,7 @@ public class ExConfig {
 			return initValues;
 		}
 
-		initValues = debugData3();
+		initValues = debugData1();
 
 		return initValues;
 	}
@@ -162,4 +171,56 @@ public class ExConfig {
 		System.out.println(function.getDeterCoeff());
 		
 	}
+	
+	public static double lagrange(List<PointValue> points,double x) {
+		
+		if (points == null || points.isEmpty()) {
+			logger.error("points is null or empty.[{}]",points);
+			return 0;
+		}
+		
+		
+		double result = 0;
+		for(int i = 0;i < points.size();i++) {
+			
+			PointValue pointI = points.get(i);
+			
+			double yi = pointI.getY();
+			double xi = pointI.getX();
+			
+			double iResult = yi;
+			for(int j = 0;j < points.size();j++) {
+				
+				if (i == j) {
+					continue;
+				}
+				
+				PointValue tmpPoint = points.get(j);
+				double tmpX = tmpPoint.getX();
+				iResult = iResult * (x - tmpX)/(xi - tmpX);
+			}
+			
+			result += iResult;
+		}
+		
+		return result;
+	}
+	
+	public static double computePointsXAxis(List<PointValue> points) {
+		
+		double tmpMaxX = 0;
+		for(PointValue pv : points) {
+			
+			if (pv.getX() > tmpMaxX) {
+				tmpMaxX = pv.getX();
+			}
+				
+		}
+		
+		tmpMaxX = tmpMaxX + 0.1*tmpMaxX;
+		
+		
+		return tmpMaxX;
+	}	
+	
 }

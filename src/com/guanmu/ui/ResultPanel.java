@@ -7,6 +7,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.guanmu.model.ExFunction;
+import com.guanmu.model.PointData;
+
 public class ResultPanel extends JPanel {
 
 	private static final long serialVersionUID = -1959771411616075955L;
@@ -68,6 +71,15 @@ public class ResultPanel extends JPanel {
 		relatePanel.setVisible(true);
 		
 		this.add(relatePanel,BorderLayout.NORTH);
+	}
+
+	/**
+	 * @param pointData
+	 * @param function
+	 */
+	public void addInfo(PointData pointData, ExFunction function) {
+		relateValue.setText("" + function.getDeterCoeff());
+		
 	}
 	
 	

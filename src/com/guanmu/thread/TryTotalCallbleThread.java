@@ -2,11 +2,11 @@
 package com.guanmu.thread;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -14,10 +14,11 @@ import org.slf4j.Logger;
 
 import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointData;
-import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
 import com.guanmu.utils.ExConfig;
 import com.guanmu.utils.RootLogger;
+import com.guanmu.utils.SortMethod;
+import com.guanmu.utils.SortMethod.FunctionSortByAB;
 
 /**
  * <p>
@@ -28,7 +29,7 @@ import com.guanmu.utils.RootLogger;
  * @author wangquan 2017-5-22
  * 
  */
-public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
+public class TryTotalCallbleThread  implements Callable<ExFunction> {
 
 	private static final Logger logger = RootLogger.getLog(TryTotalCallbleThread.class.getName());	
 
@@ -54,18 +55,15 @@ public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
 
 
 	@Override
-	public List<ExFunction> call() throws Exception {
+	public ExFunction call() throws Exception {
 		Thread.currentThread().setName("TryTotalCallbleThread");
 		logger.info("###start try total function");
-		
-		double deterCoeff = new ExFunction(61.37, 0.02292, 0.000003053, 0.1417,pointData).getDeterCoeff();
-		System.out.println(deterCoeff);
 		
 		long startTime = new Date().getTime();
 		
 		ExecutorService nearTryExec = ExThreadPool.getInstance().getNearTyExec();
 		
-		List<Future<ExFunction>> tryResults = new ArrayList<>();
+		List<Future<ExFunction>> nearTryResults = new ArrayList<>();
 		
 		double min = 0;
 		for (double max = 1;max <= ExConfig.MAX_A;max = max + 1) {
@@ -74,7 +72,7 @@ public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
 			Future<ExFunction> tryResult = nearTryExec.submit(new NearTryCallbleThread(monitor,pointData,precision,min,max));
 			logger.info("NearTryCallbleThread submit after.[{},{}]",min,max);
 			
-			tryResults.add(tryResult);
+			nearTryResults.add(tryResult);
 			
 			min = max;
 		}
@@ -87,17 +85,17 @@ public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
 		ExFunction function3 = null;
 		
 		List<ExFunction> functionResult = new ArrayList<>();
-		if (nearTryExec.awaitTermination(2, TimeUnit.HOURS)) {
+		if (nearTryExec.awaitTermination(10, TimeUnit.MINUTES)) {
 			
 			long endTime = new Date().getTime();
 			
 			logger.info("$$$total time:" + (endTime - startTime)/1000 + "s");
 			
-			if (tryResults.isEmpty()) {
+			if (nearTryResults.isEmpty()) {
 				logger.info("tryResults is empty.");
 			} else {
-				for(int i = 0;i < tryResults.size();i++) {
-					Future<ExFunction> tryResult = tryResults.get(i); 
+				for(int i = 0;i < nearTryResults.size();i++) {
+					Future<ExFunction> tryResult = nearTryResults.get(i); 
 					ExFunction function = tryResult.get();
 					
 //					logger.info("###try result[{}]:{}",i,function);
@@ -150,8 +148,58 @@ public class TryTotalCallbleThread  implements Callable<List<ExFunction>> {
 		logger.info("function2:" + function2);
 		logger.info("function3:" + function3);
 		
+		if (function1 == null) {
+			logger.error("the function1 is null.");
+			return null;
+		}
 		
-		return functionResult;
+		if (function1.getDeterCoeff() >= precision) {
+			return function1;
+		}
+		
+		List<ExFunction> sortFunctions = new ArrayList<>();
+		sortFunctions.add(function1);
+		sortFunctions.add(function2);
+		sortFunctions.add(function3);			
+		
+		Collections.sort(sortFunctions, new SortMethod.FunctionSortByAB());
+		
+		ExecutorService tryExec = ExThreadPool.getInstance().getNearTyExec();
+		
+		List<Future<ExFunction>> tryFutures = new ArrayList<>();
+		Future<ExFunction> result0 = tryExec.submit(new TryCallbleThread(monitor, pointData, precision, null,sortFunctions.get(0),false));
+		tryFutures.add(result0);
+		
+		for(int i = 0;i < sortFunctions.size() - 1;i++) {
+			Future<ExFunction> result = tryExec.submit(new TryCallbleThread(monitor, pointData, precision, sortFunctions.get(i),sortFunctions.get(i + 1),true));
+			tryFutures.add(result);
+		}
+		
+		Future<ExFunction> result5 = tryExec.submit(new TryCallbleThread(monitor, pointData, precision, sortFunctions.get(sortFunctions.size() - 1),null,true));
+		tryFutures.add(result5);
+		
+		tryExec.shutdown();
+		
+		while(!tryExec.awaitTermination(1, TimeUnit.SECONDS)) {
+			
+			for(Future<ExFunction> future : tryFutures) {
+				
+				if (future.isDone()) {
+					ExFunction tryFunction = future.get();
+					
+					if (tryFunction != null) {
+						tryExec.shutdownNow();
+						return tryFunction;
+					}
+				}
+				
+			}
+			
+		}
+		
+		logger.info("the function1 is most result.");
+		return function1;
+				
 	}
 
 }

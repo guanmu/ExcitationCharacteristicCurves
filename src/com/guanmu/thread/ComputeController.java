@@ -13,7 +13,9 @@ import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
+import com.guanmu.ui.UiMain;
 import com.guanmu.utils.ExConfig;
+import com.guanmu.utils.OptionPaneUtils;
 import com.guanmu.utils.RootLogger;
 
 public class ComputeController {
@@ -44,7 +46,7 @@ public class ComputeController {
 		Future<ExFunction> fitResult = exec.submit(new FitCallbleThread(monitor,pointData,precision));
 		logger.info("FitCallbleThread submit after");
 
-		Future<List<ExFunction>> tryResult = exec.submit(new TryTotalCallbleThread(monitor, pointData, precision));
+		Future<ExFunction> tryResult = exec.submit(new TryTotalCallbleThread(monitor, pointData, precision));
 
 		
 		exec.shutdown();
@@ -58,16 +60,15 @@ public class ComputeController {
 				logger.info("tryResult is null.");
 			} else {
 				
-				List<ExFunction> functions = tryResult.get();
-				for(int i = 0;i < functions.size();i++) {
-					ExFunction function = functions.get(i);
-					
-//					logger.info("###try result[{}]:{}",i,function);
-				}
+				ExFunction function = tryResult.get();
+				
+				UiMain.instance.drawResults(pointData,function);
 			}
 			
 		} else {
 			logger.error("compute time out.");
+			
+			OptionPaneUtils.openErrorDialog(UiMain.instance,"精度过高，运算超时。");
 		}
 		
 	}

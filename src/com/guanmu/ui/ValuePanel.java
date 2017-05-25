@@ -97,6 +97,7 @@ public class ValuePanel extends JPanel {
 			tableModel.addNewValue(point.getX(),point.getY());
 		}
 
+		precisionText.setText("0.999");
 	}
 
 	/**
@@ -179,7 +180,7 @@ public class ValuePanel extends JPanel {
 					return;
 				}
 				
-				double precision = 0;
+				double precision = 0.999;
 				String precisionValueStr = precisionText.getText();
 				
 				if (!precisionValueStr.isEmpty()) {

@@ -100,6 +100,34 @@ public class ExFunction {
 	public String getFunctionStr() {
 		return "y=" + a + "*e^(" + b + "*x) + " + c + "*e^(" + d + "*x)" ;
 	}
+	
+	/**
+	 * @return the a
+	 */
+	public double getA() {
+		return a;
+	}
+
+	/**
+	 * @return the b
+	 */
+	public double getB() {
+		return b;
+	}
+
+	/**
+	 * @return the c
+	 */
+	public double getC() {
+		return c;
+	}
+
+	/**
+	 * @return the d
+	 */
+	public double getD() {
+		return d;
+	}
 
 	public double getAvgError() {
 		return avgError;

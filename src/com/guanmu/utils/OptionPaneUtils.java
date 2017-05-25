@@ -101,4 +101,15 @@ public class OptionPaneUtils {
 		
 		return dialog;
 	}
+	
+	
+	public static JDialog openErrorDialog(Component parent,String message) {
+		JOptionPane optionPane = OptionPaneUtils.getNarrowOptionPane(30);
+		optionPane.setMessage(message);
+		optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+		JDialog dialog = optionPane.createDialog(parent, "错误");
+		dialog.setVisible(true);	
+		
+		return dialog;
+	}	
 }

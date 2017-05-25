@@ -16,6 +16,8 @@ import javax.swing.JSeparator;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.StandardChartTheme;
 
+import com.guanmu.model.ExFunction;
+import com.guanmu.model.PointData;
 import com.guanmu.thread.ExThreadPool;
 import com.guanmu.utils.GridBagLayoutUtils;
 
@@ -36,6 +38,8 @@ public class UiMain extends JFrame {
 	 */
 	private static final long serialVersionUID = 755498983129736454L;
 	
+	public static UiMain instance;
+	
 	/** 主界面*/
 	private JPanel mainPanel;
 	
@@ -47,10 +51,10 @@ public class UiMain extends JFrame {
 	private JPanel fitCurvesPanel;
 	
 	/** 逼近法曲线面板*/
-	private JPanel tryCurvesPanel;
+	private TryCurvesPanel tryCurvesPanel;
 	
 	/** 结果面板*/
-	private JPanel resultPanel;
+	private ResultPanel resultPanel;
 
 	/**
 	 * @throws HeadlessException
@@ -129,6 +133,16 @@ public class UiMain extends JFrame {
 				GridBagConstraints.WEST,GridBagConstraints.BOTH);
 	}
 
+	/**
+	 * @param pointData 
+	 * @param function
+	 */
+	public void drawResults(PointData pointData, ExFunction function) {
+		tryCurvesPanel.drawCurves(pointData,function);
+		
+		resultPanel.addInfo(pointData,function);
+	}	
+	
 
 	public static void main(String[] args) {
 		
@@ -141,6 +155,8 @@ public class UiMain extends JFrame {
 				UiMain uiMain = new UiMain();
 				uiMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				uiMain.setVisible(true);
+				
+				instance = uiMain;
 				
 			}
 		};
@@ -162,5 +178,6 @@ public class UiMain extends JFrame {
 		// 应用主题样式
 		ChartFactory.setChartTheme(standardChartTheme);
 	}
+
 
 }

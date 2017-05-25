@@ -49,25 +49,6 @@ public class FitCurvesPanel extends CurvesPanel {
 		createFunctionResultPanle();
 	}
 
-	/**
-	 * 
-	 */
-	private void createDataPanel() {
-		ExFunction exFunction = new ExFunction(0.1, 0.1, 0.1, 0.5);
-		List<PointValue> rows = new ArrayList<>();
-		rows.add(new PointValue(1, 10d));
-		rows.add(new PointValue(2, 30d));
-		rows.add(new PointValue(10, 10));
-		
-		XYDataset xyDataset = new CurvesXYDataset();
-		
-	    JFreeChart localJFreeChart = createChart(xyDataset);
-	    ChartPanel localChartPanel = new ChartPanel(localJFreeChart);
-	    localChartPanel.setMouseWheelEnabled(true);
-		
-	    dataPanel = localChartPanel;
-	}
-
 	
 	
 }

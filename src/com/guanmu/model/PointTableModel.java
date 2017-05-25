@@ -26,7 +26,7 @@ public class PointTableModel extends AbstractTableModel {
 	TableModel model;
 	
 
-	public final static String[] TABLE_COLUMNS = {"x(mA)","y(V)"}; 
+	public final static String[] TABLE_COLUMNS = {"x(V)","y(mA)"}; 
 	
 	
 	private List<PointValue> rowValues = new ArrayList<PointValue>();	

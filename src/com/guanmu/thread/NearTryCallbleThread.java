@@ -51,33 +51,27 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 	private ExFunction computeFunctionByNearTry() throws InterruptedException {
 		
 		ExFunction nearFunction = null;
-		
-		for(double a = min;a < max;a = a + ExConfig.NEAR_STEP_A) {
-			
-			for(double b = ExConfig.MIN_B;b < ExConfig.MAX_B;b = b + ExConfig.NEAR_STEP_B) {
-				
-//				for(double c = ExConfig.MIN_C;c < ExConfig.MAX_C;c = c + ExConfig.NEAR_STEP_C) {
-//					
-//					for(double d = ExConfig.MIN_D;d < ExConfig.MAX_D;d = d + ExConfig.NEAR_STEP_D) {
-						ExFunction function = new ExFunction(a, b, 0, 0, pointData);
-						
-						if (nearFunction == null) {
-							nearFunction = function;
-						} else {
-							double nearDeterCoeff = nearFunction.getDeterCoeff();
-							double nowDeterCoeff = function.getDeterCoeff();
-							
-							if (nowDeterCoeff > nearDeterCoeff) {
-								nearFunction = function;
-								logger.debug("-----" + function);
-							}
-						}						
-//					}	
-//					
-//				}
+
+		for (double a = min; a < max; a = a + ExConfig.NEAR_STEP_A) {
+
+			for (double b = ExConfig.MIN_B; b < ExConfig.MAX_B; b = b + ExConfig.NEAR_STEP_B) {
+
+				ExFunction function = new ExFunction(a, b, 0, 0, pointData);
+
+				if (nearFunction == null) {
+					nearFunction = function;
+				} else {
+					double nearDeterCoeff = nearFunction.getDeterCoeff();
+					double nowDeterCoeff = function.getDeterCoeff();
+
+					if (nowDeterCoeff > nearDeterCoeff) {
+						nearFunction = function;
+						logger.debug("-----" + function);
+					}
+				}
 
 			}
-			
+
 			Thread.sleep(1);
 		}
 		

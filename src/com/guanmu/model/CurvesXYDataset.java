@@ -14,27 +14,29 @@ public class CurvesXYDataset extends XYSeriesCollection {
 
 	private static final long serialVersionUID = -2154940116654217208L;
 	
+	public static final int X_START = 0;
+	
+	public static final int DEFAULT_X_END = 100;
+	
+	public static final int DEFAULT_SAMPLES = 200;
+	
 	private static final Logger logger = RootLogger.getLog(CurvesXYDataset.class.getName());
 	
 	private ExFunction exFunction;
 	
 	private List<PointValue> rowValues = new ArrayList<PointValue>();
 	
-	private double start;
-	private double end;
-	private int samples;
+	private double end = 100;
+	private int samples  = DEFAULT_SAMPLES;
 
 	public CurvesXYDataset() {
 		super();
 	}
 
 	public CurvesXYDataset(ExFunction exFunction,
-			List<PointValue> rowValues,double start,double end,int samples) {
+			List<PointValue> rowValues) {
 		this.exFunction = exFunction;
 		this.rowValues = rowValues;
-		this.start = start;
-		this.end = end;
-		this.samples = samples;
 		
 		autoAddSeries();
 	}
@@ -54,9 +56,9 @@ public class CurvesXYDataset extends XYSeriesCollection {
 
 		if (exFunction != null) {
 			XYSeries functionSeries = new XYSeries(exFunction.getFunctionStr());
-			double step = (end - start) / (samples - 1);
+			double step = (end - X_START) / (samples - 1);
 			for (int i = 0; i < samples; i++) {
-				double x = start + step * i;
+				double x = X_START + step * i;
 				try {
 					functionSeries.add(x, exFunction.getYValue(x));
 				} catch (PowerEByondException pe) {
@@ -67,6 +69,40 @@ public class CurvesXYDataset extends XYSeriesCollection {
 			this.addSeries(functionSeries);
 		}
 
+	}
+
+	public void autoComputeParams() {
+		
+		double tmpMaxX = 0;
+		for(PointValue pv : rowValues) {
+			
+			if (pv.getX() > tmpMaxX) {
+				tmpMaxX = pv.getX();
+			}
+				
+		}
+		
+		tmpMaxX = tmpMaxX + 0.1*tmpMaxX;
+		
+		end = (int) tmpMaxX;
+		
+	}
+	
+	/**
+	 * @param pointData
+	 * @param function
+	 * @param i
+	 * @param j
+	 */
+	public void changeValue(PointData pointData, ExFunction function) {
+		this.removeAllSeries();
+		
+		rowValues = pointData.getPointValues();
+		exFunction = function;
+		
+		autoAddSeries();
+		
+		fireDatasetChanged();
 	}
 	
 }

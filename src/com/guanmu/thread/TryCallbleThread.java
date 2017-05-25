@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 
 import com.guanmu.model.ExFunction;
+import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
 import com.guanmu.utils.ExConfig;
@@ -17,30 +18,33 @@ public class TryCallbleThread implements Callable<ExFunction> {
 	
 	private CurvesProgressMonitor monitor;
 	
-	private List<PointValue> pointValues;
+	private PointData pointData;
 	
 	private double precision;
 	
-	private double min;
+	private ExFunction minF;
 	
-	private double max;
+	private ExFunction maxF;
+	
+	private boolean isAdd = true;
 	
 	public TryCallbleThread(CurvesProgressMonitor monitor,
-			List<PointValue> pointValues, double precision, double min,
-			double max) {
+			PointData pointData, double precision, ExFunction min,
+			ExFunction max,boolean isAdd) {
 		super();
 		this.monitor = monitor;
-		this.pointValues = pointValues;
+		this.pointData = pointData;
 		this.precision = precision;
-		this.min = min;
-		this.max = max;
+		this.minF = min;
+		this.maxF = max;
+		this.isAdd = isAdd;
 	}
 
 
 	@Override
 	public ExFunction call() throws Exception {
 		
-		Thread.currentThread().setName("TryCallbleThread[" + min +"-" + max + "]");
+		Thread.currentThread().setName("TryCallbleThread[" + minF +"-" + maxF + "]");
 		
 		Thread.sleep(500);
 		
@@ -56,34 +60,76 @@ public class TryCallbleThread implements Callable<ExFunction> {
 
 	private ExFunction computeFunctionByTry() {
 		
-//		for(double a = min;a < max;a = a + ExcitationConfig.STEP_A) {
-//			
-//			for(double b = ExcitationConfig.MIN_B;b < ExcitationConfig.MAX_B;b = b + ExcitationConfig.STEP_B) {
-//				
-//				for(double c = ExcitationConfig.MIN_C;c < ExcitationConfig.MAX_C;c = c + ExcitationConfig.STEP_C) {
-//					
-//					for(double d = ExcitationConfig.MIN_D;d < ExcitationConfig.MAX_D;d = d + ExcitationConfig.STEP_D) {
-//						ExcitationFunction function = new ExcitationFunction(a, b, c, d);
-//						
-//						boolean isFit = function.checkFitPointValues(pointValues,precision);
-//						if (isFit) {
-//							return function;
-//						}
-//					}
-//				}
-//				
-//			}
-//			
-//		}
+		double minA = (minF == null) ? ExConfig.MIN_A : minF.getA();
+		double minB = (minF == null) ? ExConfig.MIN_B : minF.getB();
 		
-		try {
-			Thread.sleep(10*1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		double maxA = (maxF == null) ? ExConfig.MAX_A : maxF.getA();
+		double maxB = (maxF == null) ? ExConfig.MAX_B : maxF.getB();
+		
+		if (isAdd) {
+			boolean isFinish = false;
+			for(double a = minA;a <= maxA && !isFinish;a = a + ExConfig.STEP_A) {
+				
+				for(double b = ExConfig.MIN_B;b <= ExConfig.MAX_B;b = b + ExConfig.STEP_B) {
+					
+					if (minF != null && a <= minA && b < minB) {
+						continue;
+					}
+					
+					if (maxF != null && a >= maxA && b > maxB) {
+						isFinish = true;
+						break;
+					}
+					
+					for(double c = ExConfig.MIN_C;c < ExConfig.MAX_C;c = c + ExConfig.STEP_C) {
+						
+						for(double d = ExConfig.MIN_D;d < ExConfig.MAX_D;d = d + ExConfig.STEP_D) {
+							ExFunction function = new ExFunction(a, b, c, d, pointData);
+							
+							boolean isFit = function.getDeterCoeff() >= precision;
+							if (isFit) {
+								return function;
+							}
+						}
+					}
+					
+				}
+				
+			}			
+		} else {
+			boolean isFinish = false;
+			for(double a = maxA;a >= minA && !isFinish;a = a - ExConfig.STEP_A) {
+				
+				for(double b = ExConfig.MAX_B;b >= ExConfig.MIN_B;b = b - ExConfig.STEP_B) {
+					
+					if (maxF != null && a >= maxA && b > maxB) {
+						continue;
+					}
+					
+					if (minF != null && a <= minA && b < minB) {
+						isFinish = true;
+						break;
+					}
+					
+					for(double c = ExConfig.MAX_C;c >= ExConfig.MIN_C;c = c - ExConfig.STEP_C) {
+						
+						for(double d = ExConfig.MAX_D;d >= ExConfig.MIN_D;d = d - ExConfig.STEP_D) {
+							ExFunction function = new ExFunction(a, b, c, d, pointData);
+							
+							boolean isFit = function.getDeterCoeff() >= precision;
+							if (isFit) {
+								return function;
+							}
+						}
+					}
+					
+				}
+				
+			}			
 		}
+
 		
-		logger.debug("a in [" + min + "," + max + ") not result." );
+		logger.debug("a in [" + minF + "," + maxF + ") not result." );
 		return null;
 	}
 

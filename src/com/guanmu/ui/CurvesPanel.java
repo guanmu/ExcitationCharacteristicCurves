@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
@@ -21,6 +22,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 
+import com.guanmu.model.CurvesXYDataset;
 import com.guanmu.utils.GridBagLayoutUtils;
 
 /**
@@ -54,6 +56,7 @@ public class CurvesPanel extends JPanel {
 	protected JLabel dLabel;
 	protected JTextField dValue;
 	
+	protected CurvesXYDataset xyDataset;
 	/**
 	 * 
 	 */
@@ -146,7 +149,7 @@ public class CurvesPanel extends JPanel {
 	}
 	
 	protected JFreeChart createChart(XYDataset paramXYDataset) {
-		JFreeChart localJFreeChart = ChartFactory.createXYLineChart(title, "X(mA)", "Y(V)", paramXYDataset,
+		JFreeChart localJFreeChart = ChartFactory.createXYLineChart(title, "X(V)", "Y(mA)", paramXYDataset,
 				PlotOrientation.VERTICAL, true, true, false);
 		XYPlot localXYPlot = (XYPlot) localJFreeChart.getPlot();
 		localXYPlot.setDomainZeroBaselineVisible(true);
@@ -172,5 +175,19 @@ public class CurvesPanel extends JPanel {
 	    
 		return localJFreeChart;
 	}	
+	
+
+	/**
+	 * 
+	 */
+	protected void createDataPanel() {				
+		xyDataset = new CurvesXYDataset();
+	    JFreeChart localJFreeChart = createChart(xyDataset);
+	    ChartPanel localChartPanel = new ChartPanel(localJFreeChart);
+	    localChartPanel.setMouseWheelEnabled(true);
+		
+	    
+	    dataPanel = localChartPanel;
+	}
 	
 }

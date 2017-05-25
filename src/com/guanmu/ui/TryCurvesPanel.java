@@ -10,6 +10,7 @@ import org.jfree.data.xy.XYDataset;
 
 import com.guanmu.model.CurvesXYDataset;
 import com.guanmu.model.ExFunction;
+import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 
 /**
@@ -45,22 +46,20 @@ public class TryCurvesPanel extends CurvesPanel {
 		createFunctionResultPanle();
 	}
 
+
 	/**
-	 * 
+	 * @param pointData
+	 * @param function
 	 */
-	private void createDataPanel() {		
-		ExFunction exFunction = new ExFunction(0.1, 0.1, 0.1, 0.5);
-		List<PointValue> rows = new ArrayList<>();
-		rows.add(new PointValue(1, 1));
-		rows.add(new PointValue(2, 3));
-		rows.add(new PointValue(10, 10));
+	public void drawCurves(PointData pointData, ExFunction function) {
+		xyDataset.changeValue(pointData,function);
+	
+		aValue.setText("" + function.getA());
+		bValue.setText("" + function.getB());
+		cValue.setText("" + function.getC());
+		dValue.setText("" + function.getD());
 		
-		XYDataset xyDataset = new CurvesXYDataset(exFunction,rows,0,15,20);
-	    JFreeChart localJFreeChart = createChart(xyDataset);
-	    ChartPanel localChartPanel = new ChartPanel(localJFreeChart);
-	    localChartPanel.setMouseWheelEnabled(true);
 		
-	    dataPanel = localChartPanel;
 	}
 
 	

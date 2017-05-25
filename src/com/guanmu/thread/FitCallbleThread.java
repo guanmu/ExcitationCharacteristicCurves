@@ -38,7 +38,7 @@ public class FitCallbleThread implements Callable<ExFunction> {
 		ExFunction fitResult = computeFunctionByFit();
 		
 		
-		monitor.addProgress(40);
+		monitor.addProgress(20);
 		
 		return fitResult;
 	}

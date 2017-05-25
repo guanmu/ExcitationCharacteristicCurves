@@ -17,9 +17,11 @@ public class ExThreadPool {
 	
 	private static ExThreadPool instance = new ExThreadPool();
 	
-	private static ExecutorService controllerExec = Executors.newCachedThreadPool();
+	private static ExecutorService controllerExec = null;
 	
-	private static ExecutorService nearTryExec = Executors.newCachedThreadPool();
+	private static ExecutorService nearTryExec = null;
+	
+	private static ExecutorService tryExec = null;
 	
 	private ExThreadPool() {
 		
@@ -31,13 +33,37 @@ public class ExThreadPool {
 	
 	
 	public ExecutorService getControllerExec() {
+		if (controllerExec != null) {
+			controllerExec.shutdownNow();
+		}
+		
+		controllerExec = Executors.newCachedThreadPool();
+		
 		return controllerExec;
 	}
 	
 	public ExecutorService getNearTyExec() {
+		
+		if (nearTryExec != null) {
+			nearTryExec.shutdownNow();
+		}
+		
+		nearTryExec = Executors.newCachedThreadPool();
+		
 		return nearTryExec;
 	}
-
+	
+	public ExecutorService getTryExec() {
+		
+		if (tryExec != null) {
+			tryExec.shutdownNow();
+		}
+		
+		tryExec = Executors.newCachedThreadPool();
+		
+		return tryExec;
+	}
+	
 	/**
 	 * 
 	 */
@@ -51,6 +77,9 @@ public class ExThreadPool {
 			nearTryExec.shutdownNow();			
 		}
 		
+		if (!tryExec.isShutdown()) {
+			tryExec.shutdownNow();
+		}
 	}
 
 }

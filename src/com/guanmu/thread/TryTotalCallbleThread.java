@@ -60,12 +60,19 @@ public class TryTotalCallbleThread  implements Callable<ExFunction> {
 		logger.info("###start try total function");
 		
 		long startTime = new Date().getTime();
-		
-		ExecutorService nearTryExec = ExThreadPool.getInstance().getNearTyExec();
-		
-		List<Future<ExFunction>> nearTryResults = new ArrayList<>();
-		
+
+		List<ExFunction> initFunctions = new ArrayList<ExFunction>();
 		double min = 0;
+		for (double max = 1;max <= ExConfig.MAX_A;max = max + 1) {
+
+			ExFunction maxF = new ExFunction(max, 0, 0, 0);
+			
+			initFunctions.add(maxF);
+		}		
+		
+		
+		ExecutorService nearTryExec = ExThreadPool.getInstance().getNearTryExec();
+		List<Future<ExFunction>> nearTryResults = new ArrayList<>();
 		for (double max = 1;max <= ExConfig.MAX_A;max = max + 1) {
 			
 			logger.info("NearTryCallbleThread submit before.[{},{}]",min,max);
@@ -125,7 +132,7 @@ public class TryTotalCallbleThread  implements Callable<ExFunction> {
 			}
 			
 			Collections.sort(firstFunctions, new SortMethod.FunctionSortByParam());
-			ExecutorService tryExec = ExThreadPool.getInstance().getNearTyExec();
+			ExecutorService tryExec = ExThreadPool.getInstance().getNearTryExec();
 			
 			List<Future<ExFunction>> tryFutures = new ArrayList<>();
 			Future<ExFunction> result0 = tryExec.submit(new NearTryCallbleThread(monitor, pointData, precision, null,firstFunctions.get(0),false,digit));
@@ -227,7 +234,7 @@ public class TryTotalCallbleThread  implements Callable<ExFunction> {
 		
 		Collections.sort(sortFunctions, new SortMethod.FunctionSortByAB());
 		
-		ExecutorService tryExec = ExThreadPool.getInstance().getNearTyExec();
+		ExecutorService tryExec = ExThreadPool.getInstance().getNearTryExec();
 		
 		List<Future<ExFunction>> tryFutures = new ArrayList<>();
 		Future<ExFunction> result0 = tryExec.submit(new TryCallbleThread(monitor, pointData, precision, null,sortFunctions.get(0),false));

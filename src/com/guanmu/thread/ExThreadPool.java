@@ -42,7 +42,7 @@ public class ExThreadPool {
 		return controllerExec;
 	}
 	
-	public ExecutorService getNearTyExec() {
+	public ExecutorService getNearTryExec() {
 		
 		if (nearTryExec != null) {
 			nearTryExec.shutdownNow();

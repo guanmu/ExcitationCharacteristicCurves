@@ -20,65 +20,125 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 	
 	private PointData pointData;
 	
-	private double min;
+	private double precision;
 	
-	private double max;
+	private ExFunction minF;
+	
+	private ExFunction maxF;
+	
+	private boolean isAdd = true;
+	
+	private int digit;	
 	
 	public NearTryCallbleThread(CurvesProgressMonitor monitor,
-			PointData pointData, double precision, double min,
-			double max) {
+			PointData pointData, double precision, ExFunction min,
+			ExFunction max,boolean isAdd,int digit) {
 		super();
 		this.monitor = monitor;
 		this.pointData = pointData;
-		this.min = min;
-		this.max = max;
+		this.precision = precision;
+		this.minF = min;
+		this.maxF = max;
+		this.isAdd = isAdd;
+		this.digit = digit;
 	}
 
 
 	@Override
 	public ExFunction call() throws Exception {
 		
-		Thread.currentThread().setName("NearTryCallbleThread[" + min +"-" + max + "]");
-
-		ExFunction tryFunction = computeFunctionByNearTry();
+		Thread.currentThread().setName("TryCallbleThread[" + minF +"-" + maxF + "]");
 		
-		monitor.addProgress(1);
+		Thread.sleep(500);
+		
+		monitor.addProgress(2);
+		
+		ExFunction tryFunction = computeFunctionByTry();
+		
+		monitor.addProgress(8);
 		
 		return tryFunction;
 	}
 
 
-	private ExFunction computeFunctionByNearTry() throws InterruptedException {
+	private ExFunction computeFunctionByTry() {
 		
-		ExFunction nearFunction = null;
-
-		for (double a = min; a < max; a = a + ExConfig.NEAR_STEP_A) {
-
-			for (double b = ExConfig.MIN_B; b < ExConfig.MAX_B; b = b + ExConfig.NEAR_STEP_B) {
-
-				ExFunction function = new ExFunction(a, b, 0, 0, pointData);
-
-				if (nearFunction == null) {
-					nearFunction = function;
-				} else {
-					double nearDeterCoeff = nearFunction.getDeterCoeff();
-					double nowDeterCoeff = function.getDeterCoeff();
-
-					if (nowDeterCoeff > nearDeterCoeff) {
-						nearFunction = function;
-						logger.debug("-----" + function);
+		double minA = (minF == null) ? ExConfig.MIN_A : minF.getA();
+		double minB = (minF == null) ? ExConfig.MIN_B : minF.getB();
+		
+		double maxA = (maxF == null) ? ExConfig.MAX_A : maxF.getA();
+		double maxB = (maxF == null) ? ExConfig.MAX_B : maxF.getB();
+		
+		double nearAStep = ExConfig.NEAR_STEP_A/digit;
+		double nearBStep = ExConfig.NEAR_STEP_B/digit;
+		double nearCStep = ExConfig.NEAR_STEP_C/digit;
+		double nearDStep = ExConfig.NEAR_STEP_D/digit;		
+		
+		if (isAdd) {
+			boolean isFinish = false;
+			for(double a = minA;a <= maxA && !isFinish;a = a + nearAStep) {
+				
+				for(double b = ExConfig.MIN_B;b <= ExConfig.MAX_B;b = b + nearBStep) {
+					
+					if (minF != null && a <= minA && b < minB) {
+						continue;
 					}
+					
+					if (maxF != null && a >= maxA && b > maxB) {
+						isFinish = true;
+						break;
+					}
+					
+					for(double c = ExConfig.MIN_C;c < ExConfig.MAX_C;c = c + nearCStep) {
+						
+						for(double d = ExConfig.MIN_D;d < ExConfig.MAX_D;d = d + nearDStep) {
+							ExFunction function = new ExFunction(a, b, c, d, pointData);
+							
+							boolean isFit = function.getDeterCoeff() >= precision;
+							if (isFit) {
+								return function;
+							}
+						}
+					}
+					
 				}
-
-			}
-
-			Thread.sleep(1);
+				
+			}			
+		} else {
+			boolean isFinish = false;
+			for(double a = maxA;a >= minA && !isFinish;a = a - ExConfig.STEP_A) {
+				
+				for(double b = ExConfig.MAX_B;b >= ExConfig.MIN_B;b = b - ExConfig.STEP_B) {
+					
+					if (maxF != null && a >= maxA && b > maxB) {
+						continue;
+					}
+					
+					if (minF != null && a <= minA && b < minB) {
+						isFinish = true;
+						break;
+					}
+					
+					for(double c = ExConfig.MAX_C;c >= ExConfig.MIN_C;c = c - ExConfig.STEP_C) {
+						
+						for(double d = ExConfig.MAX_D;d >= ExConfig.MIN_D;d = d - ExConfig.STEP_D) {
+							ExFunction function = new ExFunction(a, b, c, d, pointData);
+							
+							boolean isFit = function.getDeterCoeff() >= precision;
+							if (isFit) {
+								return function;
+							}
+						}
+					}
+					
+				}
+				
+			}			
 		}
-		
 
 		
-		logger.debug("a in [" + min + "," + max + ") near function.[{}]",nearFunction);
-		return nearFunction;
+		logger.debug("a in [" + minF + "," + maxF + ") not result." );
+		return null;
 	}
 
 }

@@ -16,6 +16,55 @@ import com.guanmu.model.ExFunction;
  */
 public class SortMethod {
 	
+	public static class FunctionSortByParam implements Comparator<ExFunction> {
+
+		@Override
+		public int compare(ExFunction f1, ExFunction f2) {
+			
+			if (f1 == null) {
+				return -1;
+			}
+			
+			if (f2 == null) {
+				return 1;
+			}
+			
+			if (f1.getA() > f2.getA()) {
+				return 1;
+			}
+			
+			if (f1.getA() < f2.getA()) {
+				return -1;
+			}
+			
+			if (f1.getB() > f2.getB()) {
+				return 1;
+			}
+			
+			if (f1.getB() < f2.getB()) {
+				return -1;
+			}
+			
+			if (f1.getC() > f2.getC()) {
+				return 1;
+			}
+
+			if (f1.getC() < f2.getC()) {
+				return -1;
+			}
+			
+			if (f1.getD() > f2.getD()) {
+				return 1;
+			}
+			
+			if (f1.getD() < f2.getD()) {
+				return -1;
+			}
+			return 0;
+		}
+		
+	}	
+	
 	public static class FunctionSortByAB implements Comparator<ExFunction> {
 
 		@Override
@@ -50,4 +99,29 @@ public class SortMethod {
 		
 	}
 	
+	public static class FunctionSortByDeterCoeffMax implements Comparator<ExFunction> {
+
+		@Override
+		public int compare(ExFunction f1, ExFunction f2) {
+			
+			if (f1 == null) {
+				return 1;
+			}
+			
+			if (f2 == null) {
+				return -1;
+			}
+			
+			if (f1.getDeterCoeff() > f2.getDeterCoeff()) {
+				return -1;
+			}
+			
+			if (f1.getA() < f2.getA()) {
+				return 1;
+			}
+
+			return 0;
+		}
+		
+	}	
 }

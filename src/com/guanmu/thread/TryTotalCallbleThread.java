@@ -144,7 +144,8 @@ public class TryTotalCallbleThread  implements Callable<ExFunction> {
 					}
 
 				}
-
+				
+				Thread.sleep(1);
 			}
 
 			Collections.sort(results, new SortMethod.FunctionSortByDeterCoeffMax());
@@ -152,7 +153,7 @@ public class TryTotalCallbleThread  implements Callable<ExFunction> {
 			mostNearFunction = results.get(0);
 			logger.info("###the function is most result.[{}]", mostNearFunction);
 
-		} catch (InterruptedException ie) {
+		} catch (Exception ie) {
 			logger.error("the call shutdowned.",ie);
 		}
 		

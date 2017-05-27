@@ -1,5 +1,6 @@
 package com.guanmu.thread;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -36,8 +37,10 @@ public class ComputeController {
 		Thread.currentThread().setName("ComputeController Thread");
 		
 		logger.info("###start compute function");
+		long beginTime = new Date().getTime();
 		
 		ExecutorService exec = ExThreadPool.getInstance().getControllerExec();
+		
 		
 		logger.info("FitCallbleThread submit before");
 		Future<List<PointValue>> fitResult = exec.submit(new FitCallbleThread(monitor,pointData,precision));
@@ -48,7 +51,10 @@ public class ComputeController {
 		
 		exec.shutdown();
 		
-		if (exec.awaitTermination(30, TimeUnit.MINUTES)) {
+		if (exec.awaitTermination(1, TimeUnit.SECONDS)) {
+			
+			long endTime = new Date().getTime();
+			logger.info("###total time:" + (endTime - beginTime) / 1000 + "s");
 			
 			List<PointValue> fitResults = fitResult.get();
 			ExFunction tryFunction = tryResult.get();
@@ -63,7 +69,7 @@ public class ComputeController {
 				return;
 			}
 			
-			logger.info("###fit result:" + fitResults);
+//			logger.info("###fit result:" + fitResults);
 			logger.info("###function:" + tryFunction);
 			
 			UiMain.instance.drawResults(pointData,fitResults,tryFunction);
@@ -71,6 +77,12 @@ public class ComputeController {
 			
 		} else {
 			logger.error("compute time out.");
+			ExFunction tryFunction = tryResult.get();
+			if (tryFunction == null) {
+				logger.error("the tryFunction is null.");
+			} else {
+				logger.debug("the tryFunction.[{}]",tryFunction);
+			}
 			
 			OptionPaneUtils.openErrorDialog(UiMain.instance,"精度过高，运算超时。");
 		}

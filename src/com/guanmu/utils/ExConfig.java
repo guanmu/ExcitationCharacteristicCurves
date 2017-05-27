@@ -19,7 +19,9 @@ public class ExConfig {
 	public static final boolean DEBUG = true;
 
 	public static final double E_POW_MAX = Math.log(Double.MAX_VALUE);
-
+	
+	public static final int MAX_DIGIT = 4;
+	
 	public static final double MAX_PECISION = 1;
 
 	public static final double MIN_DETERMINATION_COEFFICIENT = 0;

@@ -261,5 +261,12 @@ public class ExFunction {
 		System.out.println(test);
 	}
 
+	/**
+	 * @return
+	 */
+	public String getParamStr() {
+		return a + "-" + b + "-" + c + "-" + d;
+	}
+
 	
 }

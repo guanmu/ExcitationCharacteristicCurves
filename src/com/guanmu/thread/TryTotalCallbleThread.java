@@ -59,217 +59,197 @@ public class TryTotalCallbleThread  implements Callable<ExFunction> {
 		Thread.currentThread().setName("TryTotalCallbleThread");
 		logger.info("###start try total function");
 		
-		long startTime = new Date().getTime();
+		ExFunction mostNearFunction = null;
+		try {
 
-		List<ExFunction> initFunctions = new ArrayList<ExFunction>();
-		double min = 0;
-		for (double max = 1;max <= ExConfig.MAX_A;max = max + 1) {
+			List<ExFunction> initFunctions = new ArrayList<ExFunction>();
+			for (double max = 1; max <= ExConfig.MAX_A; max = max + 1) {
 
-			ExFunction maxF = new ExFunction(max, 0, 0, 0);
-			
-			initFunctions.add(maxF);
-		}		
+				ExFunction maxF = new ExFunction(max, 0, 0, 0, pointData);
+
+				initFunctions.add(maxF);
+			}
+
+			List<ExFunction> results = null;
+			List<ExFunction> tmpFunctions = new ArrayList<>(initFunctions);
+			int digit = 10;
+			for (int i = 1; i <= ExConfig.MAX_DIGIT; i++) {
+				digit = (int) Math.pow(10, i);
+
+				try {
+					results = tryFunctions(tmpFunctions, digit);
+				} catch (Exception e) {
+					logger.error("tryFunctions exception.", e);
+				}
+
+				if (results == null) {
+					continue;
+				}
+
+				if (!results.isEmpty()) {
+					Collections.sort(results, new SortMethod.FunctionSortByDeterCoeffMax());
+					ExFunction nearFunction = results.get(0);
+					mostNearFunction = nearFunction;
+					
+					if (nearFunction != null && nearFunction.getDeterCoeff() >= precision) {
+						logger.debug("######nearFunction meet precision.[{}]", nearFunction);
+						return nearFunction;
+					}
+
+					logger.debug("this time near function.[{}]", nearFunction);
+
+					results.add(new ExFunction(ExConfig.MIN_A, ExConfig.MIN_B, ExConfig.MIN_C, ExConfig.MIN_D));
+					results.add(new ExFunction(ExConfig.MAX_A, ExConfig.MAX_B, ExConfig.MAX_C, ExConfig.MAX_D));
+
+					tmpFunctions = results;
+				}
+
+			}
+
+			// 低精度逼近失败
+			if (results == null || results.isEmpty()) {
+				logger.error("the results is null or empty.[{}]", results);
+				results = initFunctions;
+			}
+
+			ExecutorService tryExec = ExThreadPool.getInstance().getTryExec();
+			List<Future<ExFunction>> tryFutures = new ArrayList<>();
+			for (int i = 0; i < results.size() - 1; i++) {
+
+				ExFunction minF = results.get(i);
+				ExFunction maxF = results.get(i + 1);
+
+				logger.info("NearTryCallbleThread submit before.[{},{}]", minF, maxF);
+				Future<ExFunction> tryResult = tryExec.submit(new NearTryCallbleThread(monitor, pointData, precision,
+						minF, maxF, true, digit));
+				logger.info("NearTryCallbleThread submit after.[{},{}]", minF, maxF);
+
+				tryFutures.add(tryResult);
+
+			}
+
+			tryExec.shutdown();
+
+			while (!tryExec.awaitTermination(1, TimeUnit.SECONDS)) {
+
+				for (Future<ExFunction> future : tryFutures) {
+
+					if (future.isDone()) {
+						ExFunction tryFunction = future.get();
+
+						if (tryFunction != null) {
+							tryExec.shutdownNow();
+							return tryFunction;
+						}
+					}
+
+				}
+
+			}
+
+			Collections.sort(results, new SortMethod.FunctionSortByDeterCoeffMax());
+
+			mostNearFunction = results.get(0);
+			logger.info("###the function is most result.[{}]", mostNearFunction);
+
+		} catch (InterruptedException ie) {
+			logger.error("the call shutdowned.",ie);
+		}
 		
+		return mostNearFunction;
+				
+	}
+
+
+
+	/**
+	 * @param probableFunctions
+	 * @return
+	 * @throws InterruptedException 
+	 */
+	private List<ExFunction> tryFunctions(List<ExFunction> probableFunctions, int digit) throws Exception {
+		logger.info("### start tryFunctions.[{}]",digit);
+		List<ExFunction> functions = new ArrayList<>();
+		if (probableFunctions == null || probableFunctions.isEmpty()) {
+			logger.error("the probableFunctions is null or empty.[{},{}]",digit,probableFunctions);
+			return functions;
+		}
+		
+		long startTime = new Date().getTime();
+		List<ExFunction> tmpFunctions = new ArrayList<>(probableFunctions);
+		
+		Collections.sort(tmpFunctions, new SortMethod.FunctionSortByParam());
 		
 		ExecutorService nearTryExec = ExThreadPool.getInstance().getNearTryExec();
 		List<Future<ExFunction>> nearTryResults = new ArrayList<>();
-		for (double max = 1;max <= ExConfig.MAX_A;max = max + 1) {
+		for (int i = 0;i < tmpFunctions.size() - 1;i++) {
 			
-			logger.info("NearTryCallbleThread submit before.[{},{}]",min,max);
-			ExFunction minF = new ExFunction(min, 0, 0, 0);
-			ExFunction maxF = new ExFunction(max, 0, 0, 0);
-			Future<ExFunction> tryResult = nearTryExec.submit(new NearTryCallbleThread(monitor,pointData,precision,minF,maxF,true,10));
-			logger.info("NearTryCallbleThread submit after.[{},{}]",min,max);
+			ExFunction minF = tmpFunctions.get(i);
+			ExFunction maxF = tmpFunctions.get(i + 1);
+			
+			boolean isAdd = true;
+			if (minF.getDeterCoeff() > maxF.getDeterCoeff()) {
+				isAdd = false;
+			}
+			
+			logger.debug("NearTryCallbleThread submit before.[{},{}]",minF,maxF);
+			Future<ExFunction> tryResult = nearTryExec.submit(new NearTryCallbleThread(monitor,pointData,precision,minF,maxF,isAdd,digit));
+			logger.debug("NearTryCallbleThread submit after.[{},{}]",minF,maxF);
 			
 			nearTryResults.add(tryResult);
 			
-			min = max;
 		}
 		
 		nearTryExec.shutdown();
-		if (!nearTryExec.awaitTermination(10, TimeUnit.MINUTES)) {
-			logger.error("try compute time out.");
-		}
 		
-		long fistNearEndTime = new Date().getTime();
-		logger.info("$$$first near time:" + (fistNearEndTime - startTime)/1000 + "s");
-		
-		int digit = 100;
-		
-		int firstError = 0;
-		List<ExFunction> firstFunctions = new ArrayList<>();
-		for(Future<ExFunction> future : nearTryResults) {
+		while(!nearTryExec.awaitTermination(1, TimeUnit.SECONDS)) {
 			
-			if (!future.isDone()) {
-				firstError++;
-				continue;
-			}
-			
-			ExFunction function = future.get();
-			if (function == null) {
-				firstError++;
-				continue;
-			}
-			
-			
-			firstFunctions.add(function);
-		}
-		
-		if (firstError > 0) {
-			logger.error("firstError number.[{}]",firstError);
-		}
-		
-		// 去掉null元素
-		firstFunctions.removeAll(Collections.singleton(null));
-		
-		if (!firstFunctions.isEmpty()) {
-			Collections.sort(firstFunctions, new SortMethod.FunctionSortByDeterCoeffMax());			
-			ExFunction firstNearFunction = firstFunctions.get(0); 
-			
-			if (firstNearFunction != null && firstNearFunction.getDeterCoeff() >= precision) {
-				logger.debug("firstNearFunction meet precision.[{}]",firstNearFunction);
-				return firstNearFunction;
-			}
-			
-			Collections.sort(firstFunctions, new SortMethod.FunctionSortByParam());
-			ExecutorService tryExec = ExThreadPool.getInstance().getNearTryExec();
-			
-			List<Future<ExFunction>> tryFutures = new ArrayList<>();
-			Future<ExFunction> result0 = tryExec.submit(new NearTryCallbleThread(monitor, pointData, precision, null,firstFunctions.get(0),false,digit));
-			tryFutures.add(result0);
-			
-			for(int i = 0;i < firstFunctions.size() - 1;i++) {
-				Future<ExFunction> result = tryExec.submit(new NearTryCallbleThread(monitor, pointData, precision, firstFunctions.get(i),firstFunctions.get(i + 1),true,digit));
-				tryFutures.add(result);
-			}
-			
-			Future<ExFunction> result5 = tryExec.submit(new NearTryCallbleThread(monitor, pointData, precision, firstFunctions.get(firstFunctions.size() - 1),null,true,digit));
-			tryFutures.add(result5);			
-		}
-
-		
-		
-		
-		ExFunction function1 = null;
-		ExFunction function2 = null;
-		ExFunction function3 = null;
-		
-		List<ExFunction> functionResult = new ArrayList<>();
-		if (nearTryExec.awaitTermination(10, TimeUnit.MINUTES)) {
-			
-			long endTime = new Date().getTime();
-			
-			logger.info("$$$total time:" + (endTime - startTime)/1000 + "s");
-			
-			if (nearTryResults.isEmpty()) {
-				logger.info("tryResults is empty.");
-			} else {
-				for(int i = 0;i < nearTryResults.size();i++) {
-					Future<ExFunction> tryResult = nearTryResults.get(i); 
-					ExFunction function = tryResult.get();
-					
-//					logger.info("###try result[{}]:{}",i,function);
-					
-					if (function != null) {
-						functionResult.add(function);		
-						
-						if (function1 == null) {
-							function1 = function;
-							continue;
-						} else {
-							if (function.getDeterCoeff() > function1.getDeterCoeff()) {
-								function3 = function2;
-								function2 = function1;
-								
-								function1 = function;
-								continue;
-							}
-						}
-						
-						if (function2 == null) {
-							function2 = function;
-							continue;
-						} else {
-							if (function.getDeterCoeff() > function2.getDeterCoeff()) {
-								function3 = function2;
-								
-								function2 = function;
-								continue;
-							}
-						}
-						
-						if (function3 == null) {
-							function3 = function;
-							continue;
-						} else {
-							if (function.getDeterCoeff() > function3.getDeterCoeff()) {
-								function3 = function;
-							}
-						}
-					}
-				}
-			}
-			
-		} else {
-			logger.error("try compute time out.");
-		}
-		
-		logger.info("function1:" + function1);
-		logger.info("function2:" + function2);
-		logger.info("function3:" + function3);
-		
-		if (function1 == null) {
-			logger.error("the function1 is null.");
-			return null;
-		}
-		
-		if (function1.getDeterCoeff() >= precision) {
-			return function1;
-		}
-		
-		List<ExFunction> sortFunctions = new ArrayList<>();
-		sortFunctions.add(function1);
-		sortFunctions.add(function2);
-		sortFunctions.add(function3);			
-		
-		Collections.sort(sortFunctions, new SortMethod.FunctionSortByAB());
-		
-		ExecutorService tryExec = ExThreadPool.getInstance().getNearTryExec();
-		
-		List<Future<ExFunction>> tryFutures = new ArrayList<>();
-		Future<ExFunction> result0 = tryExec.submit(new TryCallbleThread(monitor, pointData, precision, null,sortFunctions.get(0),false));
-		tryFutures.add(result0);
-		
-		for(int i = 0;i < sortFunctions.size() - 1;i++) {
-			Future<ExFunction> result = tryExec.submit(new TryCallbleThread(monitor, pointData, precision, sortFunctions.get(i),sortFunctions.get(i + 1),true));
-			tryFutures.add(result);
-		}
-		
-		Future<ExFunction> result5 = tryExec.submit(new TryCallbleThread(monitor, pointData, precision, sortFunctions.get(sortFunctions.size() - 1),null,true));
-		tryFutures.add(result5);
-		
-		tryExec.shutdown();
-		
-		while(!tryExec.awaitTermination(1, TimeUnit.SECONDS)) {
-			
-			for(Future<ExFunction> future : tryFutures) {
+			for(Future<ExFunction> future : nearTryResults) {
 				
 				if (future.isDone()) {
 					ExFunction tryFunction = future.get();
 					
 					if (tryFunction != null) {
-						tryExec.shutdownNow();
-						return tryFunction;
+						
+						if (tryFunction.getDeterCoeff() >= precision) {
+							nearTryExec.shutdownNow();
+							functions.add(tryFunction);
+							return functions;							
+						}
+
 					}
 				}
 				
 			}
-			
 		}
 		
-		logger.info("the function1 is most result.");
-		return function1;
-				
+		long endTime = new Date().getTime();
+		logger.info("$$$near time:" + (endTime - startTime)/1000 + "s");
+		
+		int errorNumber = 0;
+		for(Future<ExFunction> future : nearTryResults) {
+			if (!future.isDone()) {
+				errorNumber++;
+				continue;
+			}
+			
+			ExFunction function = future.get();
+			if (function == null) {
+				errorNumber++;
+				continue;
+			}
+			
+			
+			functions.add(function);			
+		}
+		
+		if (errorNumber > 0) {
+			logger.error("errorNumber number.[{}]",errorNumber);
+		}
+		
+		functions.removeAll(Collections.singleton(null));
+		logger.info("### end tryFunctions.[{}]",digit);		
+		return functions;
 	}
 
 }

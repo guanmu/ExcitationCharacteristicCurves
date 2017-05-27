@@ -6,7 +6,7 @@
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-35.35t] %-5.5level %line %method %logger{40} - %msg%ex %n 
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-45.45t] %-5.5level %line %method %logger{40} - %msg%ex %n 
 			</pattern>
 		</layout>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">

@@ -47,9 +47,7 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 	@Override
 	public ExFunction call() throws Exception {
 		
-		Thread.currentThread().setName("TryCallbleThread[" + minF +"-" + maxF + "]");
-		
-		Thread.sleep(500);
+		Thread.currentThread().setName("TryCallbleThread[" + minF.getParamStr() +"-" + maxF.getParamStr() + "]");
 		
 		monitor.addProgress(2);
 		
@@ -74,6 +72,8 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 		double nearCStep = ExConfig.NEAR_STEP_C/digit;
 		double nearDStep = ExConfig.NEAR_STEP_D/digit;		
 		
+		ExFunction mostNearFunction = null;
+		
 		if (isAdd) {
 			boolean isFinish = false;
 			for(double a = minA;a <= maxA && !isFinish;a = a + nearAStep) {
@@ -96,8 +96,19 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 							
 							boolean isFit = function.getDeterCoeff() >= precision;
 							if (isFit) {
+								logger.info("###the function is meet precision.[{}]",function);
 								return function;
 							}
+							
+							if (mostNearFunction == null) {
+								mostNearFunction = function;
+								continue;
+							}
+							
+							if (function.getDeterCoeff() > mostNearFunction.getDeterCoeff()) {
+								mostNearFunction = function;
+							}
+							
 						}
 					}
 					
@@ -126,7 +137,17 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 							
 							boolean isFit = function.getDeterCoeff() >= precision;
 							if (isFit) {
+								logger.info("###the function is meet precision.[{}]",function);
 								return function;
+							}
+							
+							if (mostNearFunction == null) {
+								mostNearFunction = function;
+								continue;
+							}
+							
+							if (function.getDeterCoeff() > mostNearFunction.getDeterCoeff()) {
+								mostNearFunction = function;
 							}
 						}
 					}
@@ -137,8 +158,8 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 		}
 
 		
-		logger.debug("a in [" + minF + "," + maxF + ") not result." );
-		return null;
+		logger.debug("a in [" + minF.getParamStr() + "," + maxF.getParamStr() + ") not result.[{}]",mostNearFunction);
+		return mostNearFunction;
 	}
 
 }

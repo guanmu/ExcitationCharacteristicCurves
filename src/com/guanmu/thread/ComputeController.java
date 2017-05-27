@@ -51,7 +51,7 @@ public class ComputeController {
 		
 		exec.shutdown();
 		
-		if (exec.awaitTermination(1, TimeUnit.SECONDS)) {
+		if (exec.awaitTermination(30, TimeUnit.MINUTES)) {
 			
 			long endTime = new Date().getTime();
 			logger.info("###total time:" + (endTime - beginTime) / 1000 + "s");

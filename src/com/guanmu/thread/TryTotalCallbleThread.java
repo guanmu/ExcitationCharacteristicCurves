@@ -93,6 +93,7 @@ public class TryTotalCallbleThread  implements Callable<ExFunction> {
 					
 					if (nearFunction != null && nearFunction.getDeterCoeff() >= precision) {
 						logger.debug("######nearFunction meet precision.[{}]", nearFunction);
+						monitor.close();
 						return nearFunction;
 					}
 
@@ -147,7 +148,9 @@ public class TryTotalCallbleThread  implements Callable<ExFunction> {
 				
 				Thread.sleep(1);
 			}
-
+			
+			monitor.addProgress(60);
+			
 			Collections.sort(results, new SortMethod.FunctionSortByDeterCoeffMax());
 
 			mostNearFunction = results.get(0);
@@ -249,6 +252,9 @@ public class TryTotalCallbleThread  implements Callable<ExFunction> {
 		}
 		
 		functions.removeAll(Collections.singleton(null));
+		
+		monitor.addProgress(15);
+		
 		logger.info("### end tryFunctions.[{}]",digit);		
 		return functions;
 	}

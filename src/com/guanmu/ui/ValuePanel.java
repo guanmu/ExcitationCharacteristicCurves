@@ -194,7 +194,7 @@ public class ValuePanel extends JPanel {
 
 				monitor = new CurvesProgressMonitor(parentFrame, "进度","正在计算……", 0, 150);
 				monitor.setProgress(0);
-				monitor.setNote("test");
+				monitor.setNote("请等待");
 				
 				final PointData pointData = new PointData(pointValues);
 				final double finalPrecision = precision;

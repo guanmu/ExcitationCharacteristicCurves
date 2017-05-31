@@ -102,7 +102,7 @@ public class ExConfig {
 			return initValues;
 		}
 
-		initValues = debugData1();
+		initValues = debugData3();
 
 		return initValues;
 	}

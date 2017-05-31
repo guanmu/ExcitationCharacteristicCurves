@@ -49,11 +49,7 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 		
 		Thread.currentThread().setName("TryCallbleThread[" + minF.getParamStr() +"-" + maxF.getParamStr() + "]");
 		
-		monitor.addProgress(2);
-		
 		ExFunction tryFunction = computeFunctionByTry();
-		
-		monitor.addProgress(8);
 		
 		return tryFunction;
 	}

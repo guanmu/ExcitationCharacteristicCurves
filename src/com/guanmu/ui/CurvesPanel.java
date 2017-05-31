@@ -155,7 +155,7 @@ public class CurvesPanel extends JPanel {
 		localXYPlot.setDomainZeroBaselineVisible(true);
 		localXYPlot.setRangeZeroBaselineVisible(true);
 		localXYPlot.getDomainAxis().setLowerMargin(0D);
-		localXYPlot.getDomainAxis().setUpperMargin(0D);
+		localXYPlot.getDomainAxis().setUpperMargin(1D);
 		
 		localXYPlot.getDomainAxis().setLowerBound(0);
 		

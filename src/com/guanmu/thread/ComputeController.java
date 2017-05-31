@@ -53,6 +53,8 @@ public class ComputeController {
 		
 		if (exec.awaitTermination(30, TimeUnit.MINUTES)) {
 			
+			monitor.close();
+			
 			long endTime = new Date().getTime();
 			logger.info("###total time:" + (endTime - beginTime) / 1000 + "s");
 			
@@ -76,6 +78,8 @@ public class ComputeController {
 			
 			
 		} else {
+			monitor.close();
+			
 			logger.error("compute time out.");
 			ExFunction tryFunction = tryResult.get();
 			if (tryFunction == null) {

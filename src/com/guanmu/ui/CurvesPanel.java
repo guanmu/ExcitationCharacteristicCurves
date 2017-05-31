@@ -159,6 +159,7 @@ public class CurvesPanel extends JPanel {
 		
 		localXYPlot.getDomainAxis().setLowerBound(0);
 		
+		
 		localXYPlot.getRangeAxis().setLowerBound(0);
 		localXYPlot.setDomainPannable(true);
 		localXYPlot.setRangePannable(true);		
@@ -172,6 +173,12 @@ public class CurvesPanel extends JPanel {
 	    localXYPlot.setRenderer(localXYLineAndShapeRenderer);
 	    NumberAxis localNumberAxis = (NumberAxis)localXYPlot.getRangeAxis();
 	    localNumberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());	
+	    
+	    // y轴
+	    localNumberAxis.setRange(0, 10000);
+	    // x轴
+	    localXYPlot.getDomainAxis().setRange(0, 150);
+	    
 	    
 		return localJFreeChart;
 	}	

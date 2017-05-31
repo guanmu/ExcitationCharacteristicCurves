@@ -51,6 +51,8 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 		
 		ExFunction tryFunction = computeFunctionByTry();
 		
+		monitor.addProgress(1, 140);
+		
 		return tryFunction;
 	}
 

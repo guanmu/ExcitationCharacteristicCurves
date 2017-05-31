@@ -33,12 +33,12 @@ public class FitCallbleThread implements Callable<List<PointValue>> {
 		
 		Thread.sleep(500);
 		
-		monitor.addProgress(10);
+		monitor.addProgress(10,10);
 		
 		List<PointValue> fitResult = computeFunctionByFit();
 		
 		
-		monitor.addProgress(20);
+		monitor.addProgress(20,30);
 		
 		return fitResult;
 	}

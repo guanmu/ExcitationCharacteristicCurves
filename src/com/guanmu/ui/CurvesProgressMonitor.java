@@ -27,7 +27,12 @@ public class CurvesProgressMonitor extends ProgressMonitor {
 		return process;
 	}
 
-	public void addProgress(int addProgress) {
+	public void addProgress(int addProgress, int max) {
+		
+		if (process >= max) {
+			return;
+		}
+		
 		synchronized (processLock) {
 			int now = process;
 			

@@ -45,7 +45,6 @@ public class FirstNearTryCallbleThread implements Callable<ExFunction> {
 
 		ExFunction tryFunction = computeFunctionByNearTry();
 		
-		monitor.addProgress(1);
 		
 		return tryFunction;
 	}

@@ -54,6 +54,7 @@ public class ValuePanel extends JPanel {
 	private JPanel buttonPanel;
 	private JLabel valueNumberLabel;
 	private JLabel valueNumberInfo;
+	private JButton resetBtn;
 	private JButton computeBtn;
 	
 	
@@ -80,12 +81,12 @@ public class ValuePanel extends JPanel {
 		
 		addListeners();
 		
-		initTableValues();
+		initValues();
 
 		
 	}
 
-	private void initTableValues() {
+	private void initValues() {
 		
 		List<PointValue> initValues = ExConfig.getInitTableValues();
 		
@@ -107,6 +108,14 @@ public class ValuePanel extends JPanel {
 			public void tableChanged(TableModelEvent e) {
 				int pointNumber = tableModel.getRowCount();
 				valueNumberInfo.setText("" + pointNumber);
+			}
+		});
+		
+		resetBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				initValues();
 			}
 		});
 		
@@ -171,6 +180,9 @@ public class ValuePanel extends JPanel {
 		
 		valueNumberInfo = new JLabel("0");
 		buttonPanel.add(valueNumberInfo);
+		
+		resetBtn = new JButton("重置");
+		buttonPanel.add(resetBtn);
 		
 		computeBtn = new JButton("求解");
 		buttonPanel.add(computeBtn);

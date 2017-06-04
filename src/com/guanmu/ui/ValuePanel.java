@@ -54,6 +54,8 @@ public class ValuePanel extends JPanel {
 	private JPanel buttonPanel;
 	private JLabel valueNumberLabel;
 	private JLabel valueNumberInfo;
+	private JButton addValueBtn;		
+	private JButton deleteValueBtn;	
 	private JButton resetBtn;
 	private JButton computeBtn;
 	
@@ -110,6 +112,30 @@ public class ValuePanel extends JPanel {
 				valueNumberInfo.setText("" + pointNumber);
 			}
 		});
+
+		addValueBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				tableModel.addNewValue(-1,-1);
+				
+			}
+		});		
+
+		deleteValueBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowIndex = dataTable.getSelectedRow();
+				if (rowIndex < 0) {
+					OptionPaneUtils.openMessageDialog(parentFrame,"请选择需要删除的数据。");
+					return;
+				}
+				
+				tableModel.deleteValue(rowIndex);
+			}
+		});		
 		
 		resetBtn.addActionListener(new ActionListener() {
 			
@@ -173,21 +199,23 @@ public class ValuePanel extends JPanel {
 	private void createButtonPanel() {
 		buttonPanel = new JPanel();
 		
-		buttonPanel.add(new JLabel("    "));
 		
 		valueNumberLabel = new JLabel("当前数据个数：");
 		buttonPanel.add(valueNumberLabel);
 		
 		valueNumberInfo = new JLabel("0");
 		buttonPanel.add(valueNumberInfo);
+	
+		addValueBtn = new JButton("添加数据");
+		buttonPanel.add(addValueBtn);
 		
+		deleteValueBtn = new JButton("删除数据");
+		buttonPanel.add(deleteValueBtn);		
 		resetBtn = new JButton("重置");
 		buttonPanel.add(resetBtn);
 		
 		computeBtn = new JButton("求解");
 		buttonPanel.add(computeBtn);
-		
-		buttonPanel.add(new JLabel("    "));
 		
 		this.add(buttonPanel,BorderLayout.SOUTH);
 	}

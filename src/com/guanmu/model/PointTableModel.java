@@ -105,4 +105,23 @@ public class PointTableModel extends AbstractTableModel {
 
 		return true;
 	}
+	
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		double value = -1;
+		try {
+			value = Double.parseDouble(aValue.toString());	
+		} catch(Exception e) {
+		}		
+		
+		if (value < 0) {
+			return;
+		}
+		
+		if (columnIndex == 0) {
+			rowValues.get(rowIndex).setX(value);
+		} else {
+			rowValues.get(rowIndex).setY(value);
+		}
+	}
 }

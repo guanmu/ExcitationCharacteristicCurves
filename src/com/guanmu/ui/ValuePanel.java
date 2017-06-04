@@ -94,7 +94,7 @@ public class ValuePanel extends JPanel {
 			tableModel.addNewValue(point.getX(),point.getY());
 		}
 
-		precisionText.setText("0.995");
+		precisionText.setText("" + ExConfig.DEFUALT_PRECESION);
 	}
 
 	/**

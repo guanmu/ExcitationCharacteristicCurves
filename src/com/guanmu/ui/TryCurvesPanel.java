@@ -31,7 +31,7 @@ public class TryCurvesPanel extends CurvesPanel {
 	 * 
 	 */
 	public TryCurvesPanel() {
-		title = "逼近法";
+		title = "曲线图";
 		
 		createPanels();
 		

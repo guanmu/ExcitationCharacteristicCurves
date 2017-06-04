@@ -48,16 +48,12 @@ public class ValuePanel extends JPanel {
 	private JPanel paramPanel;
 	
 	private JTextField precisionText;
-	private JTextField xText;
-	private JTextField yText;
 	
 	private JTable dataTable;
 	
 	private JPanel buttonPanel;
 	private JLabel valueNumberLabel;
 	private JLabel valueNumberInfo;
-	private JButton addValueBtn;
-	private JButton deleteValueBtn;
 	private JButton computeBtn;
 	
 	
@@ -97,7 +93,7 @@ public class ValuePanel extends JPanel {
 			tableModel.addNewValue(point.getX(),point.getY());
 		}
 
-		precisionText.setText("0.999");
+		precisionText.setText("0.995");
 	}
 
 	/**
@@ -105,67 +101,12 @@ public class ValuePanel extends JPanel {
 	 */
 	private void addListeners() {		
 		
-		addValueBtn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				String xValueStr = xText.getText();
-				if (xValueStr.isEmpty()) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"x不能为空。");
-					return;
-				}
-
-				String yValueStr = yText.getText();
-				if (yValueStr.isEmpty()) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"y不能为空。");
-					return;
-				}				
-				
-				double x = getXValue();
-				if (x <= 0) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"x不能为负数。");
-					return;
-				}
-				
-				double y = getYValue();
-				if (y <= 0) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"y不能为负数。");
-					return;
-				}
-				
-				if (tableModel.containsX(x)) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"表格中已存在该x对应的y值。");
-					return;
-				}
-				
-				tableModel.addNewValue(x,y);
-				
-				xText.setText("");
-				yText.setText("");
-			}
-		});
-		
 		tableModel.addTableModelListener(new TableModelListener() {
 			
 			@Override
 			public void tableChanged(TableModelEvent e) {
 				int pointNumber = tableModel.getRowCount();
 				valueNumberInfo.setText("" + pointNumber);
-			}
-		});
-		
-		deleteValueBtn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int rowIndex = dataTable.getSelectedRow();
-				if (rowIndex < 0) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"请选择需要删除的数据。");
-					return;
-				}
-				
-				tableModel.deleteValue(rowIndex);
 			}
 		});
 		
@@ -223,20 +164,18 @@ public class ValuePanel extends JPanel {
 	private void createButtonPanel() {
 		buttonPanel = new JPanel();
 		
+		buttonPanel.add(new JLabel("    "));
+		
 		valueNumberLabel = new JLabel("当前数据个数：");
 		buttonPanel.add(valueNumberLabel);
 		
 		valueNumberInfo = new JLabel("0");
 		buttonPanel.add(valueNumberInfo);
 		
-		addValueBtn = new JButton("添加数据");
-		buttonPanel.add(addValueBtn);
-		
-		deleteValueBtn = new JButton("删除数据");
-		buttonPanel.add(deleteValueBtn);
-		
 		computeBtn = new JButton("求解");
 		buttonPanel.add(computeBtn);
+		
+		buttonPanel.add(new JLabel("    "));
 		
 		this.add(buttonPanel,BorderLayout.SOUTH);
 	}
@@ -275,58 +214,12 @@ public class ValuePanel extends JPanel {
 		
 		rowPanel1.add(precisionText);
 		
-		JPanel rowPanel2 = new JPanel();
-		rowPanel2.setLayout(new BoxLayout(rowPanel2, BoxLayout.X_AXIS));	
-		
-		JLabel xLabel = new JLabel("x:");
-		rowPanel2.add(xLabel);
-		xText = new JTextField();
-		xText.setColumns(INPUT_TEXT_LENGTH);
-		xText.setDocument(new DoubleDocument());
-		rowPanel2.add(xText);
-		
-		JPanel rowPanel3 = new JPanel();
-		rowPanel3.setLayout(new BoxLayout(rowPanel3, BoxLayout.X_AXIS));	
-		
-		JLabel yLabel = new JLabel("y:");
-		rowPanel3.add(yLabel);
-		yText = new JTextField();
-		yText.setColumns(INPUT_TEXT_LENGTH);
-		yText.setDocument(new DoubleDocument());
-		rowPanel3.add(yText);
 		
 		paramPanel.add(rowPanel1);
-		paramPanel.add(rowPanel2);
-		paramPanel.add(rowPanel3);
 		
 		this.add(paramPanel,BorderLayout.NORTH);
 	}
-	
-	public double getXValue() {
-		String valueStr = xText.getText();
-		
-		try {
-			double value = Double.parseDouble(valueStr);	
-			return value;
-		} catch(Exception e) {
-			logger.error("parseDouble exception.",e);
-			return -1;
-		}
 
-	}
-	
-	public double getYValue() {
-		String valueStr = yText.getText();
-		
-		try {
-			double value = Double.parseDouble(valueStr);	
-			return value;
-		} catch(Exception e) {
-			logger.error("parseDouble exception.",e);
-			return -1;
-		}
-
-	}	
 
 	
 	

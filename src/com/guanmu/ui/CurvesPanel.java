@@ -175,9 +175,9 @@ public class CurvesPanel extends JPanel {
 	    localNumberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());	
 	    
 	    // y轴
-	    localNumberAxis.setRange(0, 10000);
+	    localNumberAxis.setRange(0, 5000);
 	    // x轴
-	    localXYPlot.getDomainAxis().setRange(0, 150);
+	    localXYPlot.getDomainAxis().setRange(10, 150);
 	    
 	    
 		return localJFreeChart;

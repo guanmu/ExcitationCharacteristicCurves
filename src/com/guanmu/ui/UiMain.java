@@ -47,10 +47,6 @@ public class UiMain extends JFrame {
 	
 	/** 数据面板*/
 	private JPanel valuePanel;
-
-	
-	/** 拟合法曲线面板*/
-	private FitCurvesPanel fitCurvesPanel;
 	
 	/** 逼近法曲线面板*/
 	private TryCurvesPanel tryCurvesPanel;
@@ -64,7 +60,7 @@ public class UiMain extends JFrame {
 	public UiMain() throws HeadlessException {
 		super();
 		this.setTitle("电压互感器空载特性分析");
-		this.setBounds(200, 200, 1400, 680);
+		this.setBounds(200, 200, 1130, 600);
 		
 		mainPanel = new JPanel();
 		this.add(mainPanel);
@@ -73,10 +69,8 @@ public class UiMain extends JFrame {
 		
 		createValuePanel();
 		
-		createFitCurvesPanel();
-		
 		JSeparator separator = new JSeparator(JSeparator.VERTICAL);
-		GridBagLayoutUtils.addComponent(mainPanel,separator,2,0,1,1,
+		GridBagLayoutUtils.addComponent(mainPanel,separator,1,0,1,1,
 				0.05,0,
 				GridBagConstraints.CENTER,GridBagConstraints.NONE);		
 		
@@ -110,20 +104,9 @@ public class UiMain extends JFrame {
 		tryCurvesPanel = new TryCurvesPanel();
 		tryCurvesPanel.setVisible(true);
 		
-		GridBagLayoutUtils.addComponent(mainPanel,tryCurvesPanel,3,0,1,1,
+		GridBagLayoutUtils.addComponent(mainPanel,tryCurvesPanel,2,0,1,1,
 				1.0,1.0,
 				GridBagConstraints.CENTER,GridBagConstraints.BOTH);
-	}
-
-
-	private void createFitCurvesPanel() {
-		fitCurvesPanel = new FitCurvesPanel();
-		fitCurvesPanel.setVisible(true);
-		
-		GridBagLayoutUtils.addComponent(mainPanel,fitCurvesPanel,1,0,1,1,
-				1.0,1.0,
-				GridBagConstraints.CENTER,GridBagConstraints.BOTH);
-		
 	}
 	
 	private void createValuePanel() {
@@ -141,8 +124,6 @@ public class UiMain extends JFrame {
 	 * @param function
 	 */
 	public void drawResults(PointData pointData, List<PointValue> fitResults, ExFunction function) {
-		
-		fitCurvesPanel.drawCurves(pointData,fitResults);
 		
 		tryCurvesPanel.drawCurves(pointData,function);
 		

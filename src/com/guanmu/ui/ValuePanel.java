@@ -149,6 +149,7 @@ public class ValuePanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
+			
 				
 				tableModel.checkValues();
 				

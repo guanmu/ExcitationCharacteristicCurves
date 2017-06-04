@@ -87,6 +87,7 @@ public class TryTotalCallbleThread  implements Callable<ExFunction> {
 				}
 
 				if (!results.isEmpty()) {
+					results.addAll(tmpFunctions);
 					Collections.sort(results, new SortMethod.FunctionSortByDeterCoeffMax());
 					ExFunction nearFunction = results.get(0);
 					mostNearFunction = nearFunction;

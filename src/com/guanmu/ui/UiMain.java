@@ -125,7 +125,9 @@ public class UiMain extends JFrame {
 	 */
 	public void drawResults(PointData pointData, List<PointValue> fitResults, ExFunction function) {
 		
-		tryCurvesPanel.drawCurves(pointData,function);
+		tryCurvesPanel.drawCurves(pointData,fitResults,function);
+		
+		tryCurvesPanel.autoUpdateXYAixs();
 		
 		resultPanel.addInfo(pointData,function);
 	}	

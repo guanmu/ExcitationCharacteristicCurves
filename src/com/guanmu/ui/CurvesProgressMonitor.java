@@ -29,6 +29,10 @@ public class CurvesProgressMonitor extends ProgressMonitor {
 
 	public void addProgress(int addProgress, int max) {
 		
+		if (isCanceled()) {
+			return;
+		}
+		
 		if (process >= max) {
 			return;
 		}
@@ -42,5 +46,11 @@ public class CurvesProgressMonitor extends ProgressMonitor {
 			
 		}
 		
+	}
+	
+	@Override
+	public void close() {
+		process = getMaximum();
+		super.close();
 	}
 }

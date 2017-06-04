@@ -137,7 +137,7 @@ public class CurvesXYDataset extends XYSeriesCollection {
 	private void addFitSeries(List<PointValue> fitResults) {
 		
 		if (fitResults != null) {
-			XYSeries pointSeries = new XYSeries("fit");
+			XYSeries pointSeries = new XYSeries("插值法",true,false);
 			for(int i = 0;i < fitResults.size();i++) {
 				PointValue point = fitResults.get(i);
 				
@@ -148,5 +148,37 @@ public class CurvesXYDataset extends XYSeriesCollection {
 		}	
 		
 	}
+
+	public void changeValue(PointData pointData, List<PointValue> fitResults,
+			ExFunction function) {
+		rowValues = pointData.getPointValues();
+		exFunction = function;
+		
+		autoComputeParams();
+		
+		addPoints();
+		
+		addFitSeries(fitResults);
+		
+		addSeriesByFunction(function);
+		
+		fireDatasetChanged();
+	}
 	
+	@Override
+	public List<XYSeries> getSeries() {
+		List list = super.getSeries();
+		List<XYSeries> result = new ArrayList<>();
+		
+		for (Object obj : list) {
+			
+			if (obj instanceof XYSeries) {
+				XYSeries series = (XYSeries)obj;
+				
+				result.add(series);
+			}
+		}
+		
+		return result;
+	}
 }

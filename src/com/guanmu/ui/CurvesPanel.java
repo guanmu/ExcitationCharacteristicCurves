@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -21,8 +22,10 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
 
 import com.guanmu.model.CurvesXYDataset;
+import com.guanmu.utils.ExConfig;
 import com.guanmu.utils.GridBagLayoutUtils;
 
 /**
@@ -56,6 +59,7 @@ public class CurvesPanel extends JPanel {
 	protected JLabel dLabel;
 	protected JTextField dValue;
 	
+	protected JFreeChart localJFreeChart;
 	protected CurvesXYDataset xyDataset;
 	/**
 	 * 
@@ -149,7 +153,7 @@ public class CurvesPanel extends JPanel {
 	}
 	
 	protected JFreeChart createChart(XYDataset paramXYDataset) {
-		JFreeChart localJFreeChart = ChartFactory.createXYLineChart(title, "X(V)", "Y(mA)", paramXYDataset,
+		localJFreeChart = ChartFactory.createXYLineChart(title, "X(V)", "Y(mA)", paramXYDataset,
 				PlotOrientation.VERTICAL, true, true, false);
 		XYPlot localXYPlot = (XYPlot) localJFreeChart.getPlot();
 		localXYPlot.setDomainZeroBaselineVisible(true);
@@ -164,20 +168,34 @@ public class CurvesPanel extends JPanel {
 		localXYPlot.setDomainPannable(true);
 		localXYPlot.setRangePannable(true);		
 		
-		// 设置legen中的曲线提示图形：小矩形
-		XYLineAndShapeRenderer localXYLineAndShapeRenderer = new XYLineAndShapeRenderer();
-		localXYLineAndShapeRenderer.setLegendLine(new Rectangle2D.Double(-4.0D, -3.0D, 8.0D, 6.0D));
-		localXYLineAndShapeRenderer.setSeriesLinesVisible(0, false);
-	    localXYLineAndShapeRenderer.setSeriesShapesVisible(1, false);
-	    localXYLineAndShapeRenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
-	    localXYPlot.setRenderer(localXYLineAndShapeRenderer);
+		// 设置point中的提示图形：小矩形
+		XYLineAndShapeRenderer pointLineAndShapeRenderer = new XYLineAndShapeRenderer();
+		pointLineAndShapeRenderer.setLegendLine(new Rectangle2D.Double(-1.0D, -1.0D, 2.0D, 2.0D));
+		pointLineAndShapeRenderer.setSeriesLinesVisible(0, false);
+		pointLineAndShapeRenderer.setSeriesPaint(0, new Color(255, 0, 0));
+		
+		pointLineAndShapeRenderer.setSeriesShapesVisible(1, false);
+		pointLineAndShapeRenderer.setSeriesPaint(1, new Color(0, 0, 255));
+		
+		pointLineAndShapeRenderer.setSeriesShapesVisible(2, false);
+		pointLineAndShapeRenderer.setSeriesPaint(2, new Color(0, 0, 0));
+		
+	    pointLineAndShapeRenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+	    localXYPlot.setRenderer(0,pointLineAndShapeRenderer);
+	    
+		XYLineAndShapeRenderer fitLineAndShapeRenderer = new XYLineAndShapeRenderer();
+	    localXYPlot.setRenderer(1,fitLineAndShapeRenderer);	    
+	    
+		XYLineAndShapeRenderer tryLineAndShapeRenderer = new XYLineAndShapeRenderer();
+	    localXYPlot.setRenderer(2,tryLineAndShapeRenderer);	
+	    
 	    NumberAxis localNumberAxis = (NumberAxis)localXYPlot.getRangeAxis();
 	    localNumberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());	
 	    
 	    // y轴
-	    localNumberAxis.setRange(0, 5000);
+	    localNumberAxis.setRange(0, ExConfig.Y_DEFUALT_MAX);
 	    // x轴
-	    localXYPlot.getDomainAxis().setRange(10, 150);
+	    localXYPlot.getDomainAxis().setRange(ExConfig.X_START, ExConfig.X_DEFUALT_MAX);
 	    
 	    
 		return localJFreeChart;
@@ -194,7 +212,31 @@ public class CurvesPanel extends JPanel {
 	    localChartPanel.setMouseWheelEnabled(true);
 		
 	    
+	    xyDataset.getSeries();
+	    
 	    dataPanel = localChartPanel;
 	}
 	
+	public void autoUpdateXYAixs() {
+		XYPlot localXYPlot = (XYPlot) localJFreeChart.getPlot();
+		NumberAxis localNumberAxis = (NumberAxis)localXYPlot.getRangeAxis();
+		
+		CurvesXYDataset dataSet = (CurvesXYDataset)localXYPlot.getDataset();
+		
+		List<XYSeries> serieses = dataSet.getSeries();
+		
+		double max = 0;
+		for(int i = 0;i < serieses.size();i++) {
+			XYSeries series = serieses.get(i);
+			double maxValue = series.getMaxY();
+			
+			if (maxValue > max) {
+				max = maxValue;
+			}
+		}
+		
+		max = max * 1.1;
+		
+		localNumberAxis.setRange(0, max);
+	}	
 }

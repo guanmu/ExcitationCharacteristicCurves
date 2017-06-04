@@ -52,9 +52,11 @@ public class ExConfig {
 	public static final DecimalFormat THREE_POINT_DF = new DecimalFormat(
 			"#.000");
 
-	public static final double X_START = 0d;
+	public static final double X_START = 10d;
 	public static final int POINT_NUMBER = 200;
 	
+	public static final double X_DEFUALT_MAX = 145;
+	public static final double Y_DEFUALT_MAX = 5000;
 	
 	/**
 	 * 保留小数点后五位小数

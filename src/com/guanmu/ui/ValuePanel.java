@@ -150,13 +150,15 @@ public class ValuePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				
+				tableModel.checkValues();
+				
 				final List<PointValue> pointValues = tableModel.getRowValues();
 				if (pointValues.isEmpty()) {
 					OptionPaneUtils.openMessageDialog(parentFrame,"请输入数据。");
 					return;
 				}
 				
-				double precision = 0.999;
+				double precision = ExConfig.DEFUALT_PRECESION;
 				String precisionValueStr = precisionText.getText();
 				
 				if (!precisionValueStr.isEmpty()) {

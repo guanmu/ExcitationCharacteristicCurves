@@ -113,15 +113,27 @@ public class PointTableModel extends AbstractTableModel {
 			value = Double.parseDouble(aValue.toString());	
 		} catch(Exception e) {
 		}		
-		
-		if (value < 0) {
-			return;
-		}
-		
+				
 		if (columnIndex == 0) {
 			rowValues.get(rowIndex).setX(value);
 		} else {
 			rowValues.get(rowIndex).setY(value);
 		}
+	}
+
+	public void checkValues() {		
+		List<PointValue> errorValues = new ArrayList<PointValue>();
+		for(PointValue pv : rowValues) {
+			
+			if (pv.getX() < 0 || pv.getY() < 0) {
+				errorValues.add(pv);
+			}
+		}
+		
+		if (!errorValues.isEmpty()) {
+			rowValues.removeAll(errorValues);
+			fireTableDataChanged();
+		}
+		
 	}
 }

@@ -52,9 +52,13 @@ public class ExConfig {
 	public static final DecimalFormat THREE_POINT_DF = new DecimalFormat(
 			"#.000");
 
-	public static final double X_START = 0d;
+	public static final double X_START = 10d;
 	public static final int POINT_NUMBER = 200;
 	
+	public static final double X_DEFUALT_MAX = 152;
+	public static final double Y_DEFUALT_MAX = 5000;
+	
+	public static final double DEFUALT_PRECESION = 0.995;
 	
 	/**
 	 * 保留小数点后五位小数
@@ -102,11 +106,29 @@ public class ExConfig {
 			return initValues;
 		}
 
-		initValues = debugData3();
+		initValues = initData();
 
 		return initValues;
 	}
 
+	public static List<PointValue> initData() {
+		List<PointValue> initValues = new ArrayList<PointValue>();
+		initValues.add(new PointValue(11.54, -1));
+		initValues.add(new PointValue(28.9, -1));
+		initValues.add(new PointValue(46.2, -1));
+		initValues.add(new PointValue(57.7, -1));
+		initValues.add(new PointValue(69.2, -1));
+		initValues.add(new PointValue(86.6, -1));
+		initValues.add(new PointValue(103.9, -1));
+		initValues.add(new PointValue(109.6, -1));
+		initValues.add(new PointValue(120, -1));
+		initValues.add(new PointValue(131.6, -1));
+		initValues.add(new PointValue(144.8, -1));
+
+		return initValues;
+	}	
+	
+	
 	private static List<PointValue> debugData1() {
 		List<PointValue> initValues = new ArrayList<PointValue>();
 		initValues.add(new PointValue(11.54, 31.5));

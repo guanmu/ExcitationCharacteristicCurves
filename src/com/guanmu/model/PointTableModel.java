@@ -46,6 +46,7 @@ public class PointTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		
 		return rowValues.get(rowIndex).getColumnValue(columnIndex);
 	}
 	
@@ -97,5 +98,42 @@ public class PointTableModel extends AbstractTableModel {
 	
 	public List<PointValue> getRowValues() {
 		return new ArrayList<PointValue>(rowValues);
+	}
+	
+	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+
+		return true;
+	}
+	
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		double value = -1;
+		try {
+			value = Double.parseDouble(aValue.toString());	
+		} catch(Exception e) {
+		}		
+				
+		if (columnIndex == 0) {
+			rowValues.get(rowIndex).setX(value);
+		} else {
+			rowValues.get(rowIndex).setY(value);
+		}
+	}
+
+	public void checkValues() {		
+		List<PointValue> errorValues = new ArrayList<PointValue>();
+		for(PointValue pv : rowValues) {
+			
+			if (pv.getX() < 0 || pv.getY() < 0) {
+				errorValues.add(pv);
+			}
+		}
+		
+		if (!errorValues.isEmpty()) {
+			rowValues.removeAll(errorValues);
+			fireTableDataChanged();
+		}
+		
 	}
 }

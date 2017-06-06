@@ -48,16 +48,15 @@ public class ValuePanel extends JPanel {
 	private JPanel paramPanel;
 	
 	private JTextField precisionText;
-	private JTextField xText;
-	private JTextField yText;
 	
 	private JTable dataTable;
 	
 	private JPanel buttonPanel;
 	private JLabel valueNumberLabel;
 	private JLabel valueNumberInfo;
-	private JButton addValueBtn;
-	private JButton deleteValueBtn;
+	private JButton addValueBtn;		
+	private JButton deleteValueBtn;	
+	private JButton resetBtn;
 	private JButton computeBtn;
 	
 	
@@ -84,12 +83,12 @@ public class ValuePanel extends JPanel {
 		
 		addListeners();
 		
-		initTableValues();
+		initValues();
 
 		
 	}
 
-	private void initTableValues() {
+	private void initValues() {
 		
 		List<PointValue> initValues = ExConfig.getInitTableValues();
 		
@@ -97,54 +96,13 @@ public class ValuePanel extends JPanel {
 			tableModel.addNewValue(point.getX(),point.getY());
 		}
 
-		precisionText.setText("0.999");
+		precisionText.setText("" + ExConfig.DEFUALT_PRECESION);
 	}
 
 	/**
 	 * 
 	 */
 	private void addListeners() {		
-		
-		addValueBtn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				String xValueStr = xText.getText();
-				if (xValueStr.isEmpty()) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"x不能为空。");
-					return;
-				}
-
-				String yValueStr = yText.getText();
-				if (yValueStr.isEmpty()) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"y不能为空。");
-					return;
-				}				
-				
-				double x = getXValue();
-				if (x <= 0) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"x不能为负数。");
-					return;
-				}
-				
-				double y = getYValue();
-				if (y <= 0) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"y不能为负数。");
-					return;
-				}
-				
-				if (tableModel.containsX(x)) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"表格中已存在该x对应的y值。");
-					return;
-				}
-				
-				tableModel.addNewValue(x,y);
-				
-				xText.setText("");
-				yText.setText("");
-			}
-		});
 		
 		tableModel.addTableModelListener(new TableModelListener() {
 			
@@ -154,7 +112,17 @@ public class ValuePanel extends JPanel {
 				valueNumberInfo.setText("" + pointNumber);
 			}
 		});
-		
+
+		addValueBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				tableModel.addNewValue(-1,-1);
+				
+			}
+		});		
+
 		deleteValueBtn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -167,12 +135,23 @@ public class ValuePanel extends JPanel {
 				
 				tableModel.deleteValue(rowIndex);
 			}
+		});		
+		
+		resetBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				initValues();
+			}
 		});
 		
 		computeBtn.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
+			
+				
+				tableModel.checkValues();
 				
 				final List<PointValue> pointValues = tableModel.getRowValues();
 				if (pointValues.isEmpty()) {
@@ -180,7 +159,7 @@ public class ValuePanel extends JPanel {
 					return;
 				}
 				
-				double precision = 0.999;
+				double precision = ExConfig.DEFUALT_PRECESION;
 				String precisionValueStr = precisionText.getText();
 				
 				if (!precisionValueStr.isEmpty()) {
@@ -223,17 +202,20 @@ public class ValuePanel extends JPanel {
 	private void createButtonPanel() {
 		buttonPanel = new JPanel();
 		
+		
 		valueNumberLabel = new JLabel("当前数据个数：");
 		buttonPanel.add(valueNumberLabel);
 		
 		valueNumberInfo = new JLabel("0");
 		buttonPanel.add(valueNumberInfo);
-		
+	
 		addValueBtn = new JButton("添加数据");
 		buttonPanel.add(addValueBtn);
 		
 		deleteValueBtn = new JButton("删除数据");
-		buttonPanel.add(deleteValueBtn);
+		buttonPanel.add(deleteValueBtn);		
+		resetBtn = new JButton("重置");
+		buttonPanel.add(resetBtn);
 		
 		computeBtn = new JButton("求解");
 		buttonPanel.add(computeBtn);
@@ -275,58 +257,12 @@ public class ValuePanel extends JPanel {
 		
 		rowPanel1.add(precisionText);
 		
-		JPanel rowPanel2 = new JPanel();
-		rowPanel2.setLayout(new BoxLayout(rowPanel2, BoxLayout.X_AXIS));	
-		
-		JLabel xLabel = new JLabel("x:");
-		rowPanel2.add(xLabel);
-		xText = new JTextField();
-		xText.setColumns(INPUT_TEXT_LENGTH);
-		xText.setDocument(new DoubleDocument());
-		rowPanel2.add(xText);
-		
-		JPanel rowPanel3 = new JPanel();
-		rowPanel3.setLayout(new BoxLayout(rowPanel3, BoxLayout.X_AXIS));	
-		
-		JLabel yLabel = new JLabel("y:");
-		rowPanel3.add(yLabel);
-		yText = new JTextField();
-		yText.setColumns(INPUT_TEXT_LENGTH);
-		yText.setDocument(new DoubleDocument());
-		rowPanel3.add(yText);
 		
 		paramPanel.add(rowPanel1);
-		paramPanel.add(rowPanel2);
-		paramPanel.add(rowPanel3);
 		
 		this.add(paramPanel,BorderLayout.NORTH);
 	}
-	
-	public double getXValue() {
-		String valueStr = xText.getText();
-		
-		try {
-			double value = Double.parseDouble(valueStr);	
-			return value;
-		} catch(Exception e) {
-			logger.error("parseDouble exception.",e);
-			return -1;
-		}
 
-	}
-	
-	public double getYValue() {
-		String valueStr = yText.getText();
-		
-		try {
-			double value = Double.parseDouble(valueStr);	
-			return value;
-		} catch(Exception e) {
-			logger.error("parseDouble exception.",e);
-			return -1;
-		}
-
-	}	
 
 	
 	

@@ -31,7 +31,7 @@ public class TryCurvesPanel extends CurvesPanel {
 	 * 
 	 */
 	public TryCurvesPanel() {
-		title = "逼近法";
+		title = "曲线图";
 		
 		createPanels();
 		
@@ -49,10 +49,11 @@ public class TryCurvesPanel extends CurvesPanel {
 
 	/**
 	 * @param pointData
+	 * @param fitResults 
 	 * @param function
 	 */
-	public void drawCurves(PointData pointData, ExFunction function) {
-		xyDataset.changeValue(pointData,function);
+	public void drawCurves(PointData pointData, List<PointValue> fitResults, ExFunction function) {
+		xyDataset.changeValue(pointData,fitResults,function);
 	
 		aValue.setText("" + function.getA());
 		bValue.setText("" + function.getB());
@@ -61,6 +62,8 @@ public class TryCurvesPanel extends CurvesPanel {
 		
 		
 	}
+
+
 
 	
 	

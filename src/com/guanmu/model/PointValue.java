@@ -68,9 +68,17 @@ public class PointValue {
 	 */
 	public Object getColumnValue(int columnIndex) {
 		if (columnIndex == 0) {
+			
+			if (x < 0) {
+				return "";
+			}
+			
 			return x;
 		}
 		
+		if (y < 0) {
+			return "";
+		}
 		return y;
 	}
 	

@@ -51,7 +51,7 @@ public class ComputeController {
 		
 		exec.shutdown();
 		
-		if (exec.awaitTermination(30, TimeUnit.MINUTES)) {
+		if (exec.awaitTermination(2, TimeUnit.HOURS)) {
 			
 			monitor.close();
 			

@@ -51,7 +51,7 @@ public class ComputeController {
 		
 		exec.shutdown();
 		
-		if (exec.awaitTermination(2, TimeUnit.HOURS)) {
+		if (exec.awaitTermination(45, TimeUnit.HOURS)) {
 			
 			monitor.close();
 			
@@ -81,14 +81,17 @@ public class ComputeController {
 			monitor.close();
 			
 			logger.error("compute time out.");
+			List<PointValue> fitResults = fitResult.get();
 			ExFunction tryFunction = tryResult.get();
 			if (tryFunction == null) {
 				logger.error("the tryFunction is null.");
 			} else {
 				logger.debug("the tryFunction.[{}]",tryFunction);
+				UiMain.instance.drawResults(pointData,fitResults,tryFunction);
 			}
 			
-			OptionPaneUtils.openErrorDialog(UiMain.instance,"精度过高，运算超时。");
+			
+			OptionPaneUtils.openErrorDialog(UiMain.instance,"运算超时。");
 		}
 		
 	}

@@ -57,7 +57,7 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 	}
 
 
-	private ExFunction computeFunctionByTry() {
+	private ExFunction computeFunctionByTry() throws InterruptedException {
 		
 		double minA = (minF == null) ? ExConfig.MIN_A : minF.getA();
 		double minB = (minF == null) ? ExConfig.MIN_B : minF.getB();
@@ -108,9 +108,12 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 							}
 							
 						}
+						
+						Thread.sleep(1);
 					}
 					
 				}
+				
 				
 			}			
 		} else {
@@ -147,11 +150,15 @@ public class NearTryCallbleThread implements Callable<ExFunction> {
 							if (function.getDeterCoeff() > mostNearFunction.getDeterCoeff()) {
 								mostNearFunction = function;
 							}
+							
+							
 						}
+						
+						Thread.sleep(1);
 					}
 					
 				}
-				
+								
 			}			
 		}
 

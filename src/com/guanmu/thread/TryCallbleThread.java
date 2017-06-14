@@ -56,7 +56,7 @@ public class TryCallbleThread implements Callable<ExFunction> {
 	}
 
 
-	private ExFunction computeFunctionByTry() {
+	private ExFunction computeFunctionByTry() throws InterruptedException {
 		
 		double minA = (minF == null) ? ExConfig.MIN_A : minF.getA();
 		double minB = (minF == null) ? ExConfig.MIN_B : minF.getB();
@@ -88,7 +88,10 @@ public class TryCallbleThread implements Callable<ExFunction> {
 							if (isFit) {
 								return function;
 							}
+							
 						}
+						
+						Thread.sleep(1);
 					}
 					
 				}
@@ -118,10 +121,14 @@ public class TryCallbleThread implements Callable<ExFunction> {
 							if (isFit) {
 								return function;
 							}
+							
 						}
+						
+						Thread.sleep(1);
 					}
 					
 				}
+				
 				
 			}			
 		}

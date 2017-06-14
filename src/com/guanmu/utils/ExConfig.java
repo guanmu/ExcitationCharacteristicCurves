@@ -124,7 +124,7 @@ public class ExConfig {
 			return initValues;
 		}
 
-		initValues = debugData1();
+		initValues = initData();
 
 		return initValues;
 	}

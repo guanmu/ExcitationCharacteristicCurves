@@ -1,6 +1,8 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
 package com.guanmu.thread;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,11 +19,11 @@ public class ExThreadPool {
 	
 	private static ExThreadPool instance = new ExThreadPool();
 	
-	private static ExecutorService controllerExec = null;
+	private static List<ExecutorService> controllerExecs = new ArrayList<ExecutorService>();
 	
-	private static ExecutorService nearTryExec = null;
+	private static List<ExecutorService> nearTryExecs = new ArrayList<ExecutorService>();
 	
-	private static ExecutorService tryExec = null;
+	private static List<ExecutorService> tryExecs = new ArrayList<ExecutorService>();
 	
 	private ExThreadPool() {
 		
@@ -33,33 +35,26 @@ public class ExThreadPool {
 	
 	
 	public ExecutorService getControllerExec() {
-		if (controllerExec != null) {
-			controllerExec.shutdownNow();
-		}
+
 		
-		controllerExec = Executors.newCachedThreadPool();
+		ExecutorService controllerExec = Executors.newCachedThreadPool();
+		controllerExecs.add(controllerExec);
 		
 		return controllerExec;
 	}
 	
 	public ExecutorService getNearTryExec() {
 		
-		if (nearTryExec != null) {
-			nearTryExec.shutdownNow();
-		}
-		
-		nearTryExec = Executors.newCachedThreadPool();
+		ExecutorService nearTryExec = Executors.newCachedThreadPool();
+		nearTryExecs.add(nearTryExec);
 		
 		return nearTryExec;
 	}
 	
 	public ExecutorService getTryExec() {
 		
-		if (tryExec != null) {
-			tryExec.shutdownNow();
-		}
-		
-		tryExec = Executors.newCachedThreadPool();
+		ExecutorService tryExec = Executors.newCachedThreadPool();
+		tryExecs.add(tryExec);
 		
 		return tryExec;
 	}
@@ -69,17 +64,21 @@ public class ExThreadPool {
 	 */
 	public void stopThreadPools() {
 		
-		if (!controllerExec.isShutdown()) {
-			controllerExec.shutdownNow();			
+		for(ExecutorService exec : controllerExecs) {
+			exec.shutdownNow();
 		}
 		
-		if (!nearTryExec.isShutdown()) {
-			nearTryExec.shutdownNow();			
+		for(ExecutorService exec : nearTryExecs) {
+			exec.shutdownNow();
+		}
+
+		for(ExecutorService exec : tryExecs) {
+			exec.shutdownNow();
 		}
 		
-		if (!tryExec.isShutdown()) {
-			tryExec.shutdownNow();
-		}
+		controllerExecs.clear();
+		nearTryExecs.clear();
+		tryExecs.clear();
 	}
 
 }

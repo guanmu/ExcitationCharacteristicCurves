@@ -36,6 +36,8 @@ public class ComputeController {
 		
 		Thread.currentThread().setName("ComputeController Thread");
 		
+		ExThreadPool.getInstance().stopThreadPools();
+		
 		logger.info("###start compute function");
 		long beginTime = new Date().getTime();
 		
@@ -51,7 +53,7 @@ public class ComputeController {
 		
 		exec.shutdown();
 		
-		if (exec.awaitTermination(45, TimeUnit.HOURS)) {
+		if (exec.awaitTermination(30, TimeUnit.MINUTES)) {
 			
 			monitor.close();
 			
@@ -82,18 +84,28 @@ public class ComputeController {
 			
 			logger.error("compute time out.");
 			List<PointValue> fitResults = fitResult.get();
+			if (fitResults == null) {
+				logger.error("the fitResults is null");
+			} else {
+				logger.debug("fitResults success.");
+			}
+			
 			ExFunction tryFunction = tryResult.get();
 			if (tryFunction == null) {
 				logger.error("the tryFunction is null.");
 			} else {
 				logger.debug("the tryFunction.[{}]",tryFunction);
-				UiMain.instance.drawResults(pointData,fitResults,tryFunction);
 			}
 			
+			if (fitResults != null && tryFunction != null) {
+				UiMain.instance.drawResults(pointData,fitResults,tryFunction);
+			} else {
+				OptionPaneUtils.openErrorDialog(UiMain.instance,"精度过高，运算超时。");
+			}
 			
-			OptionPaneUtils.openErrorDialog(UiMain.instance,"运算超时。");
 		}
 		
+		ExThreadPool.getInstance().stopThreadPools();
 	}
 
 }

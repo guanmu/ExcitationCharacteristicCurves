@@ -36,17 +36,17 @@ public class ExConfig {
 	public static final double MIN_B = 0;
 	public static final double MAX_B = 0.1;
 	public static final double NEAR_STEP_B = 0.1;
-	public static final double STEP_B = 0.00001;
+	public static final double STEP_B = 0.001;
 
 	public static final double MIN_C = 0;
 	public static final double MAX_C = 0.000001;
-	public static final double NEAR_STEP_C = 0.000001;
-	public static final double STEP_C = 0.0000000001;
+	public static final double NEAR_STEP_C = 0.0000001;
+	public static final double STEP_C = 0.000000001;
 
 	public static final double MIN_D = 0;
 	public static final double MAX_D = 1;
-	public static final double NEAR_STEP_D = 1;
-	public static final double STEP_D = 0.0001;
+	public static final double NEAR_STEP_D = 0.1;
+	public static final double STEP_D = 0.001;
 
 	public static final DecimalFormat TWO_POINT_DF = new DecimalFormat("#.00");
 	public static final DecimalFormat THREE_POINT_DF = new DecimalFormat(
@@ -58,7 +58,25 @@ public class ExConfig {
 	public static final double X_DEFUALT_MAX = 152;
 	public static final double Y_DEFUALT_MAX = 5000;
 	
-	public static final double DEFUALT_PRECESION = 0.995;
+	public static final double DEFUALT_PRECESION = 0.99;
+	/**
+	 * 保留小数点后五位小数
+	 * 
+	 * @param d
+	 * @return
+	 */
+	public static double formatDouble(double d,int n) {
+		BigDecimal tmp = null;
+		try {
+			tmp = new BigDecimal(d);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return d;
+		}
+
+		return tmp.setScale(n, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+	}
 	
 	/**
 	 * 保留小数点后五位小数

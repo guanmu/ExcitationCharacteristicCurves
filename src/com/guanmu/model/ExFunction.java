@@ -31,39 +31,20 @@ public class ExFunction {
 	
 	public ExFunction(double a, double b, double c, double d) {
 		super();
-		this.a = a;
-		this.b = b;
-		this.c = c;
-		this.d = d;
+		this.a = ExConfig.formatDouble(a,2);
+		this.b = ExConfig.formatDouble(b,3);
+		this.c = ExConfig.formatDouble(c,9);
+		this.d = ExConfig.formatDouble(d,3);
 
 	}
-
-	@Deprecated
-	public ExFunction(double a, double b, double c, double d,
-			List<PointValue> points) {
-		super();
-		this.a = a;
-		this.b = b;
-		this.c = c;
-		this.d = d;
-		this.points = points;
-		
-		try {
-			avgError = computeAverageError(points);			
-		} catch (PowerEByondException pe) {
-			avgError = ExConfig.MAX_PECISION;
-		}
-		
-	}
-
 
 	public ExFunction(double a, double b, double c, double d,
 			PointData pointData) {
 		super();
-		this.a = a;
-		this.b = b;
-		this.c = c;
-		this.d = d;
+		this.a = ExConfig.formatDouble(a,2);
+		this.b = ExConfig.formatDouble(b,3);
+		this.c = ExConfig.formatDouble(c,9);
+		this.d = ExConfig.formatDouble(d,3);
 		this.pointData = pointData;
 		this.points = pointData.getPointValues();
 

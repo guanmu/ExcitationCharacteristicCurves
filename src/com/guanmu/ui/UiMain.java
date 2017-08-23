@@ -91,7 +91,7 @@ public class UiMain extends JFrame {
 
 
 	private void createResultPanel() {
-		resultPanel = new ResultPanel();
+		resultPanel = new ResultPanel(this);
 		resultPanel.setVisible(true);
 		
 		GridBagLayoutUtils.addComponent(mainPanel,resultPanel,1,1,3,1,
@@ -132,7 +132,10 @@ public class UiMain extends JFrame {
 		resultPanel.addInfo(pointData,function);
 	}	
 	
-
+	public void initCaculate() {
+		resultPanel.clearInfo();
+	}
+	
 	public static void main(String[] args) {
 		
 		initConfigs();

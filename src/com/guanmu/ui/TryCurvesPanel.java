@@ -1,14 +1,9 @@
 /* Copyright MacroSAN Technologies Co., Ltd. All rights reserved. */
 package com.guanmu.ui;
 
-import java.util.ArrayList;
+import java.text.DecimalFormat;
 import java.util.List;
 
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYDataset;
-
-import com.guanmu.model.CurvesXYDataset;
 import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
@@ -57,8 +52,19 @@ public class TryCurvesPanel extends CurvesPanel {
 	
 		aValue.setText("" + function.getA());
 		bValue.setText("" + function.getB());
-		cValue.setText("" + function.getC());
-		dValue.setText("" + function.getD());
+		
+		double c = function.getC();
+		DecimalFormat dfc = (DecimalFormat)DecimalFormat.getInstance(); 
+		dfc.setMaximumFractionDigits(9);
+		dfc.setMinimumFractionDigits(6);
+		
+		cValue.setText("" + dfc.format(c));
+		
+		DecimalFormat dfd = (DecimalFormat)DecimalFormat.getInstance(); 
+		dfd.setMaximumFractionDigits(3);
+		dfd.setMinimumFractionDigits(0);		
+		double d = function.getD();
+		dValue.setText("" + dfd.format(d));
 		
 		
 	}

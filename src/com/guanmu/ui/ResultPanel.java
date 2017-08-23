@@ -3,6 +3,7 @@ package com.guanmu.ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,8 +18,12 @@ public class ResultPanel extends JPanel {
 	private JLabel relateLabel;
 	private JTextField relateValue;
 	
-	private JLabel changePointLabel;
-	private JTextField changePointValue;
+	private JLabel changeYPointLabel;
+	private JTextField changeYPointValue;
+	private JButton changeBtn;
+	
+	private JLabel changeXPointLabel;
+	private JTextField changeXPointValue;	
 	
 	public ResultPanel() {
 		
@@ -35,22 +40,33 @@ public class ResultPanel extends JPanel {
 	private void initStatus() {
 		relateValue.setEditable(false);
 		
-		changePointValue.setEditable(false);
-		
+		changeYPointValue.setEditable(true);
+		changeXPointValue.setEditable(false);
 	}
 
 	private void createChangePointPanel() {
 		JPanel changePointPanel = new JPanel();
 		changePointPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		changePointLabel = new JLabel("拐点  ：");
-		changePointPanel.add(changePointLabel);
+		changeYPointLabel = new JLabel("拐点 y'值 ：");
+		changePointPanel.add(changeYPointLabel);
 		
-		changePointValue = new JTextField();
-		changePointValue.setColumns(33);
-		changePointValue.setText("x=10,y=10");
-		changePointPanel.add(changePointValue);
+		changeYPointValue = new JTextField();
+		changeYPointValue.setColumns(8);
+		changeYPointValue.setText("");
+		changePointPanel.add(changeYPointValue);
 		
+		changeBtn = new JButton();
+		changeBtn.setText("计算拐点");
+		changePointPanel.add(changeBtn);
+		
+		changeXPointLabel = new JLabel("拐点 x'值 ：");
+		changePointPanel.add(changeXPointLabel);
+		
+		changeXPointValue = new JTextField();
+		changeXPointValue.setColumns(8);
+		changeXPointValue.setText("");		
+		changePointPanel.add(changeXPointValue);
 		
 		changePointPanel.setVisible(true);
 		

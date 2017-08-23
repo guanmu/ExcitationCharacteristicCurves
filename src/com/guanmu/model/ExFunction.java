@@ -15,6 +15,8 @@ import com.guanmu.utils.RootLogger;
 
 public class ExFunction {
 	
+	public MathContext DEFAULT_CONTEXT = new MathContext(4);
+	
 	private static final Logger logger = RootLogger.getLog(ExFunction.class.getName());	
 	
 	private double a;
@@ -194,12 +196,12 @@ public class ExFunction {
 			double functionY = getYValue(x);
 			BigDecimal bigFunctionY = new BigDecimal(functionY);
 			
-			BigDecimal pointSySquare = bigFunctionY.subtract(bigY).pow(2);
-			sySquareSum = sySquareSum.add(pointSySquare);
+			BigDecimal pointSySquare = bigFunctionY.subtract(bigY,DEFAULT_CONTEXT).pow(2,DEFAULT_CONTEXT);
+			sySquareSum = sySquareSum.add(pointSySquare,DEFAULT_CONTEXT);
+
 			
-			
-			BigDecimal pointOySquare = bigFunctionY.subtract(bigAvg).pow(2);
-			oySquareSum = oySquareSum.add(pointOySquare);
+            BigDecimal pointOySquare = bigFunctionY.subtract(bigAvg,DEFAULT_CONTEXT).pow(2,DEFAULT_CONTEXT);
+            oySquareSum = oySquareSum.add(pointOySquare,DEFAULT_CONTEXT);
 		}
 		
 		double sySum = sySquareSum.doubleValue();

@@ -133,11 +133,15 @@ public class UiMain extends JFrame {
 	}	
 	
 	public void initCaculate() {
+		tryCurvesPanel.clearInfo();
 		resultPanel.clearInfo();
 	}
 	
-	public void drawInfexionX(double infexionX) {
-		resultPanel.drawInfexionX(infexionX);
+	public void drawInfexionPoint(double infexionX,double infexionY) {
+		
+		resultPanel.drawInfexionPoint(infexionX,infexionY);
+		
+		tryCurvesPanel.drawInfexionPoint(infexionX,infexionY);
 	}	
 	
 	public static void main(String[] args) {

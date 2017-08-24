@@ -181,4 +181,34 @@ public class CurvesXYDataset extends XYSeriesCollection {
 		
 		return result;
 	}
+
+	public void drawInfexionPoint(double infexionX, double infexionY) {
+		
+		String infexionSeriesName = "拐点";
+		XYSeries infexionSeries = null;
+		for(XYSeries series : this.getSeries()) {
+			if (infexionSeriesName.equals(series.getKey())) {
+				infexionSeries = series;
+				break;
+			}
+		}
+		
+		if (infexionSeries == null) {
+			infexionSeries = new XYSeries(infexionSeriesName);
+			this.addSeries(infexionSeries);				
+		} else {
+			int count = infexionSeries.getItemCount();
+			infexionSeries.delete(0, count - 1);
+		}
+
+		infexionSeries.add(infexionX, infexionY);
+		
+		fireDatasetChanged();
+	}
+	
+	@Override
+	public void removeAllSeries() {
+		super.removeAllSeries();
+		fireDatasetChanged();
+	}
 }

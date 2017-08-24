@@ -61,7 +61,7 @@ public class ResultPanel extends JPanel {
 	private void initStatus() {
 		relateValue.setEditable(false);
 		
-		changeYPointValue.setEditable(true);
+		changeYPointValue.setEditable(false);
 		changeXPointValue.setEditable(false);
 		
 		changeBtn.addActionListener(new ActionListener() {
@@ -72,32 +72,17 @@ public class ResultPanel extends JPanel {
 					logger.error("exFunction is null.");
 					return;
 				}
-				
-				String infexionYStr = changeYPointValue.getText();
-				if (infexionYStr.isEmpty()) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"请输入拐点I'的值。");
-					return;
-				}
-				
-				double infexionY = 0;
-				try {
-					infexionY = Double.parseDouble(infexionYStr);
-				} catch (Exception ex) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"精度输入不正确。");
-					return;
-				}					
-				
+			
 				monitor = new CurvesProgressMonitor(parentFrame, "进度","正在计算拐点……", 0, 100);
 				monitor.setProgress(0);
 				monitor.setNote("请等待");
-				
-				final double finalInfexionY = infexionY;
+
 				new Thread() {
 					
 					@Override
 					public void run() {
 						try {
-							new InfexionController(monitor, exFunction, finalInfexionY).start();
+							new InfexionController(monitor, exFunction).start();
 						} catch (Exception e) {
 							logger.error("ComputeController start exception.",e);
 						}
@@ -112,6 +97,19 @@ public class ResultPanel extends JPanel {
 	private void createChangePointPanel() {
 		JPanel changePointPanel = new JPanel();
 		changePointPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+	
+		changeXPointLabel = new JLabel("拐点 U'值 ：");
+		changePointPanel.add(changeXPointLabel);
+		
+		changeXPointValue = new JTextField();
+		changeXPointValue.setColumns(8);
+		changeXPointValue.setText("");		
+		changePointPanel.add(changeXPointValue);	
+		
+		changeBtn = new JButton();
+		changeBtn.setText("计算拐点");
+		changePointPanel.add(changeBtn);
+		changeBtn.setEnabled(false);
 		
 		changeYPointLabel = new JLabel("拐点 I'值 ：");
 		changePointPanel.add(changeYPointLabel);
@@ -120,19 +118,6 @@ public class ResultPanel extends JPanel {
 		changeYPointValue.setColumns(8);
 		changeYPointValue.setText("");
 		changePointPanel.add(changeYPointValue);
-		
-		changeBtn = new JButton();
-		changeBtn.setText("计算拐点");
-		changePointPanel.add(changeBtn);
-		changeBtn.setEnabled(false);
-		
-		changeXPointLabel = new JLabel("拐点 U'值 ：");
-		changePointPanel.add(changeXPointLabel);
-		
-		changeXPointValue = new JTextField();
-		changeXPointValue.setColumns(8);
-		changeXPointValue.setText("");		
-		changePointPanel.add(changeXPointValue);
 		
 		changePointPanel.setVisible(true);
 		
@@ -169,10 +154,12 @@ public class ResultPanel extends JPanel {
 		relateValue.setText("N/A");
 		changeBtn.setEnabled(false);
 		changeXPointValue.setText("");
+		changeYPointValue.setText("");
 		exFunction = null;
 	}
 	
-	public void drawInfexionX(double infexionX) {
+	public void drawInfexionPoint(double infexionX,double infexionY) {
 		changeXPointValue.setText("" + infexionX);
+		changeYPointValue.setText("" + ExConfig.formatDouble(infexionY));
 	}
 }

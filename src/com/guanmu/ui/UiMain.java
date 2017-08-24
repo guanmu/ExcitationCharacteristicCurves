@@ -136,6 +136,10 @@ public class UiMain extends JFrame {
 		resultPanel.clearInfo();
 	}
 	
+	public void drawInfexionX(double infexionX) {
+		resultPanel.drawInfexionX(infexionX);
+	}	
+	
 	public static void main(String[] args) {
 		
 		initConfigs();
@@ -170,6 +174,8 @@ public class UiMain extends JFrame {
 		// 应用主题样式
 		ChartFactory.setChartTheme(standardChartTheme);
 	}
+
+
 
 
 }

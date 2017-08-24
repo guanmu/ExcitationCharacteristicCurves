@@ -287,11 +287,11 @@ public class ExFunction {
 		return true;
 	}
 
-	public double caculateInfexionX(double infexionY) {
+	public double caculateInfexionY(double infexionX) {
 		
 		double tmp = 0;
 		
-		tmp = Math.log(infexionY) / (Math.log(a*b)*b + d*Math.log(c*d));
+		tmp = a*b*Math.pow(Math.E, infexionX*b) + c*d *Math.pow(Math.E, infexionX*d);
 		
 		return tmp;
 	}

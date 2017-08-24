@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 
 import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointData;
+import com.guanmu.thread.ComputeController;
+import com.guanmu.thread.InfexionController;
 import com.guanmu.utils.ExConfig;
 import com.guanmu.utils.OptionPaneUtils;
 import com.guanmu.utils.RootLogger;
@@ -34,6 +36,9 @@ public class ResultPanel extends JPanel {
 	
 	private JLabel changeXPointLabel;
 	private JTextField changeXPointValue;	
+	
+	private CurvesProgressMonitor monitor;	
+	
 	
 	private ExFunction exFunction;
 	
@@ -82,10 +87,24 @@ public class ResultPanel extends JPanel {
 					return;
 				}					
 				
-				double infexionX = exFunction.caculateInfexionX(infexionY);
+				monitor = new CurvesProgressMonitor(parentFrame, "进度","正在计算拐点……", 0, 100);
+				monitor.setProgress(0);
+				monitor.setNote("请等待");
 				
-				infexionX = ExConfig.formatDouble(infexionX);
-				changeXPointValue.setText("" + infexionX);
+				final double finalInfexionY = infexionY;
+				new Thread() {
+					
+					@Override
+					public void run() {
+						try {
+							new InfexionController(monitor, exFunction, finalInfexionY).start();
+						} catch (Exception e) {
+							logger.error("ComputeController start exception.",e);
+						}
+					};
+					
+				}.start();
+
 			}
 		});
 	}
@@ -153,5 +172,7 @@ public class ResultPanel extends JPanel {
 		exFunction = null;
 	}
 	
-	
+	public void drawInfexionX(double infexionX) {
+		changeXPointValue.setText("" + infexionX);
+	}
 }

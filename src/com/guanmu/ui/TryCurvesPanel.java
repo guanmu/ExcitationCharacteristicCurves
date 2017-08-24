@@ -53,18 +53,8 @@ public class TryCurvesPanel extends CurvesPanel {
 		aValue.setText("" + function.getA());
 		bValue.setText("" + function.getB());
 		
-		double c = function.getC();
-		DecimalFormat dfc = (DecimalFormat)DecimalFormat.getInstance(); 
-		dfc.setMaximumFractionDigits(9);
-		dfc.setMinimumFractionDigits(6);
-		
-		cValue.setText("" + dfc.format(c));
-		
-		DecimalFormat dfd = (DecimalFormat)DecimalFormat.getInstance(); 
-		dfd.setMaximumFractionDigits(3);
-		dfd.setMinimumFractionDigits(0);		
-		double d = function.getD();
-		dValue.setText("" + dfd.format(d));
+		cValue.setText("" + function.getCStr());
+		dValue.setText("" + function.getDStr());
 		
 		
 	}

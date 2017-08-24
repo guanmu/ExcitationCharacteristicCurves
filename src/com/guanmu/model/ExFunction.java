@@ -3,6 +3,7 @@ package com.guanmu.model;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,19 @@ import com.guanmu.utils.RootLogger;
 public class ExFunction {
 	
 	public MathContext DEFAULT_CONTEXT = new MathContext(4);
+
+	public static DecimalFormat DF_C = (DecimalFormat)DecimalFormat.getInstance(); 
+	static {
+		DF_C.setMaximumFractionDigits(9);
+		DF_C.setMinimumFractionDigits(6);
+	}
+	
+	public static DecimalFormat DF_D = (DecimalFormat)DecimalFormat.getInstance(); 
+	static {
+		DF_D.setMaximumFractionDigits(3);
+		DF_D.setMinimumFractionDigits(0);		
+	}
+	
 	
 	private static final Logger logger = RootLogger.getLog(ExFunction.class.getName());	
 	
@@ -81,7 +95,8 @@ public class ExFunction {
 	}
 
 	public String getFunctionStr() {
-		return "y=" + a + "*e^(" + b + "*x) + " + c + "*e^(" + d + "*x)" ;
+		
+		return "I=" + a + "*e^(" + b + "*U) + " + getCStr() + "*e^(" + getDStr() + "*U)" ;
 	}
 	
 	/**
@@ -104,14 +119,22 @@ public class ExFunction {
 	public double getC() {
 		return c;
 	}
-
+	
+	public String getCStr() {		
+		return DF_C.format(c);
+	}
+	
 	/**
 	 * @return the d
 	 */
 	public double getD() {
 		return d;
 	}
-
+	
+	public String getDStr() {		
+		return DF_D.format(d);
+	}
+	
 	public double getAvgError() {
 		return avgError;
 	}

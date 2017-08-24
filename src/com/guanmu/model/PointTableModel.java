@@ -136,4 +136,9 @@ public class PointTableModel extends AbstractTableModel {
 		}
 		
 	}
+	
+	public void clearValues() {
+		rowValues.clear();
+		fireTableDataChanged();
+	}
 }

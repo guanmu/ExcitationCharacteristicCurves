@@ -90,6 +90,8 @@ public class ValuePanel extends JPanel {
 
 	private void initValues() {
 		
+		tableModel.clearValues();
+		
 		List<PointValue> initValues = ExConfig.getInitTableValues();
 		
 		for(PointValue point : initValues) {

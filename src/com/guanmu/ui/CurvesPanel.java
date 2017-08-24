@@ -180,6 +180,9 @@ public class CurvesPanel extends JPanel {
 		pointLineAndShapeRenderer.setSeriesShapesVisible(2, false);
 		pointLineAndShapeRenderer.setSeriesPaint(2, new Color(0, 0, 0));
 		
+		pointLineAndShapeRenderer.setSeriesLinesVisible(3, false);
+		pointLineAndShapeRenderer.setSeriesPaint(3, new Color(0, 255, 255));		
+		
 	    pointLineAndShapeRenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
 	    localXYPlot.setRenderer(0,pointLineAndShapeRenderer);
 	    
@@ -188,6 +191,10 @@ public class CurvesPanel extends JPanel {
 	    
 		XYLineAndShapeRenderer tryLineAndShapeRenderer = new XYLineAndShapeRenderer();
 	    localXYPlot.setRenderer(2,tryLineAndShapeRenderer);	
+	    
+		XYLineAndShapeRenderer pointLineAndShapeRenderer2 = new XYLineAndShapeRenderer();
+		pointLineAndShapeRenderer2.setLegendLine(new Rectangle2D.Double(-2D, -2D, 4.0D, 4.0D));
+	    localXYPlot.setRenderer(3,pointLineAndShapeRenderer2);	    
 	    
 	    NumberAxis localNumberAxis = (NumberAxis)localXYPlot.getRangeAxis();
 	    localNumberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());	

@@ -21,12 +21,9 @@ public class InfexionController {
 	
 	private static final Logger logger = RootLogger.getLog(InfexionController.class.getName());
 	
-	private CurvesProgressMonitor monitor;
-
 	private ExFunction function;
 		
-	public InfexionController(CurvesProgressMonitor monitor, ExFunction function) {
-		this.monitor = monitor;
+	public InfexionController(ExFunction function) {
 		this.function = function;
 	}
 
@@ -35,7 +32,6 @@ public class InfexionController {
 		Thread.currentThread().setName("InfexionController Thread");
 		
 		logger.info("###start infexion caculate");
-		monitor.addProgress(5, 90);
 		
 		double infexionX = 0;
 		double infexionY = 0;
@@ -49,19 +45,17 @@ public class InfexionController {
 			
 			double tmpChange = tmpY/initY;
 			if (tmpChange > ExConfig.MIN_INFEXION_CHANGE) {
-				infexionX = i;
-				infexionY = initY;
+				infexionX = i*1.1;
+				infexionY = tmpY;
 				break;
 			}
 			
-			monitor.addProgress(1, 90);
 		}
 		
 		logger.info("###end infexion caculate.[{}]",infexionX);
 		
 		UiMain.instance.drawInfexionPoint(infexionX,infexionY);
 		
-		monitor.close();
 	}
 
 }

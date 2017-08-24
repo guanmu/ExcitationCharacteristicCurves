@@ -32,15 +32,9 @@ public class ResultPanel extends JPanel {
 	
 	private JLabel changeYPointLabel;
 	private JTextField changeYPointValue;
-	private JButton changeBtn;
 	
 	private JLabel changeXPointLabel;
 	private JTextField changeXPointValue;	
-	
-	private CurvesProgressMonitor monitor;	
-	
-	
-	private ExFunction exFunction;
 	
 	private JFrame parentFrame;
 	
@@ -64,34 +58,6 @@ public class ResultPanel extends JPanel {
 		changeYPointValue.setEditable(false);
 		changeXPointValue.setEditable(false);
 		
-		changeBtn.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (exFunction == null) {
-					logger.error("exFunction is null.");
-					return;
-				}
-			
-				monitor = new CurvesProgressMonitor(parentFrame, "进度","正在计算拐点……", 0, 100);
-				monitor.setProgress(0);
-				monitor.setNote("请等待");
-
-				new Thread() {
-					
-					@Override
-					public void run() {
-						try {
-							new InfexionController(monitor, exFunction).start();
-						} catch (Exception e) {
-							logger.error("ComputeController start exception.",e);
-						}
-					};
-					
-				}.start();
-
-			}
-		});
 	}
 
 	private void createChangePointPanel() {
@@ -105,11 +71,6 @@ public class ResultPanel extends JPanel {
 		changeXPointValue.setColumns(8);
 		changeXPointValue.setText("");		
 		changePointPanel.add(changeXPointValue);	
-		
-		changeBtn = new JButton();
-		changeBtn.setText("计算拐点");
-		changePointPanel.add(changeBtn);
-		changeBtn.setEnabled(false);
 		
 		changeYPointLabel = new JLabel("拐点 I'值 ：");
 		changePointPanel.add(changeYPointLabel);
@@ -146,16 +107,12 @@ public class ResultPanel extends JPanel {
 	 */
 	public void addInfo(PointData pointData, ExFunction function) {
 		relateValue.setText("" + function.getDeterCoeff());
-		exFunction = function;
-		changeBtn.setEnabled(true);
 	}
 
 	public void clearInfo() {
 		relateValue.setText("N/A");
-		changeBtn.setEnabled(false);
 		changeXPointValue.setText("");
 		changeYPointValue.setText("");
-		exFunction = null;
 	}
 	
 	public void drawInfexionPoint(double infexionX,double infexionY) {

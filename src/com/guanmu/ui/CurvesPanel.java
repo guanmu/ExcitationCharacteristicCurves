@@ -96,7 +96,7 @@ public class CurvesPanel extends JPanel {
 		functionResultPanel.setLayout(new GridBagLayout());
 		
 		functionLabel = new JLabel();
-		functionLabel.setText("y1=a*e^(b*x) + c*e^(d*x)");
+		functionLabel.setText("I=a*e^(b*U) + c*e^(d*U)");
 		
 		GridBagLayoutUtils.addComponent(functionResultPanel,functionLabel,0,0,4,1,
 				0,0,
@@ -153,7 +153,7 @@ public class CurvesPanel extends JPanel {
 	}
 	
 	protected JFreeChart createChart(XYDataset paramXYDataset) {
-		localJFreeChart = ChartFactory.createXYLineChart(title, "X(V)", "Y(mA)", paramXYDataset,
+		localJFreeChart = ChartFactory.createXYLineChart(title, "U(V)", "I(mA)", paramXYDataset,
 				PlotOrientation.VERTICAL, true, true, false);
 		XYPlot localXYPlot = (XYPlot) localJFreeChart.getPlot();
 		localXYPlot.setDomainZeroBaselineVisible(true);

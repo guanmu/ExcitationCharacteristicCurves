@@ -75,7 +75,7 @@ public class ResultPanel extends JPanel {
 				
 				String infexionYStr = changeYPointValue.getText();
 				if (infexionYStr.isEmpty()) {
-					OptionPaneUtils.openMessageDialog(parentFrame,"请输入拐点y'的值。");
+					OptionPaneUtils.openMessageDialog(parentFrame,"请输入拐点I'的值。");
 					return;
 				}
 				
@@ -113,7 +113,7 @@ public class ResultPanel extends JPanel {
 		JPanel changePointPanel = new JPanel();
 		changePointPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		changeYPointLabel = new JLabel("拐点 y'值 ：");
+		changeYPointLabel = new JLabel("拐点 I'值 ：");
 		changePointPanel.add(changeYPointLabel);
 		
 		changeYPointValue = new JTextField();
@@ -126,7 +126,7 @@ public class ResultPanel extends JPanel {
 		changePointPanel.add(changeBtn);
 		changeBtn.setEnabled(false);
 		
-		changeXPointLabel = new JLabel("拐点 x'值 ：");
+		changeXPointLabel = new JLabel("拐点 U'值 ：");
 		changePointPanel.add(changeXPointLabel);
 		
 		changeXPointValue = new JTextField();

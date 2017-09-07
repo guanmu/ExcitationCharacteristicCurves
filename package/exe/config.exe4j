@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exe4j version="5.0.1" transformSequenceNumber="2">
+  <directoryPresets config="C:/Users/wangquan/Desktop/ECC" />
+  <application name="ECC" distributionSourceDir="C:/Users/wangquan/Desktop/ECC">
+    <languages>
+      <principalLanguage id="en" customLocalizationFile="" />
+    </languages>
+  </application>
+  <executable name="ECC" type="2" iconSet="true" iconFile="C:/Users/wangquan/Desktop/ECC/run.ico" executableDir="." redirectStderr="true" stderrFile="error.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="false" amd64="false">
+    <messageSet />
+    <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" companyName="" productVersion="" />
+  </executable>
+  <splashScreen show="false" width="0" height="0" bitmapFile="" windowsNative="false" textOverlay="false">
+    <text>
+      <statusLine x="20" y="20" text="" fontSize="8" fontColor="0,0,0" bold="false" />
+      <versionLine x="20" y="40" text="version %VERSION%" fontSize="8" fontColor="0,0,0" bold="false" />
+    </text>
+  </splashScreen>
+  <java mainClass="com.guanmu.ui.UiMain" vmParameters="" arguments="" allowVMPassthroughParameters="true" preferredVM="client" bundleRuntime="true" minVersion="1.7" maxVersion="" allowBetaVM="false" jdkOnly="false">
+    <searchSequence>
+      <directory location="./jre7" />
+      <registry />
+      <envVar name="JAVA_HOME" />
+      <envVar name="JDK_HOME" />
+    </searchSequence>
+    <classPath>
+      <archive location="./ExcitationCharacteristicCurves.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/iText-2.1.5.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/jcommon-1.0.17.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/jfreechart-1.0.14.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/jfreechart-1.0.14-experimental.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/jfreechart-1.0.14-swt.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/junit.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/logback-access-0.9.24.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/logback-classic-0.9.24.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/logback-core-0.9.24.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/servlet.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/slf4j-api-1.6.0.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/slf4j-api-1.6.0-alpha2.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/slf4j-api-1.6.0-RC0.jar" failOnError="false" />
+      <archive location="./ExcitationCharacteristicCurves_lib/swtgraphics2d.jar" failOnError="false" />
+    </classPath>
+    <nativeLibraryDirectories>
+      <directory name="./ExcitationCharacteristicCurves_lib" />
+    </nativeLibraryDirectories>
+  </java>
+  <includedFiles />
+  <unextractableFiles />
+</exe4j>

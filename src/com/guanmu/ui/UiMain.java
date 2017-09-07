@@ -6,8 +6,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -16,12 +14,14 @@ import javax.swing.JSeparator;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.StandardChartTheme;
+import org.slf4j.Logger;
 
 import com.guanmu.model.ExFunction;
 import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
-import com.guanmu.thread.ExThreadPool;
+import com.guanmu.thread.InfexionController;
 import com.guanmu.utils.GridBagLayoutUtils;
+import com.guanmu.utils.RootLogger;
 
 /**
  * <p>
@@ -39,6 +39,7 @@ public class UiMain extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 755498983129736454L;
+	private static final Logger logger = RootLogger.getLog(UiMain.class.getName());
 	
 	public static UiMain instance;
 	
@@ -123,21 +124,32 @@ public class UiMain extends JFrame {
 	 * @param fitResults 
 	 * @param function
 	 */
-	public void drawResults(PointData pointData, List<PointValue> fitResults, ExFunction function) {
+	public void drawResults(PointData pointData, List<PointValue> fitResults,final ExFunction function) {
 		
 		tryCurvesPanel.drawCurves(pointData,fitResults,function);
 		
 		tryCurvesPanel.autoUpdateXYAixs();
 		
 		resultPanel.addInfo(pointData,function);
+		
+		try {
+			new InfexionController(function).start();
+		} catch (Exception e) {
+			logger.error("ComputeController start exception.",e);
+		}		
+
 	}	
 	
 	public void initCaculate() {
+		tryCurvesPanel.clearInfo();
 		resultPanel.clearInfo();
 	}
 	
-	public void drawInfexionX(double infexionX) {
-		resultPanel.drawInfexionX(infexionX);
+	public void drawInfexionPoint(double infexionX,double infexionY) {
+		
+		resultPanel.drawInfexionPoint(infexionX,infexionY);
+		
+		tryCurvesPanel.drawInfexionPoint(infexionX,infexionY);
 	}	
 	
 	public static void main(String[] args) {

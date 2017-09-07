@@ -53,7 +53,6 @@ public class ComputeController {
 		
 		if (exec.awaitTermination(10, TimeUnit.MINUTES)) {
 			
-			monitor.close();
 			
 			long endTime = new Date().getTime();
 			logger.info("###total time:" + (endTime - beginTime) / 1000 + "s");
@@ -62,11 +61,13 @@ public class ComputeController {
 			ExFunction tryFunction = tryResult.get();
 			
 			if (fitResults == null) {
+				monitor.close();
 				OptionPaneUtils.openErrorDialog(UiMain.instance,"插值法处理失败。");
 				return;
 			}
 			
 			if (tryFunction == null) {
+				monitor.close();
 				OptionPaneUtils.openErrorDialog(UiMain.instance,"逼近法处理失败。");
 				return;
 			}
@@ -76,9 +77,9 @@ public class ComputeController {
 			
 			UiMain.instance.drawResults(pointData,fitResults,tryFunction);
 			
-			
-		} else {
 			monitor.close();
+		} else {
+			
 			
 			logger.error("compute time out.");
 			List<PointValue> fitResults = fitResult.get();
@@ -97,12 +98,14 @@ public class ComputeController {
 			
 			if (fitResults != null && tryFunction != null) {
 				UiMain.instance.drawResults(pointData,fitResults,tryFunction);
+				monitor.close();
 			} else {
+				monitor.close();
 				OptionPaneUtils.openErrorDialog(UiMain.instance,"精度过高，运算超时。");
 			}
 			
 		}
-		
+				
 		ExThreadPool.getInstance().stopThreadPools();
 	}
 

@@ -13,6 +13,7 @@ import com.guanmu.model.PointData;
 import com.guanmu.model.PointValue;
 import com.guanmu.ui.CurvesProgressMonitor;
 import com.guanmu.ui.UiMain;
+import com.guanmu.utils.ExConfig;
 import com.guanmu.utils.OptionPaneUtils;
 import com.guanmu.utils.RootLogger;
 
@@ -20,16 +21,10 @@ public class InfexionController {
 	
 	private static final Logger logger = RootLogger.getLog(InfexionController.class.getName());
 	
-	private CurvesProgressMonitor monitor;
-
 	private ExFunction function;
-	
-	private double infexionY;
-	
-	public InfexionController(CurvesProgressMonitor monitor, ExFunction function,double infexionY) {
-		this.monitor = monitor;
+		
+	public InfexionController(ExFunction function) {
 		this.function = function;
-		this.infexionY = infexionY;
 	}
 
 	public void start() throws Exception {
@@ -37,28 +32,30 @@ public class InfexionController {
 		Thread.currentThread().setName("InfexionController Thread");
 		
 		logger.info("###start infexion caculate");
-		monitor.addProgress(5, 90);
 		
 		double infexionX = 0;
-		double error = Double.MAX_VALUE;
-		for(int i = 50;i <= 160;i++) {
+		double infexionY = 0;
+		
+		
+		for(int i = 100;i <= 200;i++) {
 			
-			double tmpY = function.caculateInfexionY(i);
+			double initY = function.getYValue(i);
 			
-			double tmpError = Math.abs(infexionY - tmpY);
-			if (tmpError < error) {
-				infexionX = i;
-				error = tmpError;
+			double tmpY = function.getYValue(i* 1.1);
+			
+			double tmpChange = tmpY/initY;
+			if (tmpChange > ExConfig.MIN_INFEXION_CHANGE) {
+				infexionX = i*1.1;
+				infexionY = tmpY;
+				break;
 			}
 			
-			monitor.addProgress(1, 90);
 		}
 		
 		logger.info("###end infexion caculate.[{}]",infexionX);
 		
-		UiMain.instance.drawInfexionX(infexionX);
+		UiMain.instance.drawInfexionPoint(infexionX,infexionY);
 		
-		monitor.close();
 	}
 
 }

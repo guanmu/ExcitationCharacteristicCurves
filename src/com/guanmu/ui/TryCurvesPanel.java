@@ -59,6 +59,20 @@ public class TryCurvesPanel extends CurvesPanel {
 		
 	}
 
+	public void drawInfexionPoint(double infexionX, double infexionY) {
+		xyDataset.drawInfexionPoint(infexionX,infexionY);
+	}
+
+	public void clearInfo() {
+		xyDataset.removeAllSeries();
+
+		aValue.setText("");
+		bValue.setText("");
+		
+		cValue.setText("");
+		dValue.setText("");
+	}
+
 
 
 	

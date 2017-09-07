@@ -59,6 +59,8 @@ public class ExConfig {
 	public static final double Y_DEFUALT_MAX = 5000;
 	
 	public static final double DEFUALT_PRECESION = 0.99;
+	
+	public static final double MIN_INFEXION_CHANGE = 1.7;
 	/**
 	 * 保留小数点后五位小数
 	 * 
